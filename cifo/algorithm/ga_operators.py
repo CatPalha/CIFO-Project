@@ -95,9 +95,16 @@ class RouletteWheelSelection:
 
         return population.get( index1 ), population.get( index2 )
 
+    #we added objective as an argument
+    def _select_index(self, population, objective ):
 
-    def _select_index(self, population ):
+        #this is the part we added, definition of minimization.
+        if objective == 'Minimization':
+            fit_max = population.fittest
 
+            for solution in population.solutions:
+                solution.fitness = fit_max - solution.fitness
+        
         # Get the Total Fitness (all solutions in the population) to calculate the chances proportional to fitness
         total_fitness = 0
         for solution in population.solutions:
@@ -115,7 +122,7 @@ class RouletteWheelSelection:
                 break
             index += 1    
 
-        return index    
+        return index  
         
 # -------------------------------------------------------------------------------------------------
 # class RankSelection
