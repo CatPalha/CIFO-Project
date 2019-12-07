@@ -231,15 +231,15 @@ def singlepoint_crossover( problem, solution1, solution2):
 # Partially Mapped Crossover
 # -------------------------------------------------------------------------------------------------
 # TODO: implement Partially Mapped Crossover
-def pmx_crossover( problem, solution1, solution2):
-    firstCrossPoint = np.random.randint(0,len(parent1)-2)
-    secondCrossPoint = np.random.randint(firstCrossPoint+1,len(parent1)-1)
+def pmx_crossover(solution1, solution2):
+    firstCrossPoint = np.random.randint(0,len(solution1)-2)
+    secondCrossPoint = np.random.randint(firstCrossPoint+1,len(solution1)-1)
+    
+    parent1MiddleCross = solution1[firstCrossPoint:secondCrossPoint]
+    parent2MiddleCross = solution2[firstCrossPoint:secondCrossPoint]
 
-    parent1MiddleCross = parent1[firstCrossPoint:secondCrossPoint]
-    parent2MiddleCross = parent2[firstCrossPoint:secondCrossPoint]
-
-    child1 = parent1[:firstCrossPoint] + parent2MiddleCross + parent1[secondCrossPoint:]
-    child2 = parent2[:firstCrossPoint] + parent1MiddleCross + parent2[secondCrossPoint:]
+    child1 = solution1[:firstCrossPoint] + parent2MiddleCross + solution1[secondCrossPoint:]
+    child2 = solution2[:firstCrossPoint] + parent1MiddleCross + solution2[secondCrossPoint:]
 
     relations = []
 
@@ -253,14 +253,18 @@ def pmx_crossover( problem, solution1, solution2):
         for i in child1[:firstCrossPoint]:
             for j in parent2MiddleCross:
                 if i == j:
-                    relation = relations[j]
-                    child1[i] = relation[1]
+                    index_j = parent2MiddleCross.index(j)
+                    relation = relations[index_j]
+                    index_i = child1.index(i)
+                    child1[index_i] = relation[1]
         
         for i in child1[secondCrossPoint:]:
             for j in parent2MiddleCross:
                 if i == j:
-                    relation = relations[j]
-                    child1[i] = relation[1]
+                    index_j = parent2MiddleCross.index(j)
+                    relation = relations[index_j]
+                    index_i = child1.index(i,secondCrossPoint)
+                    child1[index_i] = relation[1]
 
         counts1 = [child1.count(i) for i in child1]
 
@@ -268,15 +272,19 @@ def pmx_crossover( problem, solution1, solution2):
         for i in child2[:firstCrossPoint]:
             for j in parent1MiddleCross:
                 if i == j:
-                    relation = relations[j]
-                    child2[i] = relation[0]
+                    index_j = parent1MiddleCross.index(j)
+                    relation = relations[index_j]
+                    index_i = child2.index(i)
+                    child2[index_i] = relation[0]
         
         for i in child2[secondCrossPoint:]:
             for j in parent1MiddleCross:
                 if i == j:
-                    relation = relations[j]
-                    child2[i] = relation[0]
-        
+                    index_j = parent1MiddleCross.index(j)
+                    relation = relations[index_j]
+                    index_i = child2.index(i,secondCrossPoint)
+                    child2[index_i] = relation[0]
+
         counts2 = [child2.count(i) for i in child2]
 
     return child1, child2
