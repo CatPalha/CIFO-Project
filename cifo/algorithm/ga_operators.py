@@ -310,7 +310,21 @@ def single_point_mutation( problem, solution):
 # -----------------------------------------------------------------------------------------------
 #TODO: Implement Swap mutation
 def swap_mutation( problem, solution):
-    pass
+    point1 = randint( 0, len( solution.representation )-1 )
+    point2 = point1
+
+    while point1 == point2:
+        point2 = randint( 0, len( solution.representation )-1 )
+    #print(f" >> singlepoint: {singlepoint}")
+     
+    sol_point1 = solution[point1]
+    sol_point2 = solution[point2]
+
+    solution[point1] = sol_point2
+    solution[point2] = sol_point1
+
+    return solution
+    
 
 ###################################################################################################
 # REPLACEMENT APPROACHES
