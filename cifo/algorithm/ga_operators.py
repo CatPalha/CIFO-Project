@@ -5,6 +5,7 @@ from cifo.problem.objective import ProblemObjective
 from cifo.problem.solution import EncodingDataType
 from cifo.problem.population import Population
 
+import numpy as np
 
 ###################################################################################################
 # INITIALIZATION APPROACHES
@@ -231,7 +232,54 @@ def singlepoint_crossover( problem, solution1, solution2):
 # -------------------------------------------------------------------------------------------------
 # TODO: implement Partially Mapped Crossover
 def pmx_crossover( problem, solution1, solution2):
-    pass
+    firstCrossPoint = np.random.randint(0,len(parent1)-2)
+    secondCrossPoint = np.random.randint(firstCrossPoint+1,len(parent1)-1)
+
+    parent1MiddleCross = parent1[firstCrossPoint:secondCrossPoint]
+    parent2MiddleCross = parent2[firstCrossPoint:secondCrossPoint]
+
+    child1 = parent1[:firstCrossPoint] + parent2MiddleCross + parent1[secondCrossPoint:]
+    child2 = parent2[:firstCrossPoint] + parent1MiddleCross + parent2[secondCrossPoint:]
+
+    relations = []
+
+    for i in range(len(parent1MiddleCross)):
+        relations.append([parent2MiddleCross[i], parent1MiddleCross[i]])
+
+    counts1 = [child1.count(i) for i in child1]
+    counts2 = [child2.count(i) for i in child2]
+
+    while len([x for x in counts1 if x > 1]) > 0:
+        for i in child1[:firstCrossPoint]:
+            for j in parent2MiddleCross:
+                if i == j:
+                    relation = relations[j]
+                    child1[i] = relation[1]
+        
+        for i in child1[secondCrossPoint:]:
+            for j in parent2MiddleCross:
+                if i == j:
+                    relation = relations[j]
+                    child1[i] = relation[1]
+
+        counts1 = [child1.count(i) for i in child1]
+
+    while len([x for x in counts2 if x > 1]) > 0:
+        for i in child2[:firstCrossPoint]:
+            for j in parent1MiddleCross:
+                if i == j:
+                    relation = relations[j]
+                    child2[i] = relation[0]
+        
+        for i in child2[secondCrossPoint:]:
+            for j in parent1MiddleCross:
+                if i == j:
+                    relation = relations[j]
+                    child2[i] = relation[0]
+        
+        counts2 = [child2.count(i) for i in child2]
+
+    return child1, child2
 
 # -------------------------------------------------------------------------------------------------
 # Cycle Crossover
