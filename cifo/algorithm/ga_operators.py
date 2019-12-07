@@ -95,9 +95,16 @@ class RouletteWheelSelection:
 
         return population.get( index1 ), population.get( index2 )
 
+    #we added objective as an argument
+    def _select_index(self, population, objective ):
 
-    def _select_index(self, population ):
+        #this is the part we added, definition of minimization.
+        if objective == 'Minimization':
+            fit_max = population.fittest
 
+            for solution in population.solutions:
+                solution.fitness = fit_max - solution.fitness
+        
         # Get the Total Fitness (all solutions in the population) to calculate the chances proportional to fitness
         total_fitness = 0
         for solution in population.solutions:
@@ -115,7 +122,7 @@ class RouletteWheelSelection:
                 break
             index += 1    
 
-        return index    
+        return index  
         
 # -------------------------------------------------------------------------------------------------
 # class RankSelection
@@ -231,7 +238,43 @@ def pmx_crossover( problem, solution1, solution2):
 # -------------------------------------------------------------------------------------------------
 # TODO: implement Cycle Crossover
 def cycle_crossover( problem, solution1, solution2):
-    pass
+    cycles = []
+    considered = []
+
+    # finding the cycles
+    while len(considered) < len(solution1):
+        i = 1
+
+        while i in considered:
+            i += 1
+        
+        cycle =  []
+        full_cycle = False
+
+        while full_cycle == False:
+            cycle = cycle.append(i)
+            considered = considered.append(i)
+            i = solution1.index(solution2[i])
+
+            if i in considered:
+                full_cycle = True
+
+        cycles = cycles.append(cycle)
+    
+    child1 =  [None] * len(solution1)
+    child2 =  [None] * len(solution1)
+    
+    # getting the children
+    for i, cycle in enumerate(cycles):
+        # note that here cycle 1 is the cycle with index 0
+        if i % 2 == 0:
+            child1[i] = solution1[i]
+            child2[i] = solution2[i]
+        else:
+            child1[i] = solution2[i]
+            child2[i] = solution1[i]
+
+    return child1, child2
 
 ###################################################################################################
 # MUTATION APPROACHES
