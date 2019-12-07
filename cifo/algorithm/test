@@ -1,0 +1,7 @@
+cycle = []
+
+while i < 5:
+    i += 1
+    cycle.append(i)
+
+print(cycle)
