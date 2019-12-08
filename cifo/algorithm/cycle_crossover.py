@@ -6,7 +6,7 @@ def cycle_crossover(solution1, solution2):
     
     # finding the cycles
     while len(considered) < len(solution1):
-        i = 1
+        i = 0
 
         while i in considered:
             i += 1
@@ -33,16 +33,18 @@ def cycle_crossover(solution1, solution2):
     
     # getting the children
     print(cycles)
-    for j in range(0, len(cycles)):
+    #for j in range(0, len(cycles)):
 
-        for i, cycle in enumerate(cycles):
-            # note that here cycle 1 is the cycle with index 0
-            if i % 2 == 0:
-                child1[i] = solution1[i]
-                child2[i] = solution2[i]
-            else:
-                child1[i] = solution2[i]
-                child2[i] = solution1[i]
+    for i, cycle in enumerate(cycles):
+        # note that here cycle 1 is the cycle with index 0
+        if i % 2 == 0:
+            for j in cycle:
+                child1[j] = solution1[j]
+                child2[j] = solution2[j]
+        else:
+            for j in cycle:
+                child1[j] = solution2[j]
+                child2[j] = solution1[j]
 
     return child1, child2
 
