@@ -44,6 +44,16 @@ class TravelSalesmanProblem( ProblemTemplate ):
         # 2. Define the Problem Objective
         self._objective = ProblemObjective.Minimization
 
+        # optimize the access to the decision variables
+        # this was added by us
+        self._distances = []
+        if "Distances" in decision_variables:
+            self._distances = decision_variables["Distances"]
+
+        self._cities = []
+        if "Cities" in decision_variables:
+            self._weights = decision_variables["Cities"]
+
     # Build Solution for Knapsack Problem
     #----------------------------------------------------------------------------------------------
     def build_solution(self):
