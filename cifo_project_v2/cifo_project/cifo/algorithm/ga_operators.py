@@ -5,6 +5,7 @@ from cifo.problem.objective import ProblemObjective
 from cifo.problem.solution import EncodingDataType
 from cifo.problem.population import Population
 
+import numpy as np
 
 ###################################################################################################
 # INITIALIZATION APPROACHES
@@ -95,9 +96,16 @@ class RouletteWheelSelection:
 
         return population.get( index1 ), population.get( index2 )
 
-
+    #we added objective as an argument
     def _select_index(self, population ):
+        
+        #this is the part we added, definition of minimization.
+        if objective == 'Minimization':
+            fit_max = population.fittest
 
+            for solution in population.solutions:
+                solution.fitness = fit_max - solution.fitness
+        
         # Get the Total Fitness (all solutions in the population) to calculate the chances proportional to fitness
         total_fitness = 0
         for solution in population.solutions:
@@ -231,14 +239,105 @@ def singlepoint_crossover( problem, solution1, solution2):
 # -------------------------------------------------------------------------------------------------
 # TODO: implement Partially Mapped Crossover
 def pmx_crossover( problem, solution1, solution2):
-    pass
+    firstCrossPoint = np.random.randint(0,len(solution1)-2)
+    secondCrossPoint = np.random.randint(firstCrossPoint+1,len(solution1)-1)
+    
+    parent1MiddleCross = solution1[firstCrossPoint:secondCrossPoint]
+    parent2MiddleCross = solution2[firstCrossPoint:secondCrossPoint]
+
+    child1 = solution1[:firstCrossPoint] + parent2MiddleCross + solution1[secondCrossPoint:]
+    child2 = solution2[:firstCrossPoint] + parent1MiddleCross + solution2[secondCrossPoint:]
+
+    relations = []
+
+    for i in range(len(parent1MiddleCross)):
+        relations.append([parent2MiddleCross[i], parent1MiddleCross[i]])
+
+    counts1 = [child1.count(i) for i in child1]
+    counts2 = [child2.count(i) for i in child2]
+
+    while len([x for x in counts1 if x > 1]) > 0:
+        for i in child1[:firstCrossPoint]:
+            for j in parent2MiddleCross:
+                if i == j:
+                    index_j = parent2MiddleCross.index(j)
+                    relation = relations[index_j]
+                    index_i = child1.index(i)
+                    child1[index_i] = relation[1]
+        
+        for i in child1[secondCrossPoint:]:
+            for j in parent2MiddleCross:
+                if i == j:
+                    index_j = parent2MiddleCross.index(j)
+                    relation = relations[index_j]
+                    index_i = child1.index(i,secondCrossPoint)
+                    child1[index_i] = relation[1]
+
+        counts1 = [child1.count(i) for i in child1]
+
+    while len([x for x in counts2 if x > 1]) > 0:
+        for i in child2[:firstCrossPoint]:
+            for j in parent1MiddleCross:
+                if i == j:
+                    index_j = parent1MiddleCross.index(j)
+                    relation = relations[index_j]
+                    index_i = child2.index(i)
+                    child2[index_i] = relation[0]
+        
+        for i in child2[secondCrossPoint:]:
+            for j in parent1MiddleCross:
+                if i == j:
+                    index_j = parent1MiddleCross.index(j)
+                    relation = relations[index_j]
+                    index_i = child2.index(i,secondCrossPoint)
+                    child2[index_i] = relation[0]
+
+        counts2 = [child2.count(i) for i in child2]
+
+    return child1, child2
 
 # -------------------------------------------------------------------------------------------------
 # Cycle Crossover
 # -------------------------------------------------------------------------------------------------
 # TODO: implement Cycle Crossover
 def cycle_crossover( problem, solution1, solution2):
-    pass
+    cycles = []
+    considered = []
+
+    # finding the cycles
+    while len(considered) < len(solution1):
+        i = 1
+
+        while i in considered:
+            i += 1
+        
+        cycle =  []
+        full_cycle = False
+
+        while full_cycle == False:
+            cycle = cycle.append(i)
+            considered = considered.append(i)
+            i = solution1.index(solution2[i])
+
+            if i in considered:
+                full_cycle = True
+
+        cycles = cycles.append(cycle)
+    
+    child1 =  [None] * len(solution1)
+    child2 =  [None] * len(solution1)
+    
+    # getting the children
+    for i, cycle in enumerate(cycles):
+        # note that here cycle 1 is the cycle with index 0
+        if i % 2 == 0:
+            child1[i] = solution1[i]
+            child2[i] = solution2[i]
+        else:
+            child1[i] = solution2[i]
+            child2[i] = solution1[i]
+
+    return child1, child2
 
 ###################################################################################################
 # MUTATION APPROACHES
@@ -274,7 +373,20 @@ def single_point_mutation( problem, solution):
 # -----------------------------------------------------------------------------------------------
 #TODO: Implement Swap mutation
 def swap_mutation( problem, solution):
-    pass
+    point1 = randint( 0, len( solution.representation )-1 )
+    point2 = point1
+
+    while point1 == point2:
+        point2 = randint( 0, len( solution.representation )-1 )
+    #print(f" >> singlepoint: {singlepoint}")
+     
+    sol_point1 = solution[point1]
+    sol_point2 = solution[point2]
+
+    solution[point1] = sol_point2
+    solution[point2] = sol_point1
+
+    return solution
 
 ###################################################################################################
 # REPLACEMENT APPROACHES
