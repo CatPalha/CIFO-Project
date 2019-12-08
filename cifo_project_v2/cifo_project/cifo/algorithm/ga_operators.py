@@ -300,13 +300,15 @@ def pmx_crossover( problem, solution1, solution2):
 # Cycle Crossover
 # -------------------------------------------------------------------------------------------------
 # TODO: implement Cycle Crossover
-def cycle_crossover( problem, solution1, solution2):
-    cycles = []
-    considered = []
+def cycle_crossover(solution1, solution2):
 
+    cycles = []
+    #
+    considered = []
+    
     # finding the cycles
     while len(considered) < len(solution1):
-        i = 1
+        i = 0
 
         while i in considered:
             i += 1
@@ -315,27 +317,36 @@ def cycle_crossover( problem, solution1, solution2):
         full_cycle = False
 
         while full_cycle == False:
-            cycle = cycle.append(i)
-            considered = considered.append(i)
+            print(i)
+            #is not appending
+            cycle.append(i)
+            #is not appending
+
+            considered.append(i)
             i = solution1.index(solution2[i])
 
             if i in considered:
                 full_cycle = True
 
-        cycles = cycles.append(cycle)
+        cycles.append(cycle)
     
     child1 =  [None] * len(solution1)
     child2 =  [None] * len(solution1)
     
     # getting the children
+    print(cycles)
+    #for j in range(0, len(cycles)):
+
     for i, cycle in enumerate(cycles):
         # note that here cycle 1 is the cycle with index 0
         if i % 2 == 0:
-            child1[i] = solution1[i]
-            child2[i] = solution2[i]
+            for j in cycle:
+                child1[j] = solution1[j]
+                child2[j] = solution2[j]
         else:
-            child1[i] = solution2[i]
-            child2[i] = solution1[i]
+            for j in cycle:
+                child1[j] = solution2[j]
+                child2[j] = solution1[j]
 
     return child1, child2
 
