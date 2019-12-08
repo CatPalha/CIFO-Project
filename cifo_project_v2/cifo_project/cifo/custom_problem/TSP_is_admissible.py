@@ -16,4 +16,4 @@ def is_admissible( self, solution ): #<< use this signature in the sub classes, 
     
     result = not(repeated)
 
-    return result 
+    return result
