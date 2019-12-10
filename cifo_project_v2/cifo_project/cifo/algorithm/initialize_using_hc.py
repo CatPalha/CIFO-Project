@@ -13,7 +13,11 @@ def initialize_using_hc( problem, population_size ):
     solution_list = []
     params = { "Maximum-Iterations" : 100 , "Stop-Conditions" : "Classical", "Neighborhood-Size": -1}
 
-    hc = HillClimbing(problem, problem.neighborhood_function, params)
+    hc = HillClimbing(
+        problem_instance = problem,
+        neighbohhood_function = problem.pip_bitflip_get_neighbors,
+        params = params
+        )
 
     # generate a population of admissible solutions (individuals)
     for _ in range(0, population_size):
@@ -30,6 +34,7 @@ def initialize_using_hc( problem, population_size ):
     population = Population( 
         problem = problem , 
         maximum_size = population_size, 
-        solution_list = solution_list )
+        solution_list = solution_list
+        )
     
     return population

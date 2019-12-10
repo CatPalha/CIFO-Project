@@ -12,7 +12,11 @@ def initialize_using_sa( problem, population_size ):
     """
     solution_list = []
 
-    sa = SimulatedAnnealing(problem, problem.neighborhood_function)
+    sa = SimulatedAnnealing(
+        problem_instance = problem,
+        neighbohhood_function = problem.pip_bitflip_get_neighbors,
+        params = params
+        )
 
     # generate a population of admissible solutions (individuals)
     for _ in range(0, population_size):
@@ -29,6 +33,7 @@ def initialize_using_sa( problem, population_size ):
     population = Population( 
         problem = problem , 
         maximum_size = population_size, 
-        solution_list = solution_list )
+        solution_list = solution_list
+        )
     
     return population
