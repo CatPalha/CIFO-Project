@@ -6,12 +6,12 @@ def evaluate_solution(self, solution, feedback = None):# << This method does not
 
     fitness = 0
     
-    for city in solution:
-        i = solution.index(city)
-        if i < len(solution)-1:
-            city2 = solution[i+1]
+    for city in solution.representation:
+        i = solution.representation.index(city)
+        if i < len(solution.representation)-1:
+            city2 = solution.representation[i+1]
         else:
-            city2 = solution[0]
+            city2 = solution.representation[0]
 
         dist = distances[city][city2]
 

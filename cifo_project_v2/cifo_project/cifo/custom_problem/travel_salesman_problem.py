@@ -25,7 +25,7 @@ class TravelSalesmanProblem( ProblemTemplate ):
 
     # Constructor
     #----------------------------------------------------------------------------------------------
-    def __init__(self, decision_variables, constraints , encoding_rule = knapsack_encoding_rule):
+    def __init__(self, decision_variables, constraints = {} , encoding_rule = {}):
         """
         """
         # optimize the access to the decision variables
@@ -58,23 +58,72 @@ class TravelSalesmanProblem( ProblemTemplate ):
     #----------------------------------------------------------------------------------------------
     def build_solution(self):
         """
+        Builds a linear solution for TSP that is an ordered list of numbers, with no repetitions
+        
+        Where: 
+            
+            each number i corresponds to the city of index i in the distance matrix
         """
-        pass
+        solution_representation = []
+        encoding_data = self._encoding.encoding_data
+
+        for _ in range(0, self._encoding.size):
+            solution_representation.append( choice(encoding_data) )
+        
+        solution = LinearSolution(
+            representation = solution_representation, 
+            encoding_rule = self._encoding_rule
+        )
+        
+        return solution
 
     # Solution Admissibility Function - is_admissible()
     #----------------------------------------------------------------------------------------------
     def is_admissible( self, solution ): #<< use this signature in the sub classes, the meta-heuristic 
         """
+        Check if the solution is admissible, considering the no cities can be repeated
         """
-        pass
+        counts = [solution.representation.count(i) for i in solution.representation]
+        
+        repeated = False
+        i = 0
+        
+        while repeated == False and i < len(counts):
+            
+            if counts[i] > 1:
+                repeated = True
+            
+            i += 1
+        
+        result = not(repeated)
+
+        return result
 
     # Evaluate_solution()
     #-------------------------------------------------------------------------------------------------------------
     # It should be seen as an abstract method 
     def evaluate_solution(self, solution, feedback = None):# << This method does not need to be extended, it already automated solutions evaluation, for Single-Objective and for Multi-Objective
         """
+        Calculate the "distance" that is crossed in the solution
         """
-        pass     
+        distances = self._distances
+
+        fitness = 0
+    
+        for city in solution.representation:
+            i = solution.representation.index(city)
+            if i < len(solution.representation)-1:
+                city2 = solution.representation[i+1]
+            else:
+                city2 = solution.representation[0]
+
+            dist = distances[city][city2]
+
+            fitness += dist
+    
+        solution.fitness = fitness
+
+        return solution
 
 
 # -------------------------------------------------------------------------------------------------
@@ -82,4 +131,32 @@ class TravelSalesmanProblem( ProblemTemplate ):
 #            (Hill Climbing and Simulated Annealing)
 # -------------------------------------------------------------------------------------------------
 def pip_bitflip_get_neighbors( solution, problem, neighborhood_size = 0 ):
-    pass
+    neighborhood = []
+    
+    if neighborhood_size == -1:
+        for i in range(0, len(solution.representation)):
+            for j in range(0, len(solution.representation)):
+                if i != j:
+                    neighbor = solution.representation[:]
+                    neighbor[i] = solution.representation[j]
+                    neighbor[j] = solution.representation[i]
+                    
+                    if neighbor not in neighborhood:
+                        neighborhood.append(neighbor)
+    else:
+        while len(neighborhood) < neighborhood_size:
+            i = randint(0, len(solution.representation)-1)
+            j = randint(0, len(solution.representation)-1)
+            
+            while i == j:
+                j = randint(0, len(solution.representation)-1)
+            
+            # deep copy of solution
+            neighbor = solution.representation[:]
+            neighbor[i] = solution.representation[j]
+            neighbor[j] = solution.representation[i]
+            
+            if neighbor not in neighborhood:
+                neighborhood.append(neighbor)
+    
+    return neighborhood
