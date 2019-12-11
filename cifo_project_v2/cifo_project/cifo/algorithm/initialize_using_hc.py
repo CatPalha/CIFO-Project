@@ -1,4 +1,5 @@
-#import HillClimbing somehow
+# import HillClimbing somehow
+# import pip_bitflip_get_neighbors from the hill-climbing file (not in the class)
 
 def initialize_using_hc( problem, population_size ):
     """
@@ -15,7 +16,7 @@ def initialize_using_hc( problem, population_size ):
 
     hc = HillClimbing(
         problem_instance = problem,
-        neighbohhood_function = problem.pip_bitflip_get_neighbors,
+        neighbohhood_function = pip_bitflip_get_neighbors,
         params = params
         )
 

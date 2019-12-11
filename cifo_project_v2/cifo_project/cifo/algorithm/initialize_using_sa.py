@@ -1,4 +1,5 @@
-#import SimulatedAnnealing somehow
+# import SimulatedAnnealing somehow
+# import pip_bitflip_get_neighbors from the simulated-annealing file (not in the class)
 
 def initialize_using_sa( problem, population_size ):
     """
@@ -14,7 +15,7 @@ def initialize_using_sa( problem, population_size ):
 
     sa = SimulatedAnnealing(
         problem_instance = problem,
-        neighbohhood_function = problem.pip_bitflip_get_neighbors,
+        neighbohhood_function = pip_bitflip_get_neighbors,
         params = params
         )
 
