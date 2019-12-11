@@ -181,7 +181,7 @@ class GeneticAlgorithm:
         return self._fittest    
 
     def __str__(self):
-        self._text = ""
+        return self._text
 
 
     @property
