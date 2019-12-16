@@ -54,7 +54,7 @@ class TravelSalesmanProblem( ProblemTemplate ):
         if "Cities" in decision_variables:
             self._weights = decision_variables["Cities"]
 
-    # Build Solution for Knapsack Problem
+    # Build Solution for TSP
     #----------------------------------------------------------------------------------------------
     def build_solution(self):
         """
