@@ -88,7 +88,7 @@ class RouletteWheelSelection:
         """
         select two different parents using roulette wheel
         """
-        index1 = self._select_index(population = population)
+        index1 = self._select_index(population = population, objective = objective)
         index2 = index1
         
         while index2 == index1:
@@ -96,10 +96,10 @@ class RouletteWheelSelection:
 
         return population.get( index1 ), population.get( index2 )
 
-    #we added objective as an argument
-    def _select_index(self, population ):
+    # we added objective as an argument
+    def _select_index(self, population, objective ):
         
-        #this is the part we added, definition of minimization.
+        # this is the part we added, definition of minimization.
         if objective == 'Minimization':
             fit_max = population.fittest
 

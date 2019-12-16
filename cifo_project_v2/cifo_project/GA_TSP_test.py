@@ -40,4 +40,4 @@ solution = GeneticAlgorithm(
     problem_instance = tsp
 )
 
-print(solution)
+print(solution.search())

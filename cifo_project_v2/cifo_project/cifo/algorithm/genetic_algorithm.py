@@ -141,7 +141,12 @@ class GeneticAlgorithm:
             # 2.1. Repeat until generate the next generation (#2 loop )
             while new_population.has_space:
                 # 2.1.1. Selection
-                parent1, parent2 = select( self._population, problem.objective, self._params )
+                parent1, parent2 = select.select(
+                    self,   # look into this, too weird
+                    population = self._population,
+                    objective = problem.objective,
+                    params = self._params
+                    )
                 offspring1 = deepcopy(parent1) # parent1.clone()
                 offspring2 = deepcopy(parent2) # parent2.clone()
                 # 2.1.2. Try Apply Crossover (depends on the crossover probability)
