@@ -30,7 +30,7 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
 
     # Constructor
     #----------------------------------------------------------------------------------------------
-    def __init__(self, decision_variables, constraints , encoding_rule = knapsack_encoding_rule):
+    def __init__(self, decision_variables, constraints , encoding_rule = {}):
         """
         """
         # optimize the access to the decision variables
