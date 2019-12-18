@@ -11,8 +11,8 @@ import numpy as np
 pip_encoding_rule = {
     "Size"         : -1, # It must be defined by the size of DV (Number of products)
     "Is ordered"   : False,
-    "Can repeat"   : True,  # this doesn't really make sense
-    "Data"         : [0,0], # the companies codes
+    "Can repeat"   : True,
+    "Data"         : [0,0], # [0,1]
     "Data Type"    : "" # "Choices"
 }
 
@@ -53,19 +53,19 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
         if "Symbols" in self._decision_variables:
             self._symbols = self._decision_variables["Symbols"]
         
-        self._assets = pd.Series(index=self._symbols)
+        self._assets = []
         if "Assets" in self._decision_variables:
             self._assets = self._decision_variables["Assets"]
 
-        self._prices = pd.Series(index=self._symbols)
+        self._prices = []
         if "Prices" in self._decision_variables:
             self._prices = self._decision_variables["Prices"]
 
-        self._exp_return = pd.Series(index=self._symbols)
+        self._exp_return = []
         if "Expected-Returns" in self._decision_variables:
             self._exp_return = self._decision_variables["Expected-Returns"]
 
-        self._std = pd.Series(index=self._symbols)
+        self._std = []
         if "Standard-Deviations" in self._decision_variables:
             self._std = self._decision_variables["Standard-Deviations"]
 
@@ -86,14 +86,11 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
     def build_solution(self):
         """
         """
+        solution_representation = []
         encoding_data = self._encoding.encoding_data
-        solution_representation = dict.fromkeys(encoding_data, 0)
-        randoms = uniform(size = self._encoding.size)
-        weights = [random / sum(randoms) for random in randoms]
 
-        for i in range(0, self._encoding.size):
-            asset = choice(encoding_data)
-            solution_representation[asset] += weights[i]        
+        for _ in range(0, self._encoding.size):
+            solution_representation.append( choice(encoding_data) )
         
         solution = LinearSolution(
             representation = solution_representation, 
@@ -107,46 +104,63 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
     def is_admissible( self, solution ): #<< use this signature in the sub classes, the meta-heuristic 
         """
         """
-        investment = 0
-        exp_return = 0
-        assets = list(solution.representation.keys())
+        prices = self._prices
 
-        for asset in assets:
-            investment += self._prices[asset]
-            exp_return += self._exp_return[asset] * solution.representation[asset]
-            
-        weights_times_deviations = [solution.representation[asset]**2 * self._std[asset]**2 for asset in assets]
-        variance = sum(weights_times_deviations)
+        price = 0
+        for i in range(0, len( prices )):
+            if solution.representation[ i ] == 1:
+                price += prices[ i ]
+
+        weights = []
+
+        for i in range(0, len( prices )):
+            if solution.representation[ i ] == 1:
+                weights[ i ] = prices[ i ] / price
+            else:
+                weights[ i ] = 0
+        
+        returns = self._exp_return
+
+        exp_return = sum([returns[ i ] * weights[ i ] for i in range(0, len( weights ))])
+
+        std_deviations = self._std
+        
+        variance = sum([weights[ i ]**2 * std_deviations[ i ]**2 for i in range(0, len( weights ))])
 
         correlation = self._hist_data.corr()
         
-        for asset1 in assets:
-            for asset2 in assets:
-                if asset1.index() < asset2.index():
-                    aditional_variance =  solution.representation[asset1] * solution.representation[asset2] * self._std[asset1] * self._std[asset2] * correlation[asset1][asset2]
-                    variance += aditional_variance
+        for i in range(0, len( weights )):
+            for j in range(i, len( weights )):
+                aditional_variance =  weights[i] * weights[j] * std_deviations[i] * std_deviations[j] * correlationiloc[i,j]
+                variance += aditional_variance
 
         standard_deviation = np.sqrt(variance)
 
         sharpe = exp_return / standard_deviation
-
-        result = (investment <= self._budget and sharpe >= self._risk_tolerance)
-
-        return result
-
+        
+        result = (price <= self._budget and sharpe >= self._risk_tolerance)
+        
+        return result 
+        
     # Evaluate_solution()
     #-------------------------------------------------------------------------------------------------------------
     # It should be seen as an abstract method 
     def evaluate_solution(self, solution, feedback = None):# << This method does not need to be extended, it already automated solutions evaluation, for Single-Objective and for Multi-Objective
         """
         """
-        exp_return = 0
-        assets = list(solution.representation.keys())
+        weights = []
 
-        for asset in assets:
-            exp_return += self._exp_return[asset] * solution.representation[asset]
-    
-        solution.fitness = exp_return
+        for i in range(0, len( prices )):
+            if solution.representation[ i ] == 1:
+                weights[ i ] = prices[ i ] / price
+            else:
+                weights[ i ] = 0
+        
+        returns = self._exp_return
+
+        fitness = sum([returns[ i ] * weights[ i ] for i in range(0, len( weights ))])
+        
+        solution.fitness = fitness
 
         return solution
 
@@ -156,23 +170,29 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
 #            (Hill Climbing and Simulated Annealing)
 # -------------------------------------------------------------------------------------------------
 def pip_bitflip_get_neighbors( solution, problem, neighborhood_size = 0 ):
-    assets = list(solution.representation.keys())
-    neighborhood = []
-    i = 0
+    neighbors = []
 
-    while i < neighborhood_size:
-        neighbor = solution.copy()
-        asset = choice(assets)
-        neighbor.representation[asset] = uniform()
-        temp_weights = list(neighborhood.representation.values())
-        weights = [weight / sum(temp_weights) for weight in temp_weights]
-        j = 0
+    # Generate all neighbors considering a bit flip
+    for position in range(0, len(solution.representation)):
+        n = deepcopy(solution) # solution.clone()
+        if n.representation[ position ]  ==  1 : 
+            n.representation[ position ] = 0
+        else: 
+            n.representation[ position ] = 1
+        
+        neighbors.append(n)
 
-        for asset in assets:
-            neighbor[asset] = weights[j]
-            j += 1
-            
-        neighborhood.append(neighbor)
-        i += 1
+    # return all neighbors
+    if neighborhood_size == 0:
+        return neighbors
+    # return a RANDOM subset of all neighbors (in accordance with neighborhood size)    
+    else:     
+        subset_neighbors = []
+        indexes = list( range( 0, len( neighbors ) ) )
+        for _ in range(0, neighborhood_size):
+            selected_index = choice( indexes )
 
-    return solution
+            subset_neighbors.append( neighbors[ selected_index ] )
+            indexes.remove( selected_index )
+
+        return subset_neighbors    
