@@ -164,6 +164,14 @@ def pip_bitflip_get_neighbors( solution, problem, neighborhood_size = 0 ):
         neighbor = solution.copy()
         asset = choice(assets)
         neighbor.representation[asset] = uniform()
+        temp_weights = list(neighborhood.representation.values())
+        weights = [weight / sum(temp_weights) for weight in temp_weights]
+        j = 0
+
+        for asset in assets:
+            neighbor[asset] = weights[j]
+            j += 1
+            
         neighborhood.append(neighbor)
         i += 1
 
