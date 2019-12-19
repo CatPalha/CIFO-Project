@@ -98,18 +98,18 @@ class RouletteWheelSelection:
 
     # we added objective as an argument
     def _select_index(self, population, objective ):
-        
-        # this is the part we added, definition of minimization.
+        # We changed this whole function by creating fitness_list
+        fitness_list = [solution.fitness for solution in population]
+
         if objective == 'Minimization':
             fit_max = population.fittest
 
-            for solution in population.solutions:
-                solution.fitness = fit_max - solution.fitness
+            fitness_list = [fit_max - solution.fitness for solution in population]
         
         # Get the Total Fitness (all solutions in the population) to calculate the chances proportional to fitness
         total_fitness = 0
-        for solution in population.solutions:
-            total_fitness += solution.fitness
+        for fitness in fitness_list:
+            total_fitness += fitness
 
         # spin the wheel
         wheel_position = uniform( 0, 1 )
@@ -117,8 +117,8 @@ class RouletteWheelSelection:
         # calculate the position which wheel should stop
         stop_position = 0
         index = 0
-        for solution in population.solutions :
-            stop_position += (solution.fitness / total_fitness)
+        for fitness in fitness_list:
+            stop_position += (fitness / total_fitness)
             if stop_position > wheel_position :
                 break
             index += 1    
