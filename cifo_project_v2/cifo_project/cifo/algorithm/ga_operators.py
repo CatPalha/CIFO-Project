@@ -84,27 +84,28 @@ class RouletteWheelSelection:
 
     REMARK: This implementation does not consider minimization problem
     """
+
     def select(self, population, objective, params):
         """
         select two different parents using roulette wheel
         """
-        index1 = self._select_index(population = population, objective = objective)
+        index1 = self._select_index(population = population, objective = objective) # PROBLEMA
         index2 = index1
         
         while index2 == index1:
-            index2 = self._select_index( population = population )
+            index2 = self._select_index( population = population, objective =objective )
 
         return population.get( index1 ), population.get( index2 )
 
     # we added objective as an argument
     def _select_index(self, population, objective ):
         # We changed this whole function by creating fitness_list
-        fitness_list = [solution.fitness for solution in population]
+        fitness_list = [solution.fitness for solution in population.solutions]
 
         if objective == 'Minimization':
-            fit_max = population.fittest
+            fit_max = population.fittest.fitness
 
-            fitness_list = [fit_max - solution.fitness for solution in population]
+            fitness_list = [fit_max - solution.fitness for solution in population.solutions]
         
         # Get the Total Fitness (all solutions in the population) to calculate the chances proportional to fitness
         total_fitness = 0

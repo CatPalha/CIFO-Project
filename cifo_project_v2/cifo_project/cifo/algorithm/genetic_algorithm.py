@@ -11,7 +11,7 @@ Content:
 ─────────────────────────────────────────────────────────────────────────
 
 CIFO - Computation Intelligence for Optimization
-
+\
 Author: Fernando A J Peres - fperes@novaims.unl.pt - (2019) version L4.0
 """
 # -------------------------------------------------------------------------------------------------
@@ -33,6 +33,12 @@ from cifo.util.terminal import Terminal, FontColor
 
 from cifo.util.logger import GeneticAlgorithmLogger
 
+from random import uniform, randint, choices
+
+from cifo.problem.objective import ProblemObjective
+from cifo.problem.solution import EncodingDataType
+from cifo.problem.population import Population
+
 
 
 # default params
@@ -44,7 +50,7 @@ default_params = {
     "Mutation-Probability"      : 0.5,
     
     "Initialization-Approach"   : initialize_randomly,
-    "Selection-Approach"        : RouletteWheelSelection,
+    "Selection-Approach"        : RouletteWheelSelection(),
     "Tournament-Size"           : 5,
     "Crossover-Approach"        : singlepoint_crossover,
     "Mutation-Aproach"          : single_point_mutation,
@@ -94,7 +100,9 @@ class GeneticAlgorithm:
 
         self._logger = GeneticAlgorithmLogger( log_name, run )
 
-        self._observers  = []  
+        self._observers  = [] 
+
+        #self._selection_approach =  
 
 
     
@@ -116,12 +124,12 @@ class GeneticAlgorithm:
 
             3. Return the best solution    
         """
-        problem         = self._problem_instance
-        select          = self._selection_approach
-        cross           = self._crossover_approach
-        mutate          = self._mutation_approach
-        replace         = self._replacement_approach
-        is_admissible   = self._problem_instance.is_admissible
+        problem            = self._problem_instance
+        selection_approach = self._selection_approach
+        cross              = self._crossover_approach
+        mutate             = self._mutation_approach
+        replace            = self._replacement_approach
+        is_admissible      = self._problem_instance.is_admissible
 
         self._generation = 0
         self._notify( message = "Genetic Algorithm" )
@@ -132,6 +140,7 @@ class GeneticAlgorithm:
 
         self._notify()
 
+
         #2. Repeat n generations )(#1 loop )
         for self._generation in range( 1, self._number_of_generations + 1):
             
@@ -141,9 +150,8 @@ class GeneticAlgorithm:
             # 2.1. Repeat until generate the next generation (#2 loop )
             while new_population.has_space:
                 # 2.1.1. Selection
-                parent1, parent2 = select.select(
-                    self,   # look into this, too weird
-                    population = self._population,
+                parent1, parent2 = selection_approach.select(# look into this, too weird
+                population = self._population,
                     objective = problem.objective,
                     params = self._params
                     )
@@ -183,7 +191,36 @@ class GeneticAlgorithm:
             self._notify()
 
         self._notify( message = "Fittest Solution" )
-        return self._fittest    
+        return self._fittest  
+
+    def _select_index(self, population, objective ):
+        # We changed this whole function by creating fitness_list
+        fitness_list = [solution.fitness for solution in population.solutions]
+
+        if objective == 'Minimization':
+            fit_max = population.fittest
+
+            fitness_list = [fit_max - solution.fitness for solution in population.solutions]
+        
+        # Get the Total Fitness (all solutions in the population) to calculate the chances proportional to fitness
+        total_fitness = 0
+        for fitness in fitness_list:
+            total_fitness += fitness
+
+        # spin the wheel
+        wheel_position = uniform( 0, 1 )
+
+        # calculate the position which wheel should stop
+        stop_position = 0
+        index = 0
+        for fitness in fitness_list:
+            stop_position += (fitness / total_fitness)
+            if stop_position > wheel_position :
+                break
+            index += 1    
+
+        return index    
+          
 
     def __str__(self):
         return self._text
