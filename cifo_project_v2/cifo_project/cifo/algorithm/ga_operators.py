@@ -100,13 +100,16 @@ class RouletteWheelSelection:
     # we added objective as an argument
     def _select_index(self, population, objective ):
         # We changed this whole function by creating fitness_list
+        for solution in population.solutions:
+            print(solution)
+
         fitness_list = [solution.fitness for solution in population.solutions]
 
         if objective == 'Minimization':
             fit_max = population.fittest.fitness
 
             fitness_list = [fit_max - solution.fitness for solution in population.solutions]
-        
+
         # Get the Total Fitness (all solutions in the population) to calculate the chances proportional to fitness
         total_fitness = 0
         for fitness in fitness_list:

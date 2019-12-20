@@ -117,7 +117,8 @@ class TravelSalesmanProblem( ProblemTemplate ):
             else:
                 city2 = solution.representation[0]
 
-            dist = distances[city][city2]
+            j = solution.representation.index(city2)
+            dist = distances[i][j]
 
             fitness += dist
     
