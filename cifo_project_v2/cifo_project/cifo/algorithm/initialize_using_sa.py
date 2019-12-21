@@ -1,6 +1,8 @@
 # import SimulatedAnnealing somehow
 # import pip_bitflip_get_neighbors from the simulated-annealing file (not in the class)
 
+from cifo.algorithm.simulated_annealing import SimulatedAnnealing
+
 def initialize_using_sa( problem, population_size ):
     """
     Initialize a population of solutions (feasible solution) for an evolutionary algorithm
@@ -11,6 +13,7 @@ def initialize_using_sa( problem, population_size ):
     
     @ population_size - to define the size of the population to be returned. 
     """
+    
     solution_list = []
 
     sa = SimulatedAnnealing(

@@ -4,6 +4,7 @@ from copy import deepcopy
 from cifo.problem.objective import ProblemObjective
 from cifo.problem.solution import EncodingDataType
 from cifo.problem.population import Population
+from cifo.problem.solution import LinearSolution
 
 import numpy as np
 
@@ -143,11 +144,11 @@ class RankSelection:
         # Step 2: Create a rank list [0, 1, 1, 2, 2, 2, ...]
         rank_list = []
 
-        for index in range(0, len(population)):
+        for index in range(0, len(population.solutions)):
             for _ in range(0, index + 1):
                 rank_list.append( index )
 
-        print(f" >> rank_list: {rank_list}")       
+        # print(f" >> rank_list: {rank_list}")       
 
         # Step 3: Select solution index
         index1 = randint(0, len( rank_list )-1)
@@ -162,16 +163,16 @@ class RankSelection:
     def _sort( self, population, objective ):
 
         if objective == ProblemObjective.Maximization:
-            for i in range (0, len( population )):
-                for j in range (i, len (population )):
+            for i in range (0, len( population.solutions )):
+                for j in range (i, len (population.solutions )):
                     if population.solutions[ i ].fitness > population.solutions[ j ].fitness:
                         swap = population.solutions[ j ]
                         population.solutions[ j ] = population.solutions[ i ]
                         population.solutions[ i ] = swap
                         
         else:    
-            for i in range (0, len( population )):
-                for j in range (i, len (population )):
+            for i in range (0, len( population.solutions )):
+                for j in range (i, len (population.solutions )):
                     if population.solutions[ i ].fitness < population.solutions[ j ].fitness:
                         swap = population.solutions[ j ]
                         population.solutions[ j ] = population.solutions[ i ]
@@ -243,14 +244,17 @@ def singlepoint_crossover( problem, solution1, solution2):
 # -------------------------------------------------------------------------------------------------
 # TODO: implement Partially Mapped Crossover
 def pmx_crossover( problem, solution1, solution2):
-    firstCrossPoint = np.random.randint(0,len(solution1)-2)
-    secondCrossPoint = np.random.randint(firstCrossPoint+1,len(solution1)-1)
-    
-    parent1MiddleCross = solution1[firstCrossPoint:secondCrossPoint]
-    parent2MiddleCross = solution2[firstCrossPoint:secondCrossPoint]
+    solution_1 = solution1.representation
+    solution_2 = solution2.representation
 
-    child1 = solution1[:firstCrossPoint] + parent2MiddleCross + solution1[secondCrossPoint:]
-    child2 = solution2[:firstCrossPoint] + parent1MiddleCross + solution2[secondCrossPoint:]
+    firstCrossPoint = np.random.randint(0,len(solution_1)-2)
+    secondCrossPoint = np.random.randint(firstCrossPoint+1,len(solution_1)-1)
+    
+    parent1MiddleCross = solution_1[firstCrossPoint:secondCrossPoint]
+    parent2MiddleCross = solution_2[firstCrossPoint:secondCrossPoint]
+
+    child1 = solution_1[:firstCrossPoint] + parent2MiddleCross + solution_1[secondCrossPoint:]
+    child2 = solution_2[:firstCrossPoint] + parent1MiddleCross + solution_2[secondCrossPoint:]
 
     relations = []
 
@@ -298,20 +302,24 @@ def pmx_crossover( problem, solution1, solution2):
 
         counts2 = [child2.count(i) for i in child2]
 
-    return child1, child2
+    child_1 = LinearSolution(child1, solution1.encoding_rule)
+    child_2 = LinearSolution(child2, solution2.encoding_rule)
+
+    return child_1, child_2
 
 # -------------------------------------------------------------------------------------------------
 # Cycle Crossover
 # -------------------------------------------------------------------------------------------------
 # TODO: implement Cycle Crossover
 def cycle_crossover(solution1, solution2):
+    solution_1 = solution1.representation
+    solution_2 = solution2.representation
 
-    cycles = []
-    #
+    cycles = []    
     considered = []
     
     # finding the cycles
-    while len(considered) < len(solution1):
+    while len(considered) < len(solution_1):
         i = 0
 
         while i in considered:
@@ -327,15 +335,15 @@ def cycle_crossover(solution1, solution2):
             #is not appending
 
             considered.append(i)
-            i = solution1.index(solution2[i])
+            i = solution_1.index(solution_2[i])
 
             if i in considered:
                 full_cycle = True
 
         cycles.append(cycle)
     
-    child1 =  [None] * len(solution1)
-    child2 =  [None] * len(solution1)
+    child1 =  [None] * len(solution_1)
+    child2 =  [None] * len(solution_1)
     
     # getting the children
     print(cycles)
@@ -345,14 +353,17 @@ def cycle_crossover(solution1, solution2):
         # note that here cycle 1 is the cycle with index 0
         if i % 2 == 0:
             for j in cycle:
-                child1[j] = solution1[j]
-                child2[j] = solution2[j]
+                child1[j] = solution_1[j]
+                child2[j] = solution_2[j]
         else:
             for j in cycle:
-                child1[j] = solution2[j]
-                child2[j] = solution1[j]
+                child1[j] = solution_2[j]
+                child2[j] = solution_1[j]
 
-    return child1, child2
+    child_1 = LinearSolution(child1, solution1.encoding_rule)
+    child_2 = LinearSolution(child2, solution2.encoding_rule)
+
+    return child_1, child_2
 
 ###################################################################################################
 # MUTATION APPROACHES
