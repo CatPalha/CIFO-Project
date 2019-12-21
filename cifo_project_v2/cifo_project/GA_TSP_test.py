@@ -52,7 +52,7 @@ params = {
     "Initialization-Approach"   : initialize_randomly,
     "Selection-Approach"        : RouletteWheelSelection(),
     "Tournament-Size"           : 5,
-    "Crossover-Approach"        : pmx_crossover,
+    "Crossover-Approach"        : singlepoint_crossover,
     "Mutation-Aproach"          : single_point_mutation,
     "Replacement-Approach"      : elitism_replacement
 }

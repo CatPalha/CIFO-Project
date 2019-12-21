@@ -311,7 +311,7 @@ def pmx_crossover( problem, solution1, solution2):
 # Cycle Crossover
 # -------------------------------------------------------------------------------------------------
 # TODO: implement Cycle Crossover
-def cycle_crossover(solution1, solution2):
+def cycle_crossover(problem, solution1, solution2):
     solution_1 = solution1.representation
     solution_2 = solution2.representation
 
@@ -329,11 +329,7 @@ def cycle_crossover(solution1, solution2):
         full_cycle = False
 
         while full_cycle == False:
-            print(i)
-            #is not appending
             cycle.append(i)
-            #is not appending
-
             considered.append(i)
             i = solution_1.index(solution_2[i])
 
@@ -346,9 +342,6 @@ def cycle_crossover(solution1, solution2):
     child2 =  [None] * len(solution_1)
     
     # getting the children
-    print(cycles)
-    #for j in range(0, len(cycles)):
-
     for i, cycle in enumerate(cycles):
         # note that here cycle 1 is the cycle with index 0
         if i % 2 == 0:
