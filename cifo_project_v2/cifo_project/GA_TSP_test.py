@@ -42,3 +42,5 @@ solution = GeneticAlgorithm(
 )
 
 print(solution.search())
+
+# Optimum starting on 0: 7999 

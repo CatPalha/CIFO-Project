@@ -83,7 +83,9 @@ class TravelSalesmanProblem( ProblemTemplate ):
         """
         Check if the solution is admissible, considering the no cities can be repeated
         """
-        counts = [solution.representation.count(i) for i in solution.representation]
+        solution_representation = list(solution.representation)
+        
+        counts = [solution_representation.count(i) for i in solution_representation]
         
         repeated = False
         i = 0
@@ -107,18 +109,18 @@ class TravelSalesmanProblem( ProblemTemplate ):
         Calculate the "distance" that is crossed in the solution
         """
         distances = self._distances
+        solution_representation = list(solution.representation)
 
         fitness = 0
     
-        for city in solution.representation:
-            i = solution.representation.index(city)
-            if i < len(solution.representation)-1:
-                city2 = solution.representation[i+1]
+        for city in solution_representation:
+            i = solution_representation.index(city)
+            if i < len(solution_representation)-1:
+                city2 = solution_representation[i+1]
             else:
-                city2 = solution.representation[0]
+                city2 = solution_representation[0]
 
-            j = solution.representation.index(city2)
-            dist = distances[i][j]
+            dist = distances[city][city2]
 
             fitness += dist
     

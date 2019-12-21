@@ -151,7 +151,7 @@ class GeneticAlgorithm:
             while new_population.has_space:
                 # 2.1.1. Selection
                 parent1, parent2 = selection_approach.select(# look into this, too weird
-                population = self._population,
+                    population = self._population,
                     objective = problem.objective,
                     params = self._params
                     )

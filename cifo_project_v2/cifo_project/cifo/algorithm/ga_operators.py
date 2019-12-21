@@ -1,4 +1,4 @@
-from random import uniform, randint, choices
+from random import uniform, randint, choice
 from copy import deepcopy
 
 from cifo.problem.objective import ProblemObjective
@@ -100,8 +100,8 @@ class RouletteWheelSelection:
     # we added objective as an argument
     def _select_index(self, population, objective ):
         # We changed this whole function by creating fitness_list
-        for solution in population.solutions:
-            print(solution)
+        # for solution in population.solutions:
+            # print(solution)
 
         fitness_list = [solution.fitness for solution in population.solutions]
 
@@ -373,7 +373,7 @@ def single_point_mutation( problem, solution):
             temp.pop( solution.representation[ singlepoint ] )
 
             gene = temp[0]
-            if len(temp) > 1 : gene = choices( temp )  
+            if len(temp) > 1 : gene = choice( temp )  
 
             solution.representation[ singlepoint ] = gene
 
