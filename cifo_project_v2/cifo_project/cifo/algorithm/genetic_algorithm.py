@@ -144,13 +144,14 @@ class GeneticAlgorithm:
         #2. Repeat n generations )(#1 loop )
         for self._generation in range( 1, self._number_of_generations + 1):
             
+            # print(self._generation)
             new_population = Population( problem = problem, maximum_size = self._population_size, solution_list=[] )
             i = 0
 
             # 2.1. Repeat until generate the next generation (#2 loop )
             while new_population.has_space:
                 # 2.1.1. Selection
-                parent1, parent2 = selection_approach.select(# look into this, too weird
+                parent1, parent2 = selection_approach.select(
                     population = self._population,
                     objective = problem.objective,
                     params = self._params

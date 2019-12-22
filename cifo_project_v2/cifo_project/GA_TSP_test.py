@@ -50,12 +50,13 @@ params = {
     "Mutation-Probability"      : 0.5,
     
     "Initialization-Approach"   : initialize_randomly,
-    "Selection-Approach"        : RouletteWheelSelection(),
+    "Selection-Approach"        : RankSelection(),
     "Tournament-Size"           : 5,
     "Crossover-Approach"        : singlepoint_crossover,
-    "Mutation-Aproach"          : single_point_mutation,
-    "Replacement-Approach"      : elitism_replacement
+    "Mutation-Aproach"          : swap_mutation,
+    "Replacement-Approach"      : standard_replacement
 }
+
 
 """
 solution = GeneticAlgorithm(
@@ -78,7 +79,8 @@ for i in range(1,20):
 avg = sum(fit)/len(fit)
 
 plt.plot(range(1,20),fit)
-plt.axhline(y=avg, color='r', linestyle='-')
+plt.axhline(y=avg, color='r', linestyle='-', label=str(avg))
+plt.legend()
 plt.show()
 
 # Optimum starting on 0: 7999 

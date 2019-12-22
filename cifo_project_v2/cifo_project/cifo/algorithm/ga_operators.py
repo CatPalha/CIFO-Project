@@ -107,10 +107,17 @@ class RouletteWheelSelection:
         fitness_list = [solution.fitness for solution in population.solutions]
 
         if objective == 'Minimization':
-            fit_max = population.fittest.fitness
+            fit_max = max(fitness_list)
 
             fitness_list = [fit_max - solution.fitness for solution in population.solutions]
 
+        while any(fitness < 0 for fitness in fitness_list):
+            fit_min = min(fitness_list)
+            fitness_list = [fitness - fit_min for fitness in fitness_list]
+        
+        if 0 in fitness_list:
+            fitness_list = [fitness + 1 for fitness in fitness_list]
+        
         # Get the Total Fitness (all solutions in the population) to calculate the chances proportional to fitness
         total_fitness = 0
         for fitness in fitness_list:
@@ -399,11 +406,11 @@ def swap_mutation( problem, solution):
         point2 = randint( 0, len( solution.representation )-1 )
     #print(f" >> singlepoint: {singlepoint}")
      
-    sol_point1 = solution[point1]
-    sol_point2 = solution[point2]
+    sol_point1 = solution.representation[point1]
+    sol_point2 = solution.representation[point2]
 
-    solution[point1] = sol_point2
-    solution[point2] = sol_point1
+    solution.representation[point1] = sol_point2
+    solution.representation[point2] = sol_point1
 
     return solution
 
