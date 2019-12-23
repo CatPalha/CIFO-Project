@@ -161,5 +161,11 @@ def pip_bitflip_get_neighbors( solution, problem, neighborhood_size = 0 ):
             
             if neighbor not in neighborhood:
                 neighborhood.append(neighbor)
+
+    neighbors = []
     
-    return neighborhood
+    for neighbor in neighborhood:
+        neigh = LinearSolution(neighbor, solution.encoding_rule)
+        neighbors.append(neigh)
+    
+    return neighbors
