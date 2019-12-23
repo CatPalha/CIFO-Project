@@ -88,9 +88,22 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
         """
         solution_representation = []
         encoding_data = self._encoding.encoding_data
+        randoms = []
 
         for _ in range(0, self._encoding.size):
-            solution_representation.append( choice(encoding_data) )
+            randoms.append( uniform(0,1) )
+
+        weights = []
+        
+        for random in randoms:
+            weights.append( random / sum(randoms) )
+
+        prices = self._prices
+        budget = self._budget
+
+        for i in range(0,len(weights)):
+            investment = weights[i] * budget
+            solution_representation.append( round(investment/prices[i]) )
         
         solution = LinearSolution(
             representation = solution_representation, 
@@ -110,13 +123,14 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
         for i in range(0, len( prices )):
             price += (prices[ i ] * solution.representation[i])
 
+        print(price)
         if price > self._budget:
             return False
         
         weights = []
 
         for i in range(0, len( prices )):
-            weights[ i ] = (prices[ i ] * solution.representation[ i ]) / price
+            weights.append((prices[ i ] * solution.representation[ i ]) / price)
         
         returns = self._exp_return
 
@@ -130,7 +144,7 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
         
         for i in range(0, len( weights )):
             for j in range(i, len( weights )):
-                aditional_variance =  weights[i] * weights[j] * std_deviations[i] * std_deviations[j] * correlationiloc[i,j]
+                aditional_variance =  weights[i] * weights[j] * std_deviations[i] * std_deviations[j] * correlation.iloc[i,j]
                 variance += aditional_variance
 
         standard_deviation = np.sqrt(variance)
@@ -147,10 +161,16 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
     def evaluate_solution(self, solution, feedback = None):# << This method does not need to be extended, it already automated solutions evaluation, for Single-Objective and for Multi-Objective
         """
         """
+        prices = self._prices
+
+        price = 0
+        for i in range(0, len( prices )):
+            price += (prices[ i ] * solution.representation[i])
+        
         weights = []
 
         for i in range(0, len( prices )):
-            weights[ i ] = (prices[ i ] * solution.representation[ i ]) / price
+            weights.append((prices[ i ] * solution.representation[ i ]) / price)
         
         returns = self._exp_return
 
@@ -171,8 +191,8 @@ def pip_bitflip_get_neighbors( solution, problem, neighborhood_size = 0 ):
     while len(neighbors) < neighborhood_size:
         # deep copy of solution.representation
         neighbor = solution.representation[:]
-        i = randint(0, len(solution)-1)
-        mx = max(solution.encoding_rule.encoding_data)
+        i = randint(0, len(solution.representation)-1)
+        mx = max(solution.encoding_rule["Data"])
 
         if solution.representation[i] == mx:
             neighbor[i] = solution.representation[i] - 1
