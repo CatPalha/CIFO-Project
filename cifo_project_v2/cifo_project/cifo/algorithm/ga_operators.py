@@ -90,7 +90,7 @@ class RouletteWheelSelection:
         """
         select two different parents using roulette wheel
         """
-        index1 = self._select_index(population = population, objective = objective) # PROBLEMA
+        index1 = self._select_index(population = population, objective = objective)
         index2 = index1
         
         while index2 == index1:
@@ -345,8 +345,8 @@ def cycle_crossover(problem, solution1, solution2):
 
         cycles.append(cycle)
     
-    child1 =  [None] * len(solution_1)
-    child2 =  [None] * len(solution_1)
+    child1 = [None] * len(solution_1)
+    child2 = [None] * len(solution_1)
     
     # getting the children
     for i, cycle in enumerate(cycles):

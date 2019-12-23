@@ -52,7 +52,7 @@ params = {
     "Initialization-Approach"   : initialize_randomly,
     "Selection-Approach"        : RankSelection(),
     "Tournament-Size"           : 5,
-    "Crossover-Approach"        : singlepoint_crossover,
+    "Crossover-Approach"        : pmx_crossover,
     "Mutation-Aproach"          : swap_mutation,
     "Replacement-Approach"      : standard_replacement
 }

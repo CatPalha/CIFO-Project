@@ -37,10 +37,16 @@ tsp = TravelSalesmanProblem(
 
 solution = tsp.build_solution()
 admissible = tsp.is_admissible(solution)
+
+while admissible == False:
+    solution = tsp.build_solution()
+    admissible = tsp.is_admissible(solution)
+
 fitness = tsp.evaluate_solution(solution)
 neighborhood = pip_bitflip_get_neighbors(solution, tsp, 5)
 
 print("Solution", solution)
 print("Admissible", admissible)
 #print("Fitness", fitness)
-print("Neighborhood", neighborhood)
+if admissible == True:
+    print("Neighborhood", neighborhood)

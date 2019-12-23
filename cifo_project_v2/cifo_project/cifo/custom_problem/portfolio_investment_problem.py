@@ -12,7 +12,7 @@ pip_encoding_rule = {
     "Size"         : -1, # It must be defined by the size of DV (Number of products)
     "Is ordered"   : False,
     "Can repeat"   : True,
-    "Data"         : [0,0], # [0,1]
+    "Data"         : [0,0], # an interval of integers where the largest is 'budget'//'cheapest stock' 
     "Data Type"    : "" # "Choices"
 }
 
@@ -108,16 +108,15 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
 
         price = 0
         for i in range(0, len( prices )):
-            if solution.representation[ i ] == 1:
-                price += prices[ i ]
+            price += (prices[ i ] * solution.representation[i])
 
+        if price > self._budget:
+            return False
+        
         weights = []
 
         for i in range(0, len( prices )):
-            if solution.representation[ i ] == 1:
-                weights[ i ] = prices[ i ] / price
-            else:
-                weights[ i ] = 0
+            weights[ i ] = (prices[ i ] * solution.representation[ i ]) / price
         
         returns = self._exp_return
 
@@ -138,9 +137,9 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
 
         sharpe = exp_return / standard_deviation
         
-        result = (price <= self._budget and sharpe >= self._risk_tolerance)
+        result = (sharpe >= self._risk_tolerance)
         
-        return result 
+        return result
         
     # Evaluate_solution()
     #-------------------------------------------------------------------------------------------------------------
@@ -151,10 +150,7 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
         weights = []
 
         for i in range(0, len( prices )):
-            if solution.representation[ i ] == 1:
-                weights[ i ] = prices[ i ] / price
-            else:
-                weights[ i ] = 0
+            weights[ i ] = (prices[ i ] * solution.representation[ i ]) / price
         
         returns = self._exp_return
 
@@ -172,27 +168,30 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
 def pip_bitflip_get_neighbors( solution, problem, neighborhood_size = 0 ):
     neighbors = []
 
-    # Generate all neighbors considering a bit flip
-    for position in range(0, len(solution.representation)):
-        n = deepcopy(solution) # solution.clone()
-        if n.representation[ position ]  ==  1 : 
-            n.representation[ position ] = 0
-        else: 
-            n.representation[ position ] = 1
-        
-        neighbors.append(n)
+    while len(neighbors) < neighborhood_size:
+        # deep copy of solution.representation
+        neighbor = solution.representation[:]
+        i = randint(0, len(solution)-1)
+        mx = max(solution.encoding_rule.encoding_data)
 
-    # return all neighbors
-    if neighborhood_size == 0:
-        return neighbors
-    # return a RANDOM subset of all neighbors (in accordance with neighborhood size)    
-    else:     
-        subset_neighbors = []
-        indexes = list( range( 0, len( neighbors ) ) )
-        for _ in range(0, neighborhood_size):
-            selected_index = choice( indexes )
+        if solution.representation[i] == mx:
+            neighbor[i] = solution.representation[i] - 1
+        elif solution.representation[i] == 0:
+            neighbor[i] = solution.representation[i] + 1
+        else:
+            op = choice([-1,1])
+            neighbor[i] = solution.representation[i] + op
 
-            subset_neighbors.append( neighbors[ selected_index ] )
-            indexes.remove( selected_index )
+        if neighbor not in neighbors:
+            neighbors.append(neighbor)
 
-        return subset_neighbors    
+    neighborhood = []
+    
+    for neighbor in neighbors:
+        neigh = LinearSolution(neighbor, solution.encoding_rule)
+        neighborhood.append(neigh)
+
+    return neighborhood
+
+
+
