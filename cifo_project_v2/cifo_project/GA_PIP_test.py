@@ -1,5 +1,12 @@
+from cifo.algorithm.genetic_algorithm import GeneticAlgorithm
 from cifo.custom_problem.portfolio_investment_problem import PortfolioInvestmentProblem
-from cifo.custom_problem.portfolio_investment_problem import pip_bitflip_get_neighbors
+
+from cifo.algorithm.ga_operators import (initialize_randomly, 
+    RankSelection, RouletteWheelSelection, TournamentSelection, 
+    singlepoint_crossover, pmx_crossover, cycle_crossover,
+    single_point_mutation, swap_mutation, 
+    standard_replacement, elitism_replacement
+)
 
 import pandas as pd
 
@@ -36,19 +43,44 @@ pip = PortfolioInvestmentProblem(
     encoding_rule = pip_encoding_rule
     )
 
-solution = pip.build_solution()
-admissible = pip.is_admissible(solution)
+params = {
+    "Population-Size"           : 5,
+    "Number-of-Generations"     : 10,
+    
+    "Crossover-Probability"     : 0.8,
+    "Mutation-Probability"      : 0.5,
+    
+    "Initialization-Approach"   : initialize_randomly,
+    "Selection-Approach"        : RankSelection(),
+    "Tournament-Size"           : 5,
+    "Crossover-Approach"        : pmx_crossover,
+    "Mutation-Aproach"          : swap_mutation,
+    "Replacement-Approach"      : standard_replacement
+}
 
-#while admissible == False:
-    #solution = pip.build_solution()
-    #admissible = pip.is_admissible(solution)
 
-fitness = pip.evaluate_solution(solution)
-neighborhood = pip_bitflip_get_neighbors(solution, pip, 5)
+solution = GeneticAlgorithm(
+    problem_instance = pip
+)
 
-print("Solution", solution)
-print("Admissible", admissible)
-#print("Fitness", fitness)
-if admissible == True:
-    for neighbor in neighborhood:
-        print("Neighbor", neighbor)
+"""
+solution = GeneticAlgorithm(
+    problem_instance = tsp,
+    params = params
+)
+"""
+
+import matplotlib.pyplot as plt
+
+fit = []
+for i in range(1,20):
+    print(i)
+    print(solution.search())
+    fit.append(solution.search().fitness)
+
+avg = sum(fit)/len(fit)
+
+plt.plot(range(1,20),fit)
+plt.axhline(y=avg, color='r', linestyle='-', label=str(avg))
+plt.legend()
+plt.show()

@@ -123,7 +123,7 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
         for i in range(0, len( prices )):
             price += (prices[ i ] * solution.representation[i])
 
-        print(price)
+        # print(price)
         if price > self._budget:
             return False
         
@@ -143,9 +143,11 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
         correlation = self._hist_data.corr()
         
         for i in range(0, len( weights )):
-            for j in range(i, len( weights )):
-                aditional_variance =  weights[i] * weights[j] * std_deviations[i] * std_deviations[j] * correlation.iloc[i,j]
-                variance += aditional_variance
+            if weights[i] > 0:
+                for j in range(i, len( weights )):
+                    if weights[j] > 0:
+                        aditional_variance =  weights[i] * weights[j] * std_deviations[i] * std_deviations[j] * correlation.iloc[i,j]
+                        variance += aditional_variance
 
         standard_deviation = np.sqrt(variance)
 
