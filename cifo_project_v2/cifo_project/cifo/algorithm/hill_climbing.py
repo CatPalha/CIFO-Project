@@ -18,7 +18,7 @@ Author: Fernando A J Peres - fperes@novaims.unl.pt - (2019) version L4.0
 
 from cifo.problem.problem_template import ProblemTemplate
 from cifo.problem.objective import ProblemObjective
-from cifo.util.observer            import LocalSearchMessage
+from cifo.util.observer import LocalSearchMessage
 
 class HillClimbing:
     """

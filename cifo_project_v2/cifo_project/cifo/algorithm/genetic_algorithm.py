@@ -54,7 +54,13 @@ default_params = {
     "Tournament-Size"           : 5,
     "Crossover-Approach"        : singlepoint_crossover,
     "Mutation-Aproach"          : single_point_mutation,
-    "Replacement-Approach"      : elitism_replacement
+    "Replacement-Approach"      : elitism_replacement,
+}
+
+init_params = {
+    "Maximum-Iterations"        : 10,
+    "Stop-Conditions"           : "Classical",
+    "Neighborhood-Size"         : 0
 }
 
 # -------------------------------------------------------------------------------------------------
@@ -87,7 +93,7 @@ class GeneticAlgorithm:
     """
     # Constructor
     # ---------------------------------------------------------------------------------------------
-    def __init__(self, problem_instance, params = default_params, run = 0, log_name = "temp"):
+    def __init__(self, problem_instance, params = default_params, init_params = {}, run = 0, log_name = "temp"):
         self._text              = ""
         self._generation        = 0
         self._run               = run
@@ -95,6 +101,7 @@ class GeneticAlgorithm:
         self._problem_instance  = problem_instance
         self._population        = None
         self._observers         = []
+        self._init_params       = init_params
 
         self._parse_params( params )
 
@@ -135,7 +142,7 @@ class GeneticAlgorithm:
         self._notify( message = "Genetic Algorithm" )
 
         # 1. Initial population
-        self._population = self._initialize( problem, self._population_size )
+        self._population = self._initialize( problem, self._population_size, self._init_params )
         self._fittest = self._population.fittest
 
         self._notify()

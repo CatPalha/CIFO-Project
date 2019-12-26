@@ -24,6 +24,10 @@ Author: Fernando A J Peres - fperes@novaims.unl.pt - (2019) version L4.0
 # -------------------------------------------------------------------------------------------------
 # Class: Simulated Annealing
 # -------------------------------------------------------------------------------------------------
+from cifo.problem.problem_template import ProblemTemplate
+from cifo.problem.objective import ProblemObjective
+from cifo.util.observer import LocalSearchMessage
+
 from random import randint, choice, uniform
 import numpy as np
 import math
@@ -166,7 +170,7 @@ class SimulatedAnnealing:
 
     # Search Method
     #----------------------------------------------------------------------------------------------    
-    def search():
+    def search(self):
         """
         Simulated Annealing Search Method
         ----------------------------------
@@ -217,7 +221,7 @@ class SimulatedAnnealing:
 
     # Initialize:  create an initial solution
     #----------------------------------------------------------------------------------------------
-    def _initialize():
+    def _initialize(self):
         """
         Create a feasible initial solution and initilize C and minimum C if they're not yet initialized
         """
@@ -243,7 +247,7 @@ class SimulatedAnnealing:
 
     # _get_random_neighbor:  get a random, admissible, neighbor
     #----------------------------------------------------------------------------------------------
-    def _get_random_neighbor():
+    def _get_random_neighbor(self):
         """
         Get a random, admissible, neighbor of the neighborhood
         """
@@ -269,7 +273,7 @@ class SimulatedAnnealing:
 
     # _select:  select the better solution (or a worse one with a certain probability)
     #----------------------------------------------------------------------------------------------    
-    def _select():
+    def _select(self):
         """
         Select the better solution, or a worse one with a certain probability
         """
@@ -325,7 +329,7 @@ class SimulatedAnnealing:
         else:
             self._c = self._initial_c / math.log(self._external_iteration)
 
-    def _initialize_C():
+    def _initialize_C(self):
         """
         Initializes C according to the method that was set
         """
@@ -334,7 +338,7 @@ class SimulatedAnnealing:
         if self._initialize_method_c == "Fitness Dependent":
             self._c = self._solution.fitness
 
-    def _initialize_min_C():
+    def _initialize_min_C(self):
         """
         Initializes Minimum C according to the method that was set
         """
@@ -385,10 +389,11 @@ class SimulatedAnnealing:
     def _notify( self, message, neighbors = None ):
 
         self._state = {
-            "iteration" : self._iteration,
-            "message"   : message,
-            "neighbor"  : self._neighbor,
-            "neighbors" : neighbors
+            "internal_iteration" : self._internal_iteration,
+            "external_iteration" : self._external_iteration
+            "message"            : message,
+            "neighbor"           : self._neighbor,
+            "neighbors"          : neighbors
         }
 
         for observer in self._observers:

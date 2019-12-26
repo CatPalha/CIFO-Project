@@ -1,7 +1,8 @@
-# import HillClimbing somehow
-# import pip_bitflip_get_neighbors from the hill-climbing file (not in the class)
+from cifo.algorithm.hill_climbing import HillClimbing
+from cifo.custom_problem.travel_salesman_problem import pip_bitflip_get_neighbors
+from cifo.problem.population import Population
 
-def initialize_using_hc( problem, population_size ):
+def initialize_using_hc( problem, population_size, params={} ):
     """
     Initialize a population of solutions (feasible solution) for an evolutionary algorithm
     
@@ -10,13 +11,14 @@ def initialize_using_hc( problem, population_size ):
     @ problem - problem's build solution function knows how to create an individual in accordance with the encoding.
     
     @ population_size - to define the size of the population to be returned. 
+
+    @ params - the parameters to create the Hill Climbing object (default: empty dictionary)
     """
     solution_list = []
-    params = { "Maximum-Iterations" : 100 , "Stop-Conditions" : "Classical", "Neighborhood-Size": -1}
 
     hc = HillClimbing(
         problem_instance = problem,
-        neighbohhood_function = pip_bitflip_get_neighbors,
+        neighborhood_function = pip_bitflip_get_neighbors,
         params = params
         )
 

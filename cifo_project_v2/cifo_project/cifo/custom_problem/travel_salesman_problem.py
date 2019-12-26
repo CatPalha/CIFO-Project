@@ -39,7 +39,7 @@ class TravelSalesmanProblem( ProblemTemplate ):
         )
 
         # 1. Define the Name of the Problem
-        self._name = "Problem Name"
+        self._name = "Travel Salesman Problem"
         
         # 2. Define the Problem Objective
         self._objective = ProblemObjective.Minimization

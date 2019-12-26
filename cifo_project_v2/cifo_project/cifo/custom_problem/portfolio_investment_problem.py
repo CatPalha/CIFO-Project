@@ -44,7 +44,7 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
         )
 
         # 1. Define the Name of the Problem
-        self._name = "Problem Name"
+        self._name = "Portfolio Investment Problem"
         
         # 2. Define the Problem Objective
         self._objective = ProblemObjective.Maximization

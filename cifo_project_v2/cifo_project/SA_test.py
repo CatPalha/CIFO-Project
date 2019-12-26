@@ -39,4 +39,17 @@ tsp = TravelSalesmanProblem(
     encoding_rule = TSP_encoding_rule
     )
 
-print(initialize_using_sa(problem = tsp, population_size = TSP_encoding_rule['Size']))
+params = {
+    "Maximum-Internal-Iterations" : 5,
+    "Maximum-Iterations" : 10,
+    "Initial-C" : 1,
+    "Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Neighborhood-Size" : -1
+    }
+
+search = initialize_using_sa(problem = tsp, population_size = TSP_encoding_rule['Size'])
+
+for solution in search.solutions:
+    print(solution)

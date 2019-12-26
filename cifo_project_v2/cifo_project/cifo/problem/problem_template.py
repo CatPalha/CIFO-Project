@@ -40,8 +40,8 @@ class ProblemTemplate:
         self._decision_variables        = decision_variables
         self._constraints               = constraints
         self._encoding_rule             = encoding_rule
-        #self._objective_function_list   = []
-        #self._objective_list            = []
+        self._objective_function_list   = []
+        self._objective_list            = []
         self._objective                 = ProblemObjective.Maximization
 
                 # parse the encoding rule # read the encoding rules
@@ -124,27 +124,27 @@ class ProblemTemplate:
 
     # Solution Admissibility Function - is_admissible()
     #-------------------------------------------------------------------------------------------------------------
-    ###@property
-    ###def is_multi_objective( self ): 
-    ###    """
-    ###    Returns if the problem is multi-objective or not (False == Single Objective)
-    ###    """
-    ###    return (len(self._objective_function_list) > 1)
+    @property
+    def is_multi_objective( self ): 
+        """
+        Returns if the problem is multi-objective or not (False == Single Objective)
+        """
+        return (len(self._objective_function_list) > 1)
 
     # problem Objectives
     #-------------------------------------------------------------------------------------------------------------
-    ###@property
-    ###def objectives(self):
-    ###    """
-    ###    Returns the problem's list of objectives.
-    ###    Sing-Objective Problem only will have one element ProblemObjective.Minimization or ProblemObjective.Maximization
-    ###    Multi-objective Problem will have a list of objectives, e.g.: [ProblemObjective.Minimization , ProblemObjective.Maximization, ProblemObjective.Minimization  ]
-    ###    
-    ###    REMARK:
-    ###    -------
-    ###    The order is important, the objective function list and objective list are linked to the same objective. So they must be in the same position in both lists. In this way, the meta-heuristic will know that the first objective is maximization, so the first objective function will be related to this objective. The solution fitness list also will follow this same order. The first fitness value will be measured by maximization. Consequently, in this case, the meta-heuristic when need to select a set of solutions based on the first fitness must select the highest fitness value, once it is a maximization. 
-    ###    """
-    ###    return self._objective_list
+    @property
+    def objectives(self):
+        """
+        Returns the problem's list of objectives.
+        Sing-Objective Problem only will have one element ProblemObjective.Minimization or ProblemObjective.Maximization
+        Multi-objective Problem will have a list of objectives, e.g.: [ProblemObjective.Minimization , ProblemObjective.Maximization, ProblemObjective.Minimization  ]
+        
+        REMARK:
+        -------
+        The order is important, the objective function list and objective list are linked to the same objective. So they must be in the same position in both lists. In this way, the meta-heuristic will know that the first objective is maximization, so the first objective function will be related to this objective. The solution fitness list also will follow this same order. The first fitness value will be measured by maximization. Consequently, in this case, the meta-heuristic when need to select a set of solutions based on the first fitness must select the highest fitness value, once it is a maximization. 
+        """
+        return self._objective_list
     
     # problem Objective (for single-objective Problem)
     #-------------------------------------------------------------------------------------------------------------

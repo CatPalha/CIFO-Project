@@ -1,13 +1,9 @@
-from cifo.algorithm.genetic_algorithm import GeneticAlgorithm
-from cifo.custom_problem.travel_salesman_problem import TravelSalesmanProblem
+from cifo.algorithm.hill_climbing import HillClimbing
 
-from cifo.algorithm.ga_operators import (initialize_randomly, 
-    RankSelection, RouletteWheelSelection, TournamentSelection, 
-    singlepoint_crossover, pmx_crossover, cycle_crossover,
-    single_point_mutation, swap_mutation, 
-    standard_replacement, elitism_replacement,
-    initialize_using_hc
-)
+from cifo.algorithm.initialize_using_hc import initialize_using_hc
+
+from cifo.custom_problem.travel_salesman_problem import TravelSalesmanProblem
+from cifo.custom_problem.travel_salesman_problem import pip_bitflip_get_neighbors
 
 data = [
     [0, 2451, 713, 1018, 1631, 1374, 2408, 213, 2571, 875, 1420, 2145, 1972],
@@ -44,50 +40,16 @@ tsp = TravelSalesmanProblem(
     )
 
 params = {
-    "Population-Size"           : 5,
-    "Number-of-Generations"     : 10,
-    
-    "Crossover-Probability"     : 0.8,
-    "Mutation-Probability"      : 0.5,
-    
-    "Initialization-Approach"   : initialize_using_hc,
-    "Selection-Approach"        : RouletteWheelSelection(),
-    "Tournament-Size"           : 5,
-    "Crossover-Approach"        : singlepoint_crossover,
-    "Mutation-Aproach"          : single_point_mutation,
-    "Replacement-Approach"      : elitism_replacement
-}
-
-init_params = {
     "Maximum-Iterations" : 20,
     "Stop-Conditions" : "Alternative-01",
     "Neighborhood-Size": -1
-}
+    }
 
-"""
-solution = GeneticAlgorithm(
-    problem_instance = tsp
-)
-"""
+search = initialize_using_hc(
+    problem = tsp,
+    population_size = TSP_encoding_rule['Size'],
+    params = params
+    )
 
-solution = GeneticAlgorithm(
-    problem_instance = tsp,
-    params = params,
-    init_params = init_params
-)
-
-import matplotlib.pyplot as plt
-
-fit = []
-for i in range(1,20):
-    print(solution.search())
-    fit.append(solution.search().fitness)
-
-avg = sum(fit)/len(fit)
-
-plt.plot(range(1,20),fit)
-plt.axhline(y=avg, color='r', linestyle='-', label=str(avg))
-plt.legend()
-plt.show()
-
-# Optimum starting on 0: 7999 
+for solution in search.solutions:
+    print(solution)
