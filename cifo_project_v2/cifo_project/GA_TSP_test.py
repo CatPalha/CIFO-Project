@@ -6,7 +6,7 @@ from cifo.algorithm.ga_operators import (initialize_randomly,
     singlepoint_crossover, pmx_crossover, cycle_crossover,
     single_point_mutation, swap_mutation, 
     standard_replacement, elitism_replacement,
-    initialize_using_hc
+    initialize_using_hc, initialize_using_sa
 )
 
 data = [
@@ -50,7 +50,7 @@ params = {
     "Crossover-Probability"     : 0.8,
     "Mutation-Probability"      : 0.5,
     
-    "Initialization-Approach"   : initialize_using_hc,
+    "Initialization-Approach"   : initialize_using_sa,
     "Selection-Approach"        : RouletteWheelSelection(),
     "Tournament-Size"           : 5,
     "Crossover-Approach"        : singlepoint_crossover,
@@ -58,10 +58,20 @@ params = {
     "Replacement-Approach"      : elitism_replacement
 }
 
-init_params = {
+hc_init_params = {
     "Maximum-Iterations" : 20,
     "Stop-Conditions" : "Alternative-01",
     "Neighborhood-Size": -1
+}
+
+sa_init_params = {
+    "Maximum-Internal-Iterations" : 500,
+    "Maximum-Iterations" : 1000,
+    "Initial-C" : 200,
+    "Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Neighborhood-Size" : 5
 }
 
 """
@@ -73,7 +83,7 @@ solution = GeneticAlgorithm(
 solution = GeneticAlgorithm(
     problem_instance = tsp,
     params = params,
-    init_params = init_params
+    init_params = sa_init_params
 )
 
 import matplotlib.pyplot as plt

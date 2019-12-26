@@ -40,16 +40,16 @@ tsp = TravelSalesmanProblem(
     )
 
 params = {
-    "Maximum-Internal-Iterations" : 5,
-    "Maximum-Iterations" : 10,
-    "Initial-C" : 1,
+    "Maximum-Internal-Iterations" : 500,
+    "Maximum-Iterations" : 1000,
+    "Initial-C" : 200,
     "Minimum-C" : 0.01,
     "Update-Method" : "Geometric",
     "Update-Rate" : 0.9,
-    "Neighborhood-Size" : -1
+    "Neighborhood-Size" : 5
     }
 
-search = initialize_using_sa(problem = tsp, population_size = TSP_encoding_rule['Size'])
+search = initialize_using_sa(problem = tsp, population_size = TSP_encoding_rule['Size'], params = params)
 
 for solution in search.solutions:
     print(solution)

@@ -197,11 +197,17 @@ class SimulatedAnnealing:
         self._initialize()
         self._notify(message = LocalSearchMessage.Initialized)
 
+        self._external_searching = True
+        self._external_iteration = 0
+
         while self._external_searching == True:
             self._external_iteration += 1
 
             # 2.1. Internal Looping
-            while self.internal_searching == True:
+            self._internal_searching = True
+            self._internal_iteration = 0
+            
+            while self._internal_searching == True:
                 self._internal_iteration += 1
                 # 2.1.1: Get a random neighbor
                 self._get_random_neighbor()
@@ -234,16 +240,16 @@ class SimulatedAnnealing:
         self._problem_instance.evaluate_solution(self._solution, feedback = self._feedback)
 
         # initialize C if it's not initialized
-        if "Initial-C" not in params:
-            self._c = initialize_C(self._initialize_method_c)
+        if self._c is None:
+            self._c = self._initialize_C()
             
         # save the initial C if the update method is logarithmic
         if self._update_method == "Logarithmic":
             self._initial_c = self._c
 
         # initialize minimum C if it's not initialized
-        if "Minimum-C" not in params:
-            self._min_c = initialize_min_C(self._initialize_method_min_c)
+        if self._min_c is None:
+            self._min_c = self._initialize_min_C()
 
     # _get_random_neighbor:  get a random, admissible, neighbor
     #----------------------------------------------------------------------------------------------
@@ -253,9 +259,9 @@ class SimulatedAnnealing:
         """
         # Get Neighbors of the current solution
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        neighborhood = get_neighbors(
+        neighborhood = self._get_neighbors(
             solution = self._solution,
-            neighbor = self._neighbor,
+            problem = self._problem_instance,
             neighborhood_size = self._neighborhood_size
             )
 
@@ -299,7 +305,7 @@ class SimulatedAnnealing:
 
             else:
                 rand_number = uniform(0,1)
-                prob = np.exp(-abs(neighbor.fitness-solution.fitness)/c)
+                prob = np.exp(-abs(self._neighbor.fitness-self._solution.fitness)/self._c)
                 
                 if rand_number <= prob:
                     self._solution = self._neighbor
@@ -308,14 +314,14 @@ class SimulatedAnnealing:
         """
         Stops when the maximum number of internal iterations is achieved
         """
-        if self._internal_iteration < self._max_internal_iterations:
+        if self._internal_iteration >= self._max_internal_iterations:
             self._internal_searching = False
 
     def _external_stop_condition(self):
         """
         Stops when the maximum number of external iterations is achieved or when C is smaller than the minimum C
         """
-        if self._external_iteration < self._max_external_iterations or self._c < self._min_c:
+        if self._external_iteration >= self._max_external_iterations or self._c < self._min_c:
             self._external_searching = False
 
     def _update_C(self):
@@ -326,8 +332,8 @@ class SimulatedAnnealing:
             self._c *= self._rate
         if self._update_method == "Linear":
             self._c -= self._rate
-        else:
-            self._c = self._initial_c / math.log(self._external_iteration)
+        elif self._update_method == "Logarithmic":
+            self._c = self._initial_c / math.log(self._external_iteration+1)
 
     def _initialize_C(self):
         """
@@ -390,7 +396,7 @@ class SimulatedAnnealing:
 
         self._state = {
             "internal_iteration" : self._internal_iteration,
-            "external_iteration" : self._external_iteration
+            "external_iteration" : self._external_iteration,
             "message"            : message,
             "neighbor"           : self._neighbor,
             "neighbors"          : neighbors

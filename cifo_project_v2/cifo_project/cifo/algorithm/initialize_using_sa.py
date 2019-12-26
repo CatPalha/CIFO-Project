@@ -1,4 +1,5 @@
 from cifo.algorithm.simulated_annealing import SimulatedAnnealing
+from cifo.problem.population import Population
 
 def initialize_using_sa( problem, population_size, params={} ):
     """
@@ -37,7 +38,6 @@ def initialize_using_sa( problem, population_size, params={} ):
         problem.evaluate_solution ( s )
         
         solution_list.append( s )
-        print(solution_list)
 
     population = Population( 
         problem = problem , 
