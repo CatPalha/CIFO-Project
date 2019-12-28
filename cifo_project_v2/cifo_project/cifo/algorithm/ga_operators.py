@@ -1,4 +1,4 @@
-from random import uniform, randint, choice
+from random import uniform, randint, choice, sample
 from copy import deepcopy
 
 from cifo.problem.objective import ProblemObjective
@@ -191,8 +191,6 @@ class RouletteWheelSelection:
     # we added objective as an argument
     def _select_index(self, population, objective ):
         # We changed this whole function by creating fitness_list
-        # for solution in population.solutions:
-            # print(solution)
 
         fitness_list = [solution.fitness for solution in population.solutions]
 
@@ -344,8 +342,14 @@ def pmx_crossover( problem, solution1, solution2):
     solution_1 = solution1.representation
     solution_2 = solution2.representation
 
-    firstCrossPoint = np.random.randint(0,len(solution_1)-2)
-    secondCrossPoint = np.random.randint(firstCrossPoint+1,len(solution_1)-1)
+    point1 = randint( 0, len( solution )-1 )
+    point2 = point1
+
+    while point1 == point2:
+        point2 = randint( 0, len( solution )-1 )
+
+    firstCrossPoint = min(point1,point2)
+    secondCrossPoint = max(point1,point2)
     
     parent1MiddleCross = solution_1[firstCrossPoint:secondCrossPoint]
     parent2MiddleCross = solution_2[firstCrossPoint:secondCrossPoint]
@@ -455,6 +459,112 @@ def cycle_crossover(problem, solution1, solution2):
 
     return child_1, child_2
 
+def n_point_crossover( problem, solution1, solution2):
+    n_points_choice = []
+
+    for i in range(0, len(solution1.representation)):
+        n_points_choice.append(choice([0,1]))
+
+    n_points = []
+
+    for i in range(0, len(solution1.representation)):
+        if n_points_choice[i] == 1:
+            n_points.append(i)
+
+    offspring1 = deepcopy(solution1) #solution1.clone()
+    offspring2 = deepcopy(solution2) #.clone()
+
+    for j in n_points:
+        ind = n_points.index(j)
+        if ind % 2 == 0:
+            if ind < len(n_points)-1:
+                j2 = n_points[ind+1]
+            else:
+                j2 = len(solution1.representation)
+
+            for i in range(j, n_points[ind+1]):
+                offspring1.representation[i] = solution2.representation[i]
+                offspring2.representation[i] = solution1.representation[i]
+
+    return offspring1, offspring2
+
+def order_1_crossover(problem, solution1, solution2):
+    solution_1 = solution1.representation
+    solution_2 = solution2.representation
+
+    point1 = randint( 0, len( solution_1 )-1 )
+    point2 = point1
+
+    while point1 == point2:
+        point2 = randint( 0, len( solution_1 )-1 )
+
+    firstCrossPoint = min(point1,point2)
+    secondCrossPoint = max(point1,point2)
+    
+    parent1MiddleCross = solution_1[firstCrossPoint:secondCrossPoint]
+    parent2MiddleCross = solution_2[firstCrossPoint:secondCrossPoint]
+
+    order_1 = []
+    
+    for i in solution_2[secondCrossPoint:]:
+        if i not in parent1MiddleCross:
+            order_1.append(i)
+
+    for i in solution_2[:secondCrossPoint]:
+        if i not in parent1MiddleCross:
+            order_1.append(i)
+
+    order_2 = []
+    
+    for i in solution_1[secondCrossPoint:]:
+        if i not in parent2MiddleCross:
+            order_2.append(i)
+
+    for i in solution_1[:secondCrossPoint]:
+        if i not in parent2MiddleCross:
+            order_2.append(i)
+
+    child1 = [None] * len(solution_1)
+    child2 = [None] * len(solution_1)
+
+    for i in range(firstCrossPoint, secondCrossPoint):
+        child1[i] = solution_1[i]
+        child2[i] = solution_2[i]
+
+    j = 0
+    for i in range(secondCrossPoint, len(solution_1)):
+        child1[i] = order_1[j]
+        child2[i] = order_2[j]
+
+        j += 1
+
+    for i in range(0, firstCrossPoint):
+        child1[i] = order_1[j]
+        child2[i] = order_2[j]
+
+        j += 1
+
+    child_1 = LinearSolution(child1, solution1.encoding_rule)
+    child_2 = LinearSolution(child2, solution1.encoding_rule)
+
+    return child_1,child_2
+
+def uniform_crossover( problem, solution1, solution2):
+    n_points = []
+
+    for i in range(0, len(solution1.representation)):
+        n_points.append(choice([0,1]))
+
+    offspring1 = deepcopy(solution1) #solution1.clone()
+    offspring2 = deepcopy(solution2) #.clone()
+
+    for j in range(0, len(n_points)):
+        if n_points[j] == 1:
+            offspring1.representation[j] = solution2.representation[j]
+            offspring2.representation[j] = solution1.representation[j]
+
+    return offspring1, offspring2
+
 ###################################################################################################
 # MUTATION APPROACHES
 ###################################################################################################
@@ -503,6 +613,96 @@ def swap_mutation( problem, solution):
     solution.representation[point2] = sol_point1
 
     return solution
+
+def insert_mutation( problem, solution):
+    point1 = randint( 0, len( solution.representation )-1 )
+    point2 = point1
+
+    while point1 == point2:
+        point2 = randint( 0, len( solution.representation )-1 )
+    #print(f" >> singlepoint: {singlepoint}")
+
+    point_1 = min(point1,point2)
+    point_2 = max(point1,point2)
+     
+    sol_1 = solution.representation[:point_1+1]
+    sol_2 = solution.representation[point_1+1:]
+    point = solution.representation[point_2]
+    sol_2.remove( point )
+
+    solution.representation = sol_1 + [point] + sol_2
+
+    return solution
+
+def inversion_mutation(problem, solution):
+    point1 = randint( 0, len( solution.representation )-1 )
+    point2 = point1
+
+    while point1 == point2:
+        point2 = randint( 0, len( solution.representation )-1 )
+    #print(f" >> singlepoint: {singlepoint}")
+
+    point_1 = min(point1,point2)
+    point_2 = max(point1,point2)
+
+    middle = solution.representation[point_1:point_2+1]
+
+    sol_1 = solution.representation[:point_1]
+    sol_2 = solution.representation[point_2+1:]
+
+    middle.reverse()
+
+    solution.representation = sol_1 + middle + sol_2
+
+    return solution
+
+def scramble_mutation(problem, solution):
+    point1 = randint( 0, len( solution.representation )-1 )
+    point2 = point1
+
+    while point1 == point2:
+        point2 = randint( 0, len( solution.representation )-1 )
+    #print(f" >> singlepoint: {singlepoint}")
+
+    point_1 = min(point1,point2)
+    point_2 = max(point1,point2)
+
+    middle = solution.representation[point_1:point_2+1]
+
+    sol_1 = solution.representation[:point_1]
+    sol_2 = solution.representation[point_2+1:]
+
+    middle = sample(middle, len(middle))
+
+    solution.representation = sol_1 + middle + sol_2
+
+    return solution
+
+def uniform_crossover( problem, solution):
+    n_points = []
+
+    for i in range(0, len(solution.representation)):
+        n_points.append(choice([0,1]))
+    
+    encoding = problem.encoding
+
+    if encoding.encoding_type == EncodingDataType.choices :
+        try:
+            for i in range(0, len(n_points)):
+                temp = deepcopy( encoding.encoding_data )
+                n = n_points[i]
+
+                if n == 1:
+                    temp.pop( solution.representation[ i ] )
+
+                    gene = temp[0]
+                    if len(temp) > 1 : gene = choice( temp )  
+
+                    solution.representation[ i ] = gene
+
+            return solution
+        except:
+            print('(!) Error: singlepoint mutation encoding.data issues)' )
 
 ###################################################################################################
 # REPLACEMENT APPROACHES
