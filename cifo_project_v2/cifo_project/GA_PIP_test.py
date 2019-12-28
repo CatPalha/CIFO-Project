@@ -5,7 +5,8 @@ from cifo.algorithm.ga_operators import (initialize_randomly,
     RankSelection, RouletteWheelSelection, TournamentSelection, 
     singlepoint_crossover, pmx_crossover, cycle_crossover,
     single_point_mutation, swap_mutation, 
-    standard_replacement, elitism_replacement
+    standard_replacement, elitism_replacement,
+    initialize_using_hc, initialize_using_sa
 )
 
 import pandas as pd
@@ -50,31 +51,40 @@ params = {
     "Crossover-Probability"     : 0.8,
     "Mutation-Probability"      : 0.5,
     
-    "Initialization-Approach"   : initialize_randomly,
-    "Selection-Approach"        : RankSelection(),
+    "Initialization-Approach"   : initialize_using_sa,
+    "Selection-Approach"        : RouletteWheelSelection(),
     "Tournament-Size"           : 5,
-    "Crossover-Approach"        : pmx_crossover,
-    "Mutation-Aproach"          : swap_mutation,
-    "Replacement-Approach"      : standard_replacement
+    "Crossover-Approach"        : singlepoint_crossover,
+    "Mutation-Aproach"          : single_point_mutation,
+    "Replacement-Approach"      : elitism_replacement
 }
 
+sa_init_params = {
+    "Maximum-Internal-Iterations" : 5,
+    "Maximum-Iterations" : 10,
+    "Initial-C" : 10,
+    "Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Neighborhood-Size" : 5
+}
 
+"""
 solution = GeneticAlgorithm(
     problem_instance = pip
 )
+"""
 
-"""
 solution = GeneticAlgorithm(
-    problem_instance = tsp,
-    params = params
+    problem_instance = pip,
+    params = params,
+    init_params = sa_init_params
 )
-"""
 
 import matplotlib.pyplot as plt
 
 fit = []
 for i in range(1,20):
-    print(i)
     print(solution.search())
     fit.append(solution.search().fitness)
 
