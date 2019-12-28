@@ -482,7 +482,7 @@ def n_point_crossover( problem, solution1, solution2):
             else:
                 j2 = len(solution1.representation)
 
-            for i in range(j, n_points[ind+1]):
+            for i in range(j, j2):
                 offspring1.representation[i] = solution2.representation[i]
                 offspring2.representation[i] = solution1.representation[i]
 
@@ -678,7 +678,7 @@ def scramble_mutation(problem, solution):
 
     return solution
 
-def uniform_crossover( problem, solution):
+def uniform_mutation( problem, solution):
     n_points = []
 
     for i in range(0, len(solution.representation)):

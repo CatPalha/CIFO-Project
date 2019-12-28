@@ -1,12 +1,14 @@
 from cifo.algorithm.genetic_algorithm import GeneticAlgorithm
 from cifo.custom_problem.travel_salesman_problem import TravelSalesmanProblem
 
-from cifo.algorithm.ga_operators import (initialize_randomly, 
+from cifo.algorithm.ga_operators import (
+    initialize_randomly, initialize_using_hc, initialize_using_sa,
     RankSelection, RouletteWheelSelection, TournamentSelection, 
     singlepoint_crossover, pmx_crossover, cycle_crossover,
-    single_point_mutation, swap_mutation, 
+    n_point_crossover, uniform_crossover, order_1_crossover,
+    single_point_mutation, swap_mutation, insert_mutation,
+    inversion_mutation, scramble_mutation, uniform_mutation,
     standard_replacement, elitism_replacement,
-    initialize_using_hc, initialize_using_sa
 )
 
 data = [
@@ -50,7 +52,7 @@ params = {
     "Crossover-Probability"     : 0.8,
     "Mutation-Probability"      : 0.5,
     
-    "Initialization-Approach"   : initialize_using_sa,
+    "Initialization-Approach"   : initialize_randomly,
     "Selection-Approach"        : RouletteWheelSelection(),
     "Tournament-Size"           : 5,
     "Crossover-Approach"        : singlepoint_crossover,
@@ -82,8 +84,7 @@ solution = GeneticAlgorithm(
 
 solution = GeneticAlgorithm(
     problem_instance = tsp,
-    params = params,
-    init_params = sa_init_params
+    params = params
 )
 
 import matplotlib.pyplot as plt
