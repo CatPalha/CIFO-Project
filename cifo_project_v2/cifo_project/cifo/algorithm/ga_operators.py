@@ -78,13 +78,15 @@ def initialize_using_hc( problem, population_size, params={} ):
     # we need to do this since the neighborhood functions are specific to the type of problem and they're not
     # part of the problem class
     if problem.name == "Travel Salesman Problem":
-        from cifo.custom_problem.travel_salesman_problem import pip_bitflip_get_neighbors
+        from cifo.custom_problem.travel_salesman_problem import tsp_bitflip_get_neighbors as neighborhood_function
     elif problem.name == "Portfolio Investment Problem":
-        from cifo.custom_problem.portfolio_investment_problem import pip_bitflip_get_neighbors
+        from cifo.custom_problem.portfolio_investment_problem import pip_bitflip_get_neighbors as neighborhood_function
+    elif problem.name == "Knapsack Problem":
+        from cifo.custom_problem.knapsack_problem import knapsack_bitflip_get_neighbors as neighborhood_function
 
     hc = HillClimbing(
         problem_instance = problem,
-        neighborhood_function = pip_bitflip_get_neighbors,
+        neighborhood_function = neighborhood_function,
         params = params
         )
 
@@ -129,9 +131,11 @@ def initialize_using_sa( problem, population_size, params={} ):
     # we need to do this since the neighborhood functions are specific to the type of problem and they're not
     # part of the problem class
     if problem.name == "Travel Salesman Problem":
-        from cifo.custom_problem.travel_salesman_problem import pip_bitflip_get_neighbors
+        from cifo.custom_problem.travel_salesman_problem import tsp_bitflip_get_neighbors as neighborhood_function
     elif problem.name == "Portfolio Investment Problem":
-        from cifo.custom_problem.portfolio_investment_problem import pip_bitflip_get_neighbors
+        from cifo.custom_problem.portfolio_investment_problem import pip_bitflip_get_neighbors as neighborhood_function
+    elif problem.name == "Knapsack Problem":
+        from cifo.custom_problem.knapsack_problem import knapsack_bitflip_get_neighbors as neighborhood_function
 
     sa = SimulatedAnnealing(
         problem_instance = problem,
@@ -176,9 +180,11 @@ def initialize_using_ts( problem, population_size, params={} ):
     # we need to do this since the neighborhood functions are specific to the type of problem and they're not
     # part of the problem class
     if problem.name == "Travel Salesman Problem":
-        from cifo.custom_problem.travel_salesman_problem import pip_bitflip_get_neighbors
+        from cifo.custom_problem.travel_salesman_problem import tsp_bitflip_get_neighbors as neighborhood_function
     elif problem.name == "Portfolio Investment Problem":
-        from cifo.custom_problem.portfolio_investment_problem import pip_bitflip_get_neighbors
+        from cifo.custom_problem.portfolio_investment_problem import pip_bitflip_get_neighbors as neighborhood_function
+    elif problem.name == "Knapsack Problem":
+        from cifo.custom_problem.knapsack_problem import knapsack_bitflip_get_neighbors as neighborhood_function
 
     ts = TabuSearch(
         problem_instance = problem,

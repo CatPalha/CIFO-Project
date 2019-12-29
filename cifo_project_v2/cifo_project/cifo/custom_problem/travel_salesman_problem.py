@@ -133,7 +133,7 @@ class TravelSalesmanProblem( ProblemTemplate ):
 # OPTIONAL - it onlu+y is needed if you will implement Local Search Methods
 #            (Hill Climbing and Simulated Annealing)
 # -------------------------------------------------------------------------------------------------
-def pip_bitflip_get_neighbors( solution, problem, neighborhood_size = 0 ):
+def tsp_bitflip_get_neighbors( solution, problem, neighborhood_size = 0 ):
     neighborhood = []
     
     if neighborhood_size == -1:

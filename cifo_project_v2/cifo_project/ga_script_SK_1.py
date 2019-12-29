@@ -122,7 +122,7 @@ params = {
         "Mutation-Probability"      : 0.8,
         # operators / approaches
         "Initialization-Approach"   : initialize_randomly,
-        "Selection-Approach"        : parent_selection.select,
+        "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
         "Crossover-Approach"        : singlepoint_crossover,
         "Mutation-Aproach"          : single_point_mutation,
