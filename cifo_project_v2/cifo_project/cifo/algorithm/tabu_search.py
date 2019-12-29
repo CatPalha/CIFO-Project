@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-# -------------------------------------------------------------------------------------------------
 """
-Hill Climbing Meta-Heuristic
+Tabu Search Meta-Heuristic
 ----------------------------
 
 Content: 
 
-▶ class HillClimbing
+▶ class TabuSearch
 
 ─────────────────────────────────────────────────────────────────────────
 
@@ -20,9 +18,9 @@ from cifo.problem.problem_template import ProblemTemplate
 from cifo.problem.objective import ProblemObjective
 from cifo.util.observer import LocalSearchMessage
 
-class HillClimbing:
+class TabuSearch:
     """
-    Classic Implementation of Hill Climbing with some improvements.
+    Classic Implementation of Tabu Search with some improvements.
 
     Improvements:
     ------------
@@ -32,16 +30,17 @@ class HillClimbing:
     ---------
     1: Initialize
     2: Repeat while exists a better neighbor
-        2.1: Get the best neighbor
-        2.2: Select the best, between the current best and best neighbor    
-        2.3: Check stop conditions 
+        2.1: Get the best neighbor (that doesn't violate tabu conditions)
+        2.2: Save the best, between the current best and best neighbor    
+        2.3: Update tabu memory
+        2.3: Check stop conditions
     3: Return the best solution
     """
     # Constructor
     #----------------------------------------------------------------------------------------------
     def __init__(self, problem_instance, neighborhood_function, feedback = None, params = {} ): 
         """
-        Hill Climbing Constructor
+        Tabu Search Constructor
 
         Parameters:
         -----------
@@ -63,7 +62,9 @@ class HillClimbing:
             1. Classical - Stops, when there is no better neighbor or the number of max iterations was achieved.
             2. Alternative 1 - Stops when the number of max iterations was achieved. It can be good when the neighborhood can be different for the same solution   
 
-            C. "Neighborhood-Size" the size of the neighborhood, the default is -1, which means the neighborhood will return all neighbors found
+            C. "Neighborhood-Size" - the size of the neighborhood, the default is -1, which means the neighborhood will return all neighbors found
+
+            D. "Memory-Size" - the size of the Tabu memory, the default is -1, which means that all solutions are saved in the Tabu memory
         """
         # set
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -74,8 +75,10 @@ class HillClimbing:
         self._feedback          = feedback
         self._observers         = []
         self._iteration         = 0
-        self._solution = None
-        self._neighbor = None
+        self._solution          = None
+        self._neighbor          = None
+        self._tabu_memory       = []
+        self._best_solution     = None
     
         # parse params
         # Default params: 
@@ -107,6 +110,11 @@ class HillClimbing:
         if "Neighborhood-Size" in params: 
             self._neighborhood_size = params["Neighborhood-Size" ]
 
+        # memory size
+        self._memory_size = 0
+        if "Memory-Size" in params: 
+            self._memory_size = params["Memory-Size"]
+
         # Prepare the internal methods for multi-objective / single-objective:
         # Motivation: Avoid in each selection step check if it is multi-single or min/max 
         # (Optimization)
@@ -128,7 +136,7 @@ class HillClimbing:
     #----------------------------------------------------------------------------------------------
     def search(self):
         """
-        Hill ClimbingSearch Method
+        Tabu Search Search Method
         --------------------------
 
         Algorithm:
@@ -136,9 +144,10 @@ class HillClimbing:
 
         1: Initialize
         2: Repeat while exists a better neighbor
-            2.1: Get the best neighbor
-            2.2: Select the best, between the current best and best neighbor    
-            2.3: Check stop conditions 
+            2.1: Get the best neighbor (that doesn't violate tabu conditions)
+            2.2: Save the best, between the current best and best neighbor
+            2.3: Update tabu memory
+            2.4: Check stop conditions
         3: Return the best solution
 
         """
@@ -159,16 +168,21 @@ class HillClimbing:
         self._iteration = 0
         while searching:
             self._iteration += 1
-            # 2.1: Get the best neighbor
+            # 2.1: Get the best neighbor (that doesn't violate tabu conditions)
             self._get_best_neighbor()
-            # 2.2: Select the best, between the current best and best neighbor
-            changed = self._select()
-            # 2.3: Check stop conditions
+            # 2.2: Save the best, between the current best and best neighbor
+            if self._neighbor is not None:            
+                changed = self._select()
+            # 2.3: Update tabu memory
+                self._tabu_memory.append(self._neighbor)
+                if len(self._tabu_memory) > self._memory_size and self._memory_size != -1:
+                    self._tabu_memory.pop(0)
+            # 2.4: Check stop conditions
             searching = self._check_stop_conditions ( changed ) 
         
         #3: Return the best solution
         self._notify(message = "FINISHED")
-        return self._solution
+        return self._best_solution
 
 
     # Initialize:  create an initial solution
@@ -184,8 +198,10 @@ class HillClimbing:
         
         self._problem_instance.evaluate_solution( self._solution, feedback = self._feedback)
 
-        
-        
+        self._best_solution = self._solution
+
+        self._tabu_memory.append(self._solution)
+
     # _get_best_neighbor for maximization
     #----------------------------------------------------------------------------------------------
     def _get_best_neighbor_maximization(self ):
@@ -206,16 +222,17 @@ class HillClimbing:
         for neighbor in neighborhood:
 
             if self._problem_instance.is_admissible( neighbor ):
-                self._problem_instance.evaluate_solution( 
-                    solution =  neighbor, 
-                    feedback = self._feedback
-                    )
+                if neighbor not in self._tabu_memory:
+                    self._problem_instance.evaluate_solution( 
+                        solution =  neighbor, 
+                        feedback = self._feedback
+                        )
 
-                if best_neighbor == None: 
-                    best_neighbor = neighbor
-                else:
-                    if neighbor.fitness >= best_neighbor.fitness:
+                    if best_neighbor == None: 
                         best_neighbor = neighbor
+                    else:
+                        if neighbor.fitness >= best_neighbor.fitness:
+                            best_neighbor = neighbor
         
         self._neighbor = best_neighbor
 
@@ -237,15 +254,15 @@ class HillClimbing:
         # Find the best neighbor in neighborhood of the current solution
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         for neighbor in neighborhood:
-
             if self._problem_instance.is_admissible( neighbor ):
-                self._problem_instance.evaluate_solution( solution = neighbor, feedback = self._feedback)
+                if neighbor not in self._tabu_memory:
+                    self._problem_instance.evaluate_solution( solution = neighbor, feedback = self._feedback)
 
-                if best_neighbor == None: 
-                    best_neighbor = neighbor
-                else:
-                    if neighbor.fitness <= best_neighbor.fitness:
+                    if best_neighbor == None: 
                         best_neighbor = neighbor
+                    else:
+                        if neighbor.fitness <= best_neighbor.fitness:
+                            best_neighbor = neighbor
         
         self._neighbor = best_neighbor
 
@@ -253,14 +270,16 @@ class HillClimbing:
     #----------------------------------------------------------------------------------------------    
     def _select_minimization(self):
         """
-        Select the better solution : MINIMIZATION
+        Save the best solution : MINIMIZATION
         
         Returns: 
-        - solution: The best between them (solution and neighbor)
-        - boolean : If changed the current, returns True else returns False
+        - solution: the neighbor becomes the solution
+        - boolean : If changed the best solution, returns True else returns False
         """
-        if self._neighbor.fitness <= self._solution.fitness:
-            self._solution = self._neighbor
+        self._solution = self._neighbor
+
+        if self._neighbor.fitness <= self._best_solution.fitness:
+            self._best_solution = self._neighbor
             self._notify(message = LocalSearchMessage.ReplacementAccepted) 
             return True
 
@@ -271,14 +290,16 @@ class HillClimbing:
     #----------------------------------------------------------------------------------------------    
     def _select_maximization(self):
         """
-        Select the better solution : MAXIMIZATION
+        Save the best solution : MAXIMIZATION
                 
         Returns: 
-        - solution: The best between them (solution and neighbor)
-        - boolean : If changed the current, returns True else returns False
+        - solution: the neighbor becomes the solution
+        - boolean : If changed the best solution, returns True else returns False
         """
-        if self._neighbor.fitness >= self._solution.fitness:
-            self._solution = self._neighbor
+        self._solution = self._neighbor
+        
+        if self._neighbor.fitness >= self._best_solution.fitness:
+            self._best_solution = self._neighbor
             self._notify(message = LocalSearchMessage.ReplacementAccepted) 
             return True
 
@@ -289,10 +310,10 @@ class HillClimbing:
     #----------------------------------------------------------------------------------------------  
     def _check_classical_stop_conditions( self, changed ):
         """
-        Classical - Stops, when there is no better neighbor or the number of max iterations was achieved.
+        Classical - Stops, when there are no neighbors or the number of max iterations was achieved.
         """
-        searching = changed and (self._iteration < self._max_iterations) 
-        if not changed : 
+        searching = (self._neighbor is not None) and (self._iteration < self._max_iterations) 
+        if not (self._neighbor is not None) : 
             self._notify( message = LocalSearchMessage.StoppedPrematurely )
         elif not searching: 
             self._notify( message = LocalSearchMessage.Stopped )
@@ -300,7 +321,7 @@ class HillClimbing:
             if self._solution.fitness >= self._target_fitness:
                 self._notify( message = LocalSearchMessage.StoppedTargetAchieved )
                 return False
-        return  searching
+        return searching
 
     # _select for maximization
     #----------------------------------------------------------------------------------------------  
@@ -375,6 +396,3 @@ class HillClimbing:
 
         for observer in self._observers:
             observer.update()
-
-
-
