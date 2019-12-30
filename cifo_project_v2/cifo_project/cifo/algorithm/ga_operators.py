@@ -513,6 +513,9 @@ def cycle_crossover(problem, solution1, solution2):
 
     return child_1, child_2
 
+# -------------------------------------------------------------------------------------------------
+# N-point crossover
+# -------------------------------------------------------------------------------------------------
 def n_point_crossover( problem, solution1, solution2):
     n_points_choice = []
 
@@ -542,6 +545,9 @@ def n_point_crossover( problem, solution1, solution2):
 
     return offspring1, offspring2
 
+# -------------------------------------------------------------------------------------------------
+# Order 1 crossover
+# -------------------------------------------------------------------------------------------------
 def order_1_crossover(problem, solution1, solution2):
     solution_1 = solution1.representation
     solution_2 = solution2.representation
@@ -603,6 +609,9 @@ def order_1_crossover(problem, solution1, solution2):
 
     return child_1,child_2
 
+# -------------------------------------------------------------------------------------------------
+# Uniform crossover
+# -------------------------------------------------------------------------------------------------
 def uniform_crossover( problem, solution1, solution2):
     n_points = []
 
@@ -668,6 +677,9 @@ def swap_mutation( problem, solution):
 
     return solution
 
+# -------------------------------------------------------------------------------------------------
+# Insert mutation
+# -----------------------------------------------------------------------------------------------
 def insert_mutation( problem, solution):
     point1 = randint( 0, len( solution.representation )-1 )
     point2 = point1
@@ -688,6 +700,9 @@ def insert_mutation( problem, solution):
 
     return solution
 
+# -------------------------------------------------------------------------------------------------
+# Inversion mutation
+# -----------------------------------------------------------------------------------------------
 def inversion_mutation(problem, solution):
     point1 = randint( 0, len( solution.representation )-1 )
     point2 = point1
@@ -710,6 +725,9 @@ def inversion_mutation(problem, solution):
 
     return solution
 
+# -------------------------------------------------------------------------------------------------
+# Scramble mutation
+# -----------------------------------------------------------------------------------------------
 def scramble_mutation(problem, solution):
     point1 = randint( 0, len( solution.representation )-1 )
     point2 = point1
@@ -732,6 +750,9 @@ def scramble_mutation(problem, solution):
 
     return solution
 
+# -------------------------------------------------------------------------------------------------
+# Uniform mutation
+# -----------------------------------------------------------------------------------------------
 def uniform_mutation( problem, solution):
     n_points = []
 

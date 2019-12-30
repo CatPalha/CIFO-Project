@@ -42,7 +42,7 @@ class GeneticAlgorithmLogger:
             ), 
             columns =['Run', 'Generation', 'Fitness']
         )
-
+        
         if not os.path.exists( log_dir ):
             os.mkdir( log_dir )
 
