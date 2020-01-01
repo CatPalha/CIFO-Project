@@ -178,7 +178,7 @@ class TabuSearch:
                 if len(self._tabu_memory) > self._memory_size and self._memory_size != -1:
                     self._tabu_memory.pop(0)
             # 2.4: Check stop conditions
-            searching = self._check_stop_conditions ( changed ) 
+            searching = self._check_stop_conditions () 
         
         #3: Return the best solution
         self._notify(message = "FINISHED")
@@ -308,7 +308,7 @@ class TabuSearch:
     
     # _check_classical_stop_conditions
     #----------------------------------------------------------------------------------------------  
-    def _check_classical_stop_conditions( self, changed ):
+    def _check_classical_stop_conditions( self ):
         """
         Classical - Stops, when there are no neighbors or the number of max iterations was achieved.
         """
@@ -325,7 +325,7 @@ class TabuSearch:
 
     # _select for maximization
     #----------------------------------------------------------------------------------------------  
-    def _check_alternative1_stop_conditions( self, changed ):
+    def _check_alternative1_stop_conditions( self ):
         """
         Alternative 1 - Stops when the number of max iterations was achieved. It can be good when the neighborhood can be different for the same solution   
         """

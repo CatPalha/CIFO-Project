@@ -11,6 +11,8 @@ from cifo.algorithm.ga_operators import (
     standard_replacement, elitism_replacement, initialize_using_ts
 )
 
+from cifo.custom_problem.travel_salesman_problem import tsp_bitflip_get_neighbors
+
 data = [
     [0, 2451, 713, 1018, 1631, 1374, 2408, 213, 2571, 875, 1420, 2145, 1972],
     [2451, 0, 1745, 1524, 831, 1240, 959, 2596, 403, 1589, 1374, 357, 579],
@@ -63,7 +65,8 @@ params = {
 hc_init_params = {
     "Maximum-Iterations" : 20,
     "Stop-Conditions" : "Alternative-01",
-    "Neighborhood-Size": -1
+    "Neighborhood-Size": -1,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
 }
 
 sa_init_params = {
@@ -73,14 +76,16 @@ sa_init_params = {
     "Minimum-C" : 0.01,
     "Update-Method" : "Geometric",
     "Update-Rate" : 0.9,
-    "Neighborhood-Size" : 5
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
 }
 
 ts_init_params = {
     "Maximum-Iterations" : 20,
     "Stop-Conditions" : "Alternative-01",
     "Neighborhood-Size": -1,
-    "Memory-Size":-1
+    "Memory-Size":-1,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
 }
 
 """

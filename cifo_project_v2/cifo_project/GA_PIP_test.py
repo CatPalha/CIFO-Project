@@ -9,6 +9,8 @@ from cifo.algorithm.ga_operators import (initialize_randomly,
     initialize_using_hc, initialize_using_sa
 )
 
+from cifo.custom_problem.portfolio_investment_problem import pip_bitflip_get_neighbors
+
 import pandas as pd
 
 df = pd.read_excel('C:/Users/Mafalda/CIFO/CIFO-Project/cifo_project_v2/cifo_project/data/sp500.xlsx')
@@ -66,7 +68,8 @@ sa_init_params = {
     "Minimum-C" : 0.01,
     "Update-Method" : "Geometric",
     "Update-Rate" : 0.9,
-    "Neighborhood-Size" : 5
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": pip_bitflip_get_neighbors
 }
 
 """

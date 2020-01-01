@@ -217,7 +217,8 @@ params = {
 hc_init_params = {
     "Maximum-Iterations" : 20,
     "Stop-Conditions" : "Alternative-01",
-    "Neighborhood-Size": 10
+    "Neighborhood-Size": 10,
+    "Neighborhood-Function": pip_bitflip_get_neighbors
 }
 
 log_name = "mp0-8"
