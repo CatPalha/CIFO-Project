@@ -144,7 +144,7 @@ class SimulatedAnnealing:
         if "Update-Method" in params:
             self._update_method = params["Update-Method"]
 
-        self._rate = None
+        self._rate = 0.01
         if "Update-Rate" in params:
             self._rate = params["Update-Rate"]
 
@@ -181,7 +181,8 @@ class SimulatedAnnealing:
         2: Repeat while Control Parameter >= Minimum Control Parameter 
             2.1. Internal Looping
                 2.1.1: Get a random neighbor
-                2.1.2: Select the best, between the current best and current best neighbor
+                2.1.2: Decide whether or not to accept this neighbor and select the best,
+                       between the current best and current neighbor
                 2.1.3: Check stop condition ***
             2.2. Update C (Control Parameter)
             2.3: Check stop condition ***
@@ -211,7 +212,8 @@ class SimulatedAnnealing:
                 self._internal_iteration += 1
                 # 2.1.1: Get a random neighbor
                 self._get_random_neighbor()
-                # 2.1.2: Select the best, between the current best and current best neighbor
+                # 2.1.2: Decide whether or not to accept this neighbor and select the best,
+                #        between the current best and current neighbor
                 self._select()
                 # 2.1.3: Check stop condition
                 self._internal_stop_condition()

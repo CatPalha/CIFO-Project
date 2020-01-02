@@ -379,11 +379,11 @@ def pmx_crossover( problem, solution1, solution2):
     solution_1 = solution1.representation
     solution_2 = solution2.representation
 
-    point1 = randint( 0, len( solution )-1 )
+    point1 = randint( 0, len( solution_1 )-1 )
     point2 = point1
 
     while point1 == point2:
-        point2 = randint( 0, len( solution )-1 )
+        point2 = randint( 0, len( solution_1 )-1 )
 
     firstCrossPoint = min(point1,point2)
     secondCrossPoint = max(point1,point2)

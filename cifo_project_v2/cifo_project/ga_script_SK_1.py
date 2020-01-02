@@ -71,14 +71,14 @@ def plot_performance_chart( df ):
         name='Fair',
     )
 
-    data = [trace1]
+    data = [trace1, trace2, trace3]
     
     layout = go.Layout(
         paper_bgcolor='rgb(255,255,255)',
         plot_bgcolor='rgb(229,229,229)',
         xaxis=dict(
             gridcolor='rgb(255,255,255)',
-            range=[1,10],
+            range=[0,1000],
             showgrid=True,
             showline=False,
             showticklabels=True,
@@ -196,22 +196,22 @@ pip = PortfolioInvestmentProblem(
 # Configuration
 #--------------------------------------------------------------------------------------------------
 # parent selection object
-parent_selection = TournamentSelection()
-#parent_selection = RouletteWheelSelection()
+#parent_selection = TournamentSelection()
+parent_selection = RouletteWheelSelection()
 
 params = {
         # params
-        "Population-Size"           : 10,
-        "Number-of-Generations"     : 10,
+        "Population-Size"           : 20,
+        "Number-of-Generations"     : 1000,
         "Crossover-Probability"     : 0.8,
-        "Mutation-Probability"      : 0.8,
+        "Mutation-Probability"      : 0.5,
         # operators / approaches
-        "Initialization-Approach"   : initialize_using_hc,
+        "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : singlepoint_crossover,
-        "Mutation-Aproach"          : single_point_mutation,
-        "Replacement-Approach"      : elitism_replacement
+        "Crossover-Approach"        : pmx_crossover,
+        "Mutation-Aproach"          : swap_mutation,
+        "Replacement-Approach"      : standard_replacement
     }
 
 hc_init_params = {
@@ -236,9 +236,9 @@ for run in range(1,number_of_runs + 1):
         # log_name = log_name )
 
     ga = GeneticAlgorithm( 
-        problem_instance = pip,
+        problem_instance = tsp,
         params =  params,
-        init_params = hc_init_params,
+        # init_params = hc_init_params,
         run = run,
         log_name = log_name )
     
