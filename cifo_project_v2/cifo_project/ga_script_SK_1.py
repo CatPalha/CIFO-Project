@@ -189,7 +189,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
         #name='Fair',
     #)
     
-    data = [trace0, trace1, trace3, trace4, trace5, trace6, trace7, trace8, trace9, trace10]
+    data = [trace0, trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8, trace9, trace10]
     
     layout = go.Layout(
         paper_bgcolor='rgb(255,255,255)',
@@ -1333,17 +1333,17 @@ if not path.exists( log_dir10 ):
 df10.to_excel( log_dir10 + "/all.xlsx", index = False, encoding = 'utf-8' )
 
 
-print("Cycle Crossover with probability 0.0:", df0["Fitness_Mean"].loc["Generation" == 250])
-print("Cycle Crossover with probability 0.1:", df1["Fitness_Mean"].loc["Generation" == 250])
-print("Cycle Crossover with probability 0.2:", df2["Fitness_Mean"].loc["Generation" == 250])
-print("Cycle Crossover with probability 0.3:", df3["Fitness_Mean"].loc["Generation" == 250])
-print("Cycle Crossover with probability 0.4:", df4["Fitness_Mean"].loc["Generation" == 250])
-print("Cycle Crossover with probability 0.5:", df5["Fitness_Mean"].loc["Generation" == 250])
-print("Cycle Crossover with probability 0.6:", df6["Fitness_Mean"].loc["Generation" == 250])
-print("Cycle Crossover with probability 0.7:", df7["Fitness_Mean"].loc["Generation" == 250])
-print("Cycle Crossover with probability 0.8:", df8["Fitness_Mean"].loc["Generation" == 250])
-print("Cycle Crossover with probability 0.9:", df9["Fitness_Mean"].loc["Generation" == 250])
-print("Cycle Crossover with probability 1.0:", df10["Fitness_Mean"].loc["Generation" == 250])
+print("Cycle Crossover with probability 0.0:", df0["Fitness_Mean"].loc[df0["Generation"] == 250])
+print("Cycle Crossover with probability 0.1:", df1["Fitness_Mean"].loc[df1["Generation"] == 250])
+print("Cycle Crossover with probability 0.2:", df2["Fitness_Mean"].loc[df2["Generation"] == 250])
+print("Cycle Crossover with probability 0.3:", df3["Fitness_Mean"].loc[df3["Generation"] == 250])
+print("Cycle Crossover with probability 0.4:", df4["Fitness_Mean"].loc[df4["Generation"] == 250])
+print("Cycle Crossover with probability 0.5:", df5["Fitness_Mean"].loc[df5["Generation"] == 250])
+print("Cycle Crossover with probability 0.6:", df6["Fitness_Mean"].loc[df6["Generation"] == 250])
+print("Cycle Crossover with probability 0.7:", df7["Fitness_Mean"].loc[df7["Generation"] == 250])
+print("Cycle Crossover with probability 0.8:", df8["Fitness_Mean"].loc[df8["Generation"] == 250])
+print("Cycle Crossover with probability 0.9:", df9["Fitness_Mean"].loc[df9["Generation"] == 250])
+print("Cycle Crossover with probability 1.0:", df10["Fitness_Mean"].loc[df10["Generation"] == 250])
 
 plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 )
 
