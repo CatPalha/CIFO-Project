@@ -562,6 +562,249 @@ hc_init_params_10 = {
     "Neighborhood-Function": neighborhood_function
 }
 """
+
+sa_init_params0 = {
+    "Maximum-Internal-Iterations" : 5,
+    "Maximum-Iterations" : 10,
+    #"Initial-C" : 200,
+    #"Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Initialize-Method-C" : "Classical",
+    "Initialize-Method-Minimum-C" : "Classical",
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+sa_init_params1 = {
+    "Maximum-Internal-Iterations" : 10,
+    "Maximum-Iterations" : 10,
+    #"Initial-C" : 200,
+    #"Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Initialize-Method-C" : "Classical",
+    "Initialize-Method-Minimum-C" : "Classical",
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+sa_init_params2 = {
+    "Maximum-Internal-Iterations" : 20,
+    "Maximum-Iterations" : 10,
+    #"Initial-C" : 200,
+    #"Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Initialize-Method-C" : "Classical",
+    "Initialize-Method-Minimum-C" : "Classical",
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+sa_init_params3 = {
+    "Maximum-Internal-Iterations" : 30,
+    "Maximum-Iterations" : 10,
+    #"Initial-C" : 200,
+    #"Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Initialize-Method-C" : "Classical",
+    "Initialize-Method-Minimum-C" : "Classical",
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+sa_init_params4 = {
+    "Maximum-Internal-Iterations" : 40,
+    "Maximum-Iterations" : 10,
+    #"Initial-C" : 200,
+    #"Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Initialize-Method-C" : "Classical",
+    "Initialize-Method-Minimum-C" : "Classical",
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+sa_init_params5 = {
+    "Maximum-Internal-Iterations" : 50,
+    "Maximum-Iterations" : 10,
+    #"Initial-C" : 200,
+    #"Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Initialize-Method-C" : "Classical",
+    "Initialize-Method-Minimum-C" : "Classical",
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+sa_init_params6 = {
+    "Maximum-Internal-Iterations" : 60,
+    "Maximum-Iterations" : 10,
+    #"Initial-C" : 200,
+    #"Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Initialize-Method-C" : "Classical",
+    "Initialize-Method-Minimum-C" : "Classical",
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+sa_init_params7 = {
+    "Maximum-Internal-Iterations" : 70,
+    "Maximum-Iterations" : 10,
+    #"Initial-C" : 200,
+    #"Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Initialize-Method-C" : "Classical",
+    "Initialize-Method-Minimum-C" : "Classical",
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+sa_init_params8 = {
+    "Maximum-Internal-Iterations" : 80,
+    "Maximum-Iterations" : 10,
+    #"Initial-C" : 200,
+    #"Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Initialize-Method-C" : "Classical",
+    "Initialize-Method-Minimum-C" : "Classical",
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+sa_init_params9 = {
+    "Maximum-Internal-Iterations" : 90,
+    "Maximum-Iterations" : 10,
+    #"Initial-C" : 200,
+    #"Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Initialize-Method-C" : "Classical",
+    "Initialize-Method-Minimum-C" : "Classical",
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+sa_init_params10 = {
+    "Maximum-Internal-Iterations" : 100,
+    "Maximum-Iterations" : 10,
+    #"Initial-C" : 200,
+    #"Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Initialize-Method-C" : "Classical",
+    "Initialize-Method-Minimum-C" : "Classical",
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+ts_init_params0 = {
+    "Maximum-Iterations" : 10,
+    "Stop-Conditions" : "Classical",
+    #"Target-Fitness"
+    "Neighborhood-Size": 5,
+    "Memory-Size": 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+ts_init_params1 = {
+    "Maximum-Iterations" : 20,
+    "Stop-Conditions" : "Classical",
+    #"Target-Fitness"
+    "Neighborhood-Size": 5,
+    "Memory-Size": 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+ts_init_params2 = {
+    "Maximum-Iterations" : 30,
+    "Stop-Conditions" : "Classical",
+    #"Target-Fitness"
+    "Neighborhood-Size": 5,
+    "Memory-Size": 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+ts_init_params3 = {
+    "Maximum-Iterations" : 40,
+    "Stop-Conditions" : "Classical",
+    #"Target-Fitness"
+    "Neighborhood-Size": 5,
+    "Memory-Size": 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+ts_init_params4 = {
+    "Maximum-Iterations" : 50,
+    "Stop-Conditions" : "Classical",
+    #"Target-Fitness"
+    "Neighborhood-Size": 5,
+    "Memory-Size": 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+ts_init_params5 = {
+    "Maximum-Iterations" : 60,
+    "Stop-Conditions" : "Classical",
+    #"Target-Fitness"
+    "Neighborhood-Size": 5,
+    "Memory-Size": 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+ts_init_params6 = {
+    "Maximum-Iterations" : 70,
+    "Stop-Conditions" : "Classical",
+    #"Target-Fitness"
+    "Neighborhood-Size": 5,
+    "Memory-Size": 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+ts_init_params7 = {
+    "Maximum-Iterations" : 80,
+    "Stop-Conditions" : "Classical",
+    #"Target-Fitness"
+    "Neighborhood-Size": 5,
+    "Memory-Size": 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+ts_init_params8 = {
+    "Maximum-Iterations" : 90,
+    "Stop-Conditions" : "Classical",
+    #"Target-Fitness"
+    "Neighborhood-Size": 5,
+    "Memory-Size": 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+ts_init_params9 = {
+    "Maximum-Iterations" : 100,
+    "Stop-Conditions" : "Classical",
+    #"Target-Fitness"
+    "Neighborhood-Size": 5,
+    "Memory-Size": 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+"""
+ts_init_params10 = {
+    "Maximum-Iterations" : 10,
+    "Stop-Conditions" : "Classical",
+    #"Target-Fitness"
+    "Neighborhood-Size": 5,
+    "Memory-Size": 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+"""
 log_name0 = "mp0-8_0"
 log_name1 = "mp0-8_1"
 log_name2 = "mp0-8_2"

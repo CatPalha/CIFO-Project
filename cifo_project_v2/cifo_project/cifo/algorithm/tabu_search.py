@@ -101,7 +101,8 @@ class TabuSearch:
             self._check_stop_conditions = self._check_alternative1_stop_conditions
         
         self._target_fitness = None
-        if "Target-Fitness" in params: self._target_fitness = params["Target-Fitness" ]
+        if "Target-Fitness" in params:
+            self._target_fitness = params["Target-Fitness" ]
 
         self._description = f"Maximum-Iterations: {self._max_iterations} | Stop-Condition: {self._stop_condition_approach} "
 

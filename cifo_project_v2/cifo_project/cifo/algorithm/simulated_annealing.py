@@ -144,7 +144,7 @@ class SimulatedAnnealing:
         if "Update-Method" in params:
             self._update_method = params["Update-Method"]
 
-        self._rate = 0.01
+        self._rate = 0.9
         if "Update-Rate" in params:
             self._rate = params["Update-Rate"]
 
