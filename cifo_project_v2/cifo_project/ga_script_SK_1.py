@@ -29,56 +29,174 @@ from random import randint
 
 import pandas as pd
 
-def plot_performance_chart( df ):
+def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
     import plotly.graph_objects as go
     import plotly.express as px
     from plotly.subplots import make_subplots
 
-    x = df["Generation"] 
-    x_rev = x[::-1]
-    y1 = df["Fitness_Mean"] 
-    y1_upper = df["Fitness_Lower"]
-    y1_lower = df["Fitness_Upper"]
+    x0 = df0["Generation"] 
+    x_rev0 = x0[::-1]
+    y1_0 = df0["Fitness_Mean"] 
+    #y1_upper = df["Fitness_Lower"]
+    #y1_lower = df["Fitness_Upper"]
+    
+    x1 = df1["Generation"] 
+    x_rev1 = x1[::-1]
+    y1_1 = df1["Fitness_Mean"] 
+    
+    x2 = df2["Generation"] 
+    x_rev2 = x2[::-1]
+    y1_2 = df2["Fitness_Mean"] 
+    
+    x3 = df3["Generation"] 
+    x_rev3 = x3[::-1]
+    y1_3 = df3["Fitness_Mean"] 
+    
+    x4 = df4["Generation"] 
+    x_rev4 = x4[::-1]
+    y1_4 = df4["Fitness_Mean"] 
 
+    x5 = df5["Generation"] 
+    x_rev5 = x5[::-1]
+    y1_5 = df5["Fitness_Mean"] 
 
+    x6 = df6["Generation"] 
+    x_rev6 = x6[::-1]
+    y1_6 = df6["Fitness_Mean"] 
 
+    x7 = df7["Generation"] 
+    x_rev7 = x7[::-1]
+    y1_7 = df7["Fitness_Mean"] 
+
+    x8 = df8["Generation"] 
+    x_rev8 = x8[::-1]
+    y1_8 = df8["Fitness_Mean"] 
+    
+    x9 = df9["Generation"] 
+    x_rev9 = x9[::-1]
+    y1_9 = df9["Fitness_Mean"] 
+        
+    x10 = df10["Generation"] 
+    x_rev10 = x10[::-1]
+    y1_10 = df10["Fitness_Mean"] 
+    
     # line
-    trace1 = go.Scatter(
-        x = x,
-        y = y1,
-        line=dict(color='rgb(0,100,80)'),
+    trace0 = go.Scatter(
+        x = x0,
+        y = y1_0,
+        line=dict(color='rgb(255,0,0)'),
         mode='lines',
-        name='Fair',
+        name='0.0',
     )
-
+    
+    trace1 = go.Scatter(
+        x = x1,
+        y = y1_1,
+        line=dict(color='rgb(255,128,0)'),
+        mode='lines',
+        name='0.1',
+    )
+    
     trace2 = go.Scatter(
-        x = x,
-        y = y1_upper,
-        fill='tozerox',
-        fillcolor='rgba(0,100,80,0.2)',
-        line=dict(color='rgba(255,255,255,0)'),
-        showlegend=False,
-        name='Fair',
+        x = x2,
+        y = y1_2,
+        line=dict(color='rgb(255,255,0)'),
+        mode='lines',
+        name='0.2',
     )
-
+    
     trace3 = go.Scatter(
-        x = x,
-        y = y1_lower,
-        fill='tozerox',
-        fillcolor='rgba(0,100,80,0.2)',
-        line=dict(color='rgba(255,255,255,0)'),
-        showlegend=False,
-        name='Fair',
+        x = x3,
+        y = y1_3,
+        line=dict(color='rgb(128,255,0)'),
+        mode='lines',
+        name='0.3',
+    )
+    
+    trace4 = go.Scatter(
+        x = x4,
+        y = y1_4,
+        line=dict(color='rgb(0,255,0)'),
+        mode='lines',
+        name='0.4',
     )
 
-    data = [trace1, trace2, trace3]
+    trace5 = go.Scatter(
+        x = x5,
+        y = y1_5,
+        line=dict(color='rgb(0,255,128)'),
+        mode='lines',
+        name='0.5',
+    )
+
+    trace6 = go.Scatter(
+        x = x6,
+        y = y1_6,
+        line=dict(color='rgb(0,255,255)'),
+        mode='lines',
+        name='0.6',
+    )
+
+    trace7 = go.Scatter(
+        x = x7,
+        y = y1_7,
+        line=dict(color='rgb(0,128,255)'),
+        mode='lines',
+        name='0.7',
+    )
+
+    trace8 = go.Scatter(
+        x = x8,
+        y = y1_8,
+        line=dict(color='rgb(0,0,255)'),
+        mode='lines',
+        name='0.8',
+    )
+    
+    trace9 = go.Scatter(
+        x = x9,
+        y = y1_9,
+        line=dict(color='rgb(128,0,255)'),
+        mode='lines',
+        name='0.9',
+    )
+    
+    trace10 = go.Scatter(
+        x = x10,
+        y = y1_10,
+        line=dict(color='rgb(255,0,255)'),
+        mode='lines',
+        name='1.0',
+    )
+    
+    #trace2 = go.Scatter(
+        #x = x,
+        #y = y1_upper,
+        #fill='tozerox',
+        #fillcolor='rgba(0,100,80,0.2)',
+        #line=dict(color='rgba(255,255,255,0)'),
+        #showlegend=False,
+        #name='Fair',
+    #)
+
+    #trace3 = go.Scatter(
+        #x = x,
+        #y = y1_lower,
+        #fill='tozerox',
+        #fillcolor='rgba(0,100,80,0.2)',
+        #line=dict(color='rgba(255,255,255,0)'),
+        #showlegend=False,
+        #name='Fair',
+    #)
+    
+    data = [trace0, trace1, trace3, trace4, trace5, trace6, trace7, trace8, trace9, trace10]
     
     layout = go.Layout(
         paper_bgcolor='rgb(255,255,255)',
         plot_bgcolor='rgb(229,229,229)',
         xaxis=dict(
             gridcolor='rgb(255,255,255)',
-            range=[0,1000],
+            range=[0,250],
             showgrid=True,
             showline=False,
             showticklabels=True,
@@ -199,29 +317,262 @@ pip = PortfolioInvestmentProblem(
 #parent_selection = TournamentSelection()
 parent_selection = RouletteWheelSelection()
 
-params = {
+params0 = {
         # params
         "Population-Size"           : 20,
-        "Number-of-Generations"     : 1000,
+        "Number-of-Generations"     : 250,
+        "Crossover-Probability"     : 0.0,
+        "Mutation-Probability"      : 0.5,
+        # operators / approaches
+        "Initialization-Approach"   : initialize_randomly,
+        "Selection-Approach"        : parent_selection,
+        "Tournament-Size"           : 5,
+        "Crossover-Approach"        : cycle_crossover,
+        "Mutation-Aproach"          : swap_mutation,
+        "Replacement-Approach"      : elitism_replacement
+    }
+
+params1 = {
+        # params
+        "Population-Size"           : 20,
+        "Number-of-Generations"     : 250,
+        "Crossover-Probability"     : 0.1,
+        "Mutation-Probability"      : 0.5,
+        # operators / approaches
+        "Initialization-Approach"   : initialize_randomly,
+        "Selection-Approach"        : parent_selection,
+        "Tournament-Size"           : 5,
+        "Crossover-Approach"        : cycle_crossover,
+        "Mutation-Aproach"          : swap_mutation,
+        "Replacement-Approach"      : elitism_replacement
+    }
+
+params2 = {
+        # params
+        "Population-Size"           : 20,
+        "Number-of-Generations"     : 250,
+        "Crossover-Probability"     : 0.2,
+        "Mutation-Probability"      : 0.5,
+        # operators / approaches
+        "Initialization-Approach"   : initialize_randomly,
+        "Selection-Approach"        : parent_selection,
+        "Tournament-Size"           : 5,
+        "Crossover-Approach"        : cycle_crossover,
+        "Mutation-Aproach"          : swap_mutation,
+        "Replacement-Approach"      : elitism_replacement
+    }
+
+params3 = {
+        # params
+        "Population-Size"           : 20,
+        "Number-of-Generations"     : 250,
+        "Crossover-Probability"     : 0.3,
+        "Mutation-Probability"      : 0.5,
+        # operators / approaches
+        "Initialization-Approach"   : initialize_randomly,
+        "Selection-Approach"        : parent_selection,
+        "Tournament-Size"           : 5,
+        "Crossover-Approach"        : cycle_crossover,
+        "Mutation-Aproach"          : swap_mutation,
+        "Replacement-Approach"      : elitism_replacement
+    }
+
+params4 = {
+        # params
+        "Population-Size"           : 20,
+        "Number-of-Generations"     : 250,
+        "Crossover-Probability"     : 0.4,
+        "Mutation-Probability"      : 0.5,
+        # operators / approaches
+        "Initialization-Approach"   : initialize_randomly,
+        "Selection-Approach"        : parent_selection,
+        "Tournament-Size"           : 5,
+        "Crossover-Approach"        : cycle_crossover,
+        "Mutation-Aproach"          : swap_mutation,
+        "Replacement-Approach"      : elitism_replacement
+    }
+
+params5 = {
+        # params
+        "Population-Size"           : 20,
+        "Number-of-Generations"     : 250,
+        "Crossover-Probability"     : 0.5,
+        "Mutation-Probability"      : 0.5,
+        # operators / approaches
+        "Initialization-Approach"   : initialize_randomly,
+        "Selection-Approach"        : parent_selection,
+        "Tournament-Size"           : 5,
+        "Crossover-Approach"        : cycle_crossover,
+        "Mutation-Aproach"          : swap_mutation,
+        "Replacement-Approach"      : elitism_replacement
+    }
+
+params6 = {
+        # params
+        "Population-Size"           : 20,
+        "Number-of-Generations"     : 250,
+        "Crossover-Probability"     : 0.6,
+        "Mutation-Probability"      : 0.5,
+        # operators / approaches
+        "Initialization-Approach"   : initialize_randomly,
+        "Selection-Approach"        : parent_selection,
+        "Tournament-Size"           : 5,
+        "Crossover-Approach"        : cycle_crossover,
+        "Mutation-Aproach"          : swap_mutation,
+        "Replacement-Approach"      : elitism_replacement
+    }
+
+params7 = {
+        # params
+        "Population-Size"           : 20,
+        "Number-of-Generations"     : 250,
+        "Crossover-Probability"     : 0.7,
+        "Mutation-Probability"      : 0.5,
+        # operators / approaches
+        "Initialization-Approach"   : initialize_randomly,
+        "Selection-Approach"        : parent_selection,
+        "Tournament-Size"           : 5,
+        "Crossover-Approach"        : cycle_crossover,
+        "Mutation-Aproach"          : swap_mutation,
+        "Replacement-Approach"      : elitism_replacement
+    }
+
+params8 = {
+        # params
+        "Population-Size"           : 20,
+        "Number-of-Generations"     : 250,
         "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
         "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : pmx_crossover,
+        "Crossover-Approach"        : cycle_crossover,
         "Mutation-Aproach"          : swap_mutation,
-        "Replacement-Approach"      : standard_replacement
+        "Replacement-Approach"      : elitism_replacement
     }
 
-hc_init_params = {
-    "Maximum-Iterations" : 20,
-    "Stop-Conditions" : "Alternative-01",
+params9 = {
+        # params
+        "Population-Size"           : 20,
+        "Number-of-Generations"     : 250,
+        "Crossover-Probability"     : 0.9,
+        "Mutation-Probability"      : 0.5,
+        # operators / approaches
+        "Initialization-Approach"   : initialize_randomly,
+        "Selection-Approach"        : parent_selection,
+        "Tournament-Size"           : 5,
+        "Crossover-Approach"        : cycle_crossover,
+        "Mutation-Aproach"          : swap_mutation,
+        "Replacement-Approach"      : elitism_replacement
+    }
+
+params10 = {
+        # params
+        "Population-Size"           : 20,
+        "Number-of-Generations"     : 250,
+        "Crossover-Probability"     : 1.0,
+        "Mutation-Probability"      : 0.5,
+        # operators / approaches
+        "Initialization-Approach"   : initialize_randomly,
+        "Selection-Approach"        : parent_selection,
+        "Tournament-Size"           : 5,
+        "Crossover-Approach"        : cycle_crossover,
+        "Mutation-Aproach"          : swap_mutation,
+        "Replacement-Approach"      : elitism_replacement
+    }
+
+neighborhood_function = tsp_bitflip_get_neighbors
+#neighborhood_function = pip_bitflip_get_neighbors
+
+hc_init_params_0 = {
+    "Maximum-Iterations" : 10,
+    "Stop-Conditions" : "Classical",
     "Neighborhood-Size": 10,
-    "Neighborhood-Function": pip_bitflip_get_neighbors
+    "Neighborhood-Function": neighborhood_function
 }
 
-log_name = "mp0-8"
+hc_init_params_1 = {
+    "Maximum-Iterations" : 20,
+    "Stop-Conditions" : "Classical",
+    "Neighborhood-Size": 10,
+    "Neighborhood-Function": neighborhood_function
+}
+
+hc_init_params_2 = {
+    "Maximum-Iterations" : 30,
+    "Stop-Conditions" : "Classical",
+    "Neighborhood-Size": 10,
+    "Neighborhood-Function": neighborhood_function
+}
+
+hc_init_params_3 = {
+    "Maximum-Iterations" : 40,
+    "Stop-Conditions" : "Classical",
+    "Neighborhood-Size": 10,
+    "Neighborhood-Function": neighborhood_function
+}
+
+hc_init_params_4 = {
+    "Maximum-Iterations" : 50,
+    "Stop-Conditions" : "Classical",
+    "Neighborhood-Size": 10,
+    "Neighborhood-Function": neighborhood_function
+}
+
+hc_init_params_5 = {
+    "Maximum-Iterations" : 60,
+    "Stop-Conditions" : "Classical",
+    "Neighborhood-Size": 10,
+    "Neighborhood-Function": neighborhood_function
+}
+
+hc_init_params_6 = {
+    "Maximum-Iterations" : 70,
+    "Stop-Conditions" : "Classical",
+    "Neighborhood-Size": 10,
+    "Neighborhood-Function": neighborhood_function
+}
+
+hc_init_params_7 = {
+    "Maximum-Iterations" : 80,
+    "Stop-Conditions" : "Classical",
+    "Neighborhood-Size": 10,
+    "Neighborhood-Function": neighborhood_function
+}
+
+hc_init_params_8 = {
+    "Maximum-Iterations" : 90,
+    "Stop-Conditions" : "Classical",
+    "Neighborhood-Size": 10,
+    "Neighborhood-Function": neighborhood_function
+}
+
+hc_init_params_9 = {
+    "Maximum-Iterations" : 100,
+    "Stop-Conditions" : "Classical",
+    "Neighborhood-Size": 10,
+    "Neighborhood-Function": neighborhood_function
+}
+"""
+hc_init_params_10 = {
+    "Maximum-Iterations" : 20,
+    "Stop-Conditions" : "Classical",
+    "Neighborhood-Size": 10,
+    "Neighborhood-Function": neighborhood_function
+}
+"""
+log_name0 = "mp0-8_0"
+log_name1 = "mp0-8_1"
+log_name2 = "mp0-8_2"
+log_name3 = "mp0-8_3"
+log_name4 = "mp0-8_4"
+log_name5 = "mp0-8_5"
+log_name6 = "mp0-8_6"
+log_name7 = "mp0-8_7"
+log_name8 = "mp0-8_8"
+log_name9 = "mp0-8_9"
+log_name10 = "mp0-8_10"
 
 number_of_runs = 30
 
@@ -235,18 +586,138 @@ for run in range(1,number_of_runs + 1):
         # run = run,
         # log_name = log_name )
 
-    ga = GeneticAlgorithm( 
+    ga0 = GeneticAlgorithm( 
         problem_instance = tsp,
-        params =  params,
+        params =  params0,
         # init_params = hc_init_params,
         run = run,
-        log_name = log_name )
+        log_name = log_name0 )
     
-    ga_observer = GeneticAlgorithmObserver( ga )
-    ga.register_observer( ga_observer )
-    ga.search()    
-    ga.save_log()
+    ga1 = GeneticAlgorithm( 
+        problem_instance = tsp,
+        params =  params1,
+        # init_params = hc_init_params,
+        run = run,
+        log_name = log_name1 )
+    
+    ga2 = GeneticAlgorithm( 
+        problem_instance = tsp,
+        params =  params2,
+        # init_params = hc_init_params,
+        run = run,
+        log_name = log_name2 )
+    
+    ga3 = GeneticAlgorithm( 
+        problem_instance = tsp,
+        params =  params3,
+        # init_params = hc_init_params,
+        run = run,
+        log_name = log_name3 )
+    
+    ga4 = GeneticAlgorithm( 
+        problem_instance = tsp,
+        params =  params4,
+        # init_params = hc_init_params,
+        run = run,
+        log_name = log_name4 )
 
+    ga5 = GeneticAlgorithm( 
+        problem_instance = tsp,
+        params =  params5,
+        # init_params = hc_init_params,
+        run = run,
+        log_name = log_name5 )
+
+    ga6 = GeneticAlgorithm( 
+        problem_instance = tsp,
+        params =  params6,
+        # init_params = hc_init_params,
+        run = run,
+        log_name = log_name6 )
+
+    ga7 = GeneticAlgorithm( 
+        problem_instance = tsp,
+        params =  params7,
+        # init_params = hc_init_params,
+        run = run,
+        log_name = log_name7 )
+
+    ga8 = GeneticAlgorithm( 
+        problem_instance = tsp,
+        params =  params8,
+        # init_params = hc_init_params,
+        run = run,
+        log_name = log_name8 )
+    
+    ga9 = GeneticAlgorithm( 
+        problem_instance = tsp,
+        params =  params9,
+        # init_params = hc_init_params,
+        run = run,
+        log_name = log_name9 )
+    
+    ga10 = GeneticAlgorithm( 
+        problem_instance = tsp,
+        params =  params10,
+        # init_params = hc_init_params,
+        run = run,
+        log_name = log_name10 )
+            
+    ga_observer0 = GeneticAlgorithmObserver( ga0 )
+    ga0.register_observer( ga_observer0 )
+    ga0.search()    
+    ga0.save_log()
+    
+    ga_observer1 = GeneticAlgorithmObserver( ga1 )
+    ga1.register_observer( ga_observer1 )
+    ga1.search()    
+    ga1.save_log()
+
+    ga_observer2 = GeneticAlgorithmObserver( ga2 )
+    ga2.register_observer( ga_observer2 )
+    ga2.search()    
+    ga2.save_log()
+    
+    ga_observer3 = GeneticAlgorithmObserver( ga3 )
+    ga3.register_observer( ga_observer3 )
+    ga3.search()    
+    ga3.save_log()
+    
+    ga_observer4 = GeneticAlgorithmObserver( ga4 )
+    ga4.register_observer( ga_observer4 )
+    ga4.search()    
+    ga4.save_log()
+
+    ga_observer5 = GeneticAlgorithmObserver( ga5 )
+    ga5.register_observer( ga_observer5 )
+    ga5.search()    
+    ga5.save_log()
+
+    ga_observer6 = GeneticAlgorithmObserver( ga6 )
+    ga6.register_observer( ga_observer6 )
+    ga6.search()    
+    ga6.save_log()
+
+    ga_observer7 = GeneticAlgorithmObserver( ga7 )
+    ga7.register_observer( ga_observer7 )
+    ga7.search()    
+    ga7.save_log()
+
+    ga_observer8 = GeneticAlgorithmObserver( ga8 )
+    ga8.register_observer( ga_observer8 )
+    ga8.search()    
+    ga8.save_log()
+    
+    ga_observer9 = GeneticAlgorithmObserver( ga9 )
+    ga9.register_observer( ga_observer9 )
+    ga9.search()    
+    ga9.save_log()
+    
+    ga_observer10 = GeneticAlgorithmObserver( ga10 )
+    ga10.register_observer( ga_observer10 )
+    ga10.search()    
+    ga10.save_log()
+    
 # Consolidate the runs
 #--------------------------------------------------------------------------------------------------
 
@@ -258,50 +729,380 @@ from os.path import isfile, join
 from pandas import pandas as pd
 import numpy as np
 
-log_dir   = f"./log/{log_name}" 
+log_dir0   = f"./log/{log_name0}" 
+log_dir1   = f"./log/{log_name1}" 
+log_dir2   = f"./log/{log_name2}" 
+log_dir3   = f"./log/{log_name3}" 
+log_dir4   = f"./log/{log_name4}" 
+log_dir5   = f"./log/{log_name5}" 
+log_dir6   = f"./log/{log_name6}" 
+log_dir7   = f"./log/{log_name7}" 
+log_dir8   = f"./log/{log_name8}" 
+log_dir9   = f"./log/{log_name9}" 
+log_dir10   = f"./log/{log_name10}" 
 
-log_files = [f for f in listdir(log_dir) if isfile(join(log_dir, f))]
-print(log_files)
+log_files0 = [f for f in listdir(log_dir0) if isfile(join(log_dir0, f))]
+log_files1 = [f for f in listdir(log_dir1) if isfile(join(log_dir1, f))]
+log_files2 = [f for f in listdir(log_dir2) if isfile(join(log_dir2, f))]
+log_files3 = [f for f in listdir(log_dir3) if isfile(join(log_dir3, f))]
+log_files4 = [f for f in listdir(log_dir4) if isfile(join(log_dir4, f))]
+log_files5 = [f for f in listdir(log_dir5) if isfile(join(log_dir5, f))]
+log_files6 = [f for f in listdir(log_dir6) if isfile(join(log_dir6, f))]
+log_files7 = [f for f in listdir(log_dir7) if isfile(join(log_dir7, f))]
+log_files8 = [f for f in listdir(log_dir8) if isfile(join(log_dir8, f))]
+log_files9 = [f for f in listdir(log_dir9) if isfile(join(log_dir9, f))]
+log_files10 = [f for f in listdir(log_dir10) if isfile(join(log_dir10, f))]
 
-fitness_runs = []
-columns_name = []
-counter = 0
-generations = []
+#print(log_files)
 
-for log_name in log_files:
+fitness_runs0 = []
+columns_name0 = []
+counter0 = 0
+generations0 = []
+
+for log_name in log_files0:
     if log_name.startswith('run_'):
-        df = pd.read_excel( log_dir + "/" + log_name)
-        fitness_runs.append( list ( df.Fitness ) )
-        columns_name.append( log_name.strip(".xslx") )
-        counter += 1
+        df0 = pd.read_excel( log_dir0 + "/" + log_name)
+        fitness_runs0.append( list ( df0.Fitness ) )
+        columns_name0.append( log_name.strip(".xslx") )
+        counter0 += 1
 
-        if not generations:
-            generations = list( df["Generation"] )
-        
+        if not generations0:
+            generations0 = list( df0["Generation"] )
+
+fitness_runs1 = []
+columns_name1 = []
+counter1 = 0
+generations1 = []
+
+for log_name in log_files1:
+    if log_name.startswith('run_'):
+        df1 = pd.read_excel( log_dir1 + "/" + log_name)
+        fitness_runs1.append( list ( df1.Fitness ) )
+        columns_name1.append( log_name.strip(".xslx") )
+        counter1 += 1
+
+        if not generations1:
+            generations1 = list( df1["Generation"] )
+
+fitness_runs2 = []
+columns_name2 = []
+counter2 = 0
+generations2 = []
+
+for log_name in log_files2:
+    if log_name.startswith('run_'):
+        df2 = pd.read_excel( log_dir2 + "/" + log_name)
+        fitness_runs2.append( list ( df2.Fitness ) )
+        columns_name2.append( log_name.strip(".xslx") )
+        counter2 += 1
+
+        if not generations2:
+            generations2 = list( df2["Generation"] )
+
+fitness_runs3 = []
+columns_name3 = []
+counter3 = 0
+generations3 = []
+
+for log_name in log_files3:
+    if log_name.startswith('run_'):
+        df3 = pd.read_excel( log_dir3 + "/" + log_name)
+        fitness_runs3.append( list ( df3.Fitness ) )
+        columns_name3.append( log_name.strip(".xslx") )
+        counter3 += 1
+
+        if not generations3:
+            generations3 = list( df3["Generation"] )
+
+fitness_runs4 = []
+columns_name4 = []
+counter4 = 0
+generations4 = []
+
+for log_name in log_files4:
+    if log_name.startswith('run_'):
+        df4 = pd.read_excel( log_dir4 + "/" + log_name)
+        fitness_runs4.append( list ( df4.Fitness ) )
+        columns_name4.append( log_name.strip(".xslx") )
+        counter4 += 1
+
+        if not generations4:
+            generations4 = list( df4["Generation"] )
+
+fitness_runs5 = []
+columns_name5 = []
+counter5 = 0
+generations5 = []
+
+for log_name in log_files5:
+    if log_name.startswith('run_'):
+        df5 = pd.read_excel( log_dir5 + "/" + log_name)
+        fitness_runs5.append( list ( df5.Fitness ) )
+        columns_name5.append( log_name.strip(".xslx") )
+        counter5 += 1
+
+        if not generations5:
+            generations5 = list( df5["Generation"] )
+
+fitness_runs6 = []
+columns_name6 = []
+counter6 = 0
+generations6 = []
+
+for log_name in log_files6:
+    if log_name.startswith('run_'):
+        df6 = pd.read_excel( log_dir6 + "/" + log_name)
+        fitness_runs6.append( list ( df6.Fitness ) )
+        columns_name6.append( log_name.strip(".xslx") )
+        counter6 += 1
+
+        if not generations6:
+            generations6 = list( df6["Generation"] )
+
+fitness_runs7 = []
+columns_name7 = []
+counter7 = 0
+generations7 = []
+
+for log_name in log_files7:
+    if log_name.startswith('run_'):
+        df7 = pd.read_excel( log_dir7 + "/" + log_name)
+        fitness_runs7.append( list ( df7.Fitness ) )
+        columns_name7.append( log_name.strip(".xslx") )
+        counter7 += 1
+
+        if not generations7:
+            generations7 = list( df7["Generation"] )
+
+fitness_runs8 = []
+columns_name8 = []
+counter8 = 0
+generations8 = []
+
+for log_name in log_files8:
+    if log_name.startswith('run_'):
+        df8 = pd.read_excel( log_dir8 + "/" + log_name)
+        fitness_runs8.append( list ( df8.Fitness ) )
+        columns_name8.append( log_name.strip(".xslx") )
+        counter8 += 1
+
+        if not generations8:
+            generations8 = list( df8["Generation"] )
+
+fitness_runs9 = []
+columns_name9 = []
+counter9 = 0
+generations9 = []
+
+for log_name in log_files9:
+    if log_name.startswith('run_'):
+        df9 = pd.read_excel( log_dir9 + "/" + log_name)
+        fitness_runs9.append( list ( df9.Fitness ) )
+        columns_name9.append( log_name.strip(".xslx") )
+        counter9 += 1
+
+        if not generations9:
+            generations9 = list( df9["Generation"] )
+
+fitness_runs10 = []
+columns_name10 = []
+counter10 = 0
+generations10 = []
+
+for log_name in log_files10:
+    if log_name.startswith('run_'):
+        df10 = pd.read_excel( log_dir10 + "/" + log_name)
+        fitness_runs10.append( list ( df10.Fitness ) )
+        columns_name10.append( log_name.strip(".xslx") )
+        counter10 += 1
+
+        if not generations10:
+            generations10 = list( df10["Generation"] )
+
 #fitness_sum = [sum(x) for x in zip(*fitness_runs)]   
 
-df = pd.DataFrame(list(zip(*fitness_runs)), columns = columns_name)
+df0 = pd.DataFrame(list(zip(*fitness_runs0)), columns = columns_name0)
+df1 = pd.DataFrame(list(zip(*fitness_runs1)), columns = columns_name1)
+df2 = pd.DataFrame(list(zip(*fitness_runs2)), columns = columns_name2)
+df3 = pd.DataFrame(list(zip(*fitness_runs3)), columns = columns_name3)
+df4 = pd.DataFrame(list(zip(*fitness_runs4)), columns = columns_name4)
+df5 = pd.DataFrame(list(zip(*fitness_runs5)), columns = columns_name5)
+df6 = pd.DataFrame(list(zip(*fitness_runs6)), columns = columns_name6)
+df7 = pd.DataFrame(list(zip(*fitness_runs7)), columns = columns_name7)
+df8 = pd.DataFrame(list(zip(*fitness_runs8)), columns = columns_name8)
+df9 = pd.DataFrame(list(zip(*fitness_runs9)), columns = columns_name9)
+df10 = pd.DataFrame(list(zip(*fitness_runs10)), columns = columns_name10)
 
-fitness_sd   = list( df.std( axis = 1 ) )
-fitness_mean = list( df.mean( axis = 1 ) )
+fitness_sd0   = list( df0.std( axis = 1 ) )
+fitness_mean0 = list( df0.mean( axis = 1 ) )
+
+fitness_sd1   = list( df1.std( axis = 1 ) )
+fitness_mean1 = list( df1.mean( axis = 1 ) )
+
+fitness_sd2   = list( df2.std( axis = 1 ) )
+fitness_mean2 = list( df2.mean( axis = 1 ) )
+
+fitness_sd3   = list( df3.std( axis = 1 ) )
+fitness_mean3 = list( df3.mean( axis = 1 ) )
+
+fitness_sd4   = list( df4.std( axis = 1 ) )
+fitness_mean4 = list( df4.mean( axis = 1 ) )
+
+fitness_sd5   = list( df5.std( axis = 1 ) )
+fitness_mean5 = list( df5.mean( axis = 1 ) )
+
+fitness_sd6   = list( df6.std( axis = 1 ) )
+fitness_mean6 = list( df6.mean( axis = 1 ) )
+
+fitness_sd7   = list( df7.std( axis = 1 ) )
+fitness_mean7 = list( df7.mean( axis = 1 ) )
+
+fitness_sd8   = list( df8.std( axis = 1 ) )
+fitness_mean8 = list( df8.mean( axis = 1 ) )
+
+fitness_sd9   = list( df9.std( axis = 1 ) )
+fitness_mean9 = list( df9.mean( axis = 1 ) )
+
+fitness_sd10   = list( df10.std( axis = 1 ) )
+fitness_mean10 = list( df10.mean( axis = 1 ) )
 
 #df["Fitness_Sum"] = fitness_sum
-df["Generation"]  = generations
-df["Fitness_SD"]  = fitness_sd
-df["Fitness_Mean"]  = fitness_mean
-df["Fitness_Lower"]  = df["Fitness_Mean"] + df["Fitness_SD"]
-df["Fitness_Upper"]  = df["Fitness_Mean"] - df["Fitness_SD"]
+df0["Generation"]  = generations0
+df0["Fitness_SD"]  = fitness_sd0
+df0["Fitness_Mean"]  = fitness_mean0
+df0["Fitness_Lower"]  = df0["Fitness_Mean"] + df0["Fitness_SD"]
+df0["Fitness_Upper"]  = df0["Fitness_Mean"] - df0["Fitness_SD"]
+
+df1["Generation"]  = generations1
+df1["Fitness_SD"]  = fitness_sd1
+df1["Fitness_Mean"]  = fitness_mean1
+df1["Fitness_Lower"]  = df1["Fitness_Mean"] + df1["Fitness_SD"]
+df1["Fitness_Upper"]  = df1["Fitness_Mean"] - df1["Fitness_SD"]
+
+df2["Generation"]  = generations2
+df2["Fitness_SD"]  = fitness_sd2
+df2["Fitness_Mean"]  = fitness_mean2
+df2["Fitness_Lower"]  = df2["Fitness_Mean"] + df2["Fitness_SD"]
+df2["Fitness_Upper"]  = df2["Fitness_Mean"] - df2["Fitness_SD"]
+
+df3["Generation"]  = generations3
+df3["Fitness_SD"]  = fitness_sd3
+df3["Fitness_Mean"]  = fitness_mean3
+df3["Fitness_Lower"]  = df3["Fitness_Mean"] + df3["Fitness_SD"]
+df3["Fitness_Upper"]  = df3["Fitness_Mean"] - df3["Fitness_SD"]
+
+df4["Generation"]  = generations4
+df4["Fitness_SD"]  = fitness_sd4
+df4["Fitness_Mean"]  = fitness_mean4
+df4["Fitness_Lower"]  = df4["Fitness_Mean"] + df4["Fitness_SD"]
+df4["Fitness_Upper"]  = df4["Fitness_Mean"] - df4["Fitness_SD"]
+
+df5["Generation"]  = generations5
+df5["Fitness_SD"]  = fitness_sd5
+df5["Fitness_Mean"]  = fitness_mean5
+df5["Fitness_Lower"]  = df5["Fitness_Mean"] + df5["Fitness_SD"]
+df5["Fitness_Upper"]  = df5["Fitness_Mean"] - df5["Fitness_SD"]
+
+df6["Generation"]  = generations6
+df6["Fitness_SD"]  = fitness_sd6
+df6["Fitness_Mean"]  = fitness_mean6
+df6["Fitness_Lower"]  = df6["Fitness_Mean"] + df6["Fitness_SD"]
+df6["Fitness_Upper"]  = df6["Fitness_Mean"] - df6["Fitness_SD"]
+
+df7["Generation"]  = generations7
+df7["Fitness_SD"]  = fitness_sd7
+df7["Fitness_Mean"]  = fitness_mean7
+df7["Fitness_Lower"]  = df7["Fitness_Mean"] + df7["Fitness_SD"]
+df7["Fitness_Upper"]  = df7["Fitness_Mean"] - df7["Fitness_SD"]
+
+df8["Generation"]  = generations8
+df8["Fitness_SD"]  = fitness_sd8
+df8["Fitness_Mean"]  = fitness_mean8
+df8["Fitness_Lower"]  = df8["Fitness_Mean"] + df8["Fitness_SD"]
+df8["Fitness_Upper"]  = df8["Fitness_Mean"] - df8["Fitness_SD"]
+
+df9["Generation"]  = generations9
+df9["Fitness_SD"]  = fitness_sd9
+df9["Fitness_Mean"]  = fitness_mean9
+df9["Fitness_Lower"]  = df9["Fitness_Mean"] + df9["Fitness_SD"]
+df9["Fitness_Upper"]  = df9["Fitness_Mean"] - df9["Fitness_SD"]
+
+df10["Generation"]  = generations10
+df10["Fitness_SD"]  = fitness_sd10
+df10["Fitness_Mean"]  = fitness_mean10
+df10["Fitness_Lower"]  = df10["Fitness_Mean"] + df10["Fitness_SD"]
+df10["Fitness_Upper"]  = df10["Fitness_Mean"] - df10["Fitness_SD"]
+
+if not path.exists( log_dir0 ):
+    mkdir( log_dir0 )
+
+df0.to_excel( log_dir0 + "/all.xlsx", index = False, encoding = 'utf-8' )
+
+if not path.exists( log_dir1 ):
+    mkdir( log_dir1 )
+
+df1.to_excel( log_dir1 + "/all.xlsx", index = False, encoding = 'utf-8' )
+
+if not path.exists( log_dir2 ):
+    mkdir( log_dir2 )
+
+df2.to_excel( log_dir2 + "/all.xlsx", index = False, encoding = 'utf-8' )
+
+if not path.exists( log_dir3 ):
+    mkdir( log_dir3 )
+
+df3.to_excel( log_dir3 + "/all.xlsx", index = False, encoding = 'utf-8' )
+
+if not path.exists( log_dir4 ):
+    mkdir( log_dir4 )
+
+df4.to_excel( log_dir4 + "/all.xlsx", index = False, encoding = 'utf-8' )
+
+if not path.exists( log_dir5 ):
+    mkdir( log_dir5 )
+
+df5.to_excel( log_dir5 + "/all.xlsx", index = False, encoding = 'utf-8' )
+
+if not path.exists( log_dir6 ):
+    mkdir( log_dir6 )
+
+df6.to_excel( log_dir6 + "/all.xlsx", index = False, encoding = 'utf-8' )
+
+if not path.exists( log_dir7 ):
+    mkdir( log_dir7 )
+
+df7.to_excel( log_dir7 + "/all.xlsx", index = False, encoding = 'utf-8' )
+
+if not path.exists( log_dir8 ):
+    mkdir( log_dir8 )
+
+df8.to_excel( log_dir8 + "/all.xlsx", index = False, encoding = 'utf-8' )
+
+if not path.exists( log_dir9 ):
+    mkdir( log_dir9 )
+
+df9.to_excel( log_dir9 + "/all.xlsx", index = False, encoding = 'utf-8' )
+
+if not path.exists( log_dir10 ):
+    mkdir( log_dir10 )
+
+df10.to_excel( log_dir10 + "/all.xlsx", index = False, encoding = 'utf-8' )
 
 
-if not path.exists( log_dir ):
-    mkdir( log_dir )
+print("Cycle Crossover with probability 0.0:", df0["Fitness_Mean"].loc["Generation" == 250])
+print("Cycle Crossover with probability 0.1:", df1["Fitness_Mean"].loc["Generation" == 250])
+print("Cycle Crossover with probability 0.2:", df2["Fitness_Mean"].loc["Generation" == 250])
+print("Cycle Crossover with probability 0.3:", df3["Fitness_Mean"].loc["Generation" == 250])
+print("Cycle Crossover with probability 0.4:", df4["Fitness_Mean"].loc["Generation" == 250])
+print("Cycle Crossover with probability 0.5:", df5["Fitness_Mean"].loc["Generation" == 250])
+print("Cycle Crossover with probability 0.6:", df6["Fitness_Mean"].loc["Generation" == 250])
+print("Cycle Crossover with probability 0.7:", df7["Fitness_Mean"].loc["Generation" == 250])
+print("Cycle Crossover with probability 0.8:", df8["Fitness_Mean"].loc["Generation" == 250])
+print("Cycle Crossover with probability 0.9:", df9["Fitness_Mean"].loc["Generation" == 250])
+print("Cycle Crossover with probability 1.0:", df10["Fitness_Mean"].loc["Generation" == 250])
 
-df.to_excel( log_dir + "/all.xlsx", index = False, encoding = 'utf-8' )
-
-plot_performance_chart( df )
-
-
-
+plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 )
 
 #[sum(sublist) for sublist in itertools.izip(*myListOfLists)]
 
