@@ -485,77 +485,77 @@ params10 = {
 neighborhood_function = tsp_bitflip_get_neighbors
 #neighborhood_function = pip_bitflip_get_neighbors
 
-hc_init_params_0 = {
+hc_init_params0 = {
     "Maximum-Iterations" : 10,
     "Stop-Conditions" : "Classical",
     "Neighborhood-Size": 10,
     "Neighborhood-Function": neighborhood_function
 }
 
-hc_init_params_1 = {
+hc_init_params1 = {
     "Maximum-Iterations" : 20,
     "Stop-Conditions" : "Classical",
     "Neighborhood-Size": 10,
     "Neighborhood-Function": neighborhood_function
 }
 
-hc_init_params_2 = {
+hc_init_params2 = {
     "Maximum-Iterations" : 30,
     "Stop-Conditions" : "Classical",
     "Neighborhood-Size": 10,
     "Neighborhood-Function": neighborhood_function
 }
 
-hc_init_params_3 = {
+hc_init_params3 = {
     "Maximum-Iterations" : 40,
     "Stop-Conditions" : "Classical",
     "Neighborhood-Size": 10,
     "Neighborhood-Function": neighborhood_function
 }
 
-hc_init_params_4 = {
+hc_init_params4 = {
     "Maximum-Iterations" : 50,
     "Stop-Conditions" : "Classical",
     "Neighborhood-Size": 10,
     "Neighborhood-Function": neighborhood_function
 }
 
-hc_init_params_5 = {
+hc_init_params5 = {
     "Maximum-Iterations" : 60,
     "Stop-Conditions" : "Classical",
     "Neighborhood-Size": 10,
     "Neighborhood-Function": neighborhood_function
 }
 
-hc_init_params_6 = {
+hc_init_params6 = {
     "Maximum-Iterations" : 70,
     "Stop-Conditions" : "Classical",
     "Neighborhood-Size": 10,
     "Neighborhood-Function": neighborhood_function
 }
 
-hc_init_params_7 = {
+hc_init_params7 = {
     "Maximum-Iterations" : 80,
     "Stop-Conditions" : "Classical",
     "Neighborhood-Size": 10,
     "Neighborhood-Function": neighborhood_function
 }
 
-hc_init_params_8 = {
+hc_init_params8 = {
     "Maximum-Iterations" : 90,
     "Stop-Conditions" : "Classical",
     "Neighborhood-Size": 10,
     "Neighborhood-Function": neighborhood_function
 }
 
-hc_init_params_9 = {
+hc_init_params9 = {
     "Maximum-Iterations" : 100,
     "Stop-Conditions" : "Classical",
     "Neighborhood-Size": 10,
     "Neighborhood-Function": neighborhood_function
 }
 """
-hc_init_params_10 = {
+hc_init_params10 = {
     "Maximum-Iterations" : 20,
     "Stop-Conditions" : "Classical",
     "Neighborhood-Size": 10,
