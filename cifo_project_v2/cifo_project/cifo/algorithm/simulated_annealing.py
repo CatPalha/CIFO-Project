@@ -243,7 +243,7 @@ class SimulatedAnnealing:
 
         # initialize C if it's not initialized
         if self._c is None:
-            self._c = self._initialize_C()
+            self._initialize_C()
             
         # save the initial C if the update method is logarithmic
         if self._update_method == "Logarithmic":
@@ -251,7 +251,7 @@ class SimulatedAnnealing:
 
         # initialize minimum C if it's not initialized
         if self._min_c is None:
-            self._min_c = self._initialize_min_C()
+            self._initialize_min_C()
 
     # _get_random_neighbor:  get a random, admissible, neighbor
     #----------------------------------------------------------------------------------------------
