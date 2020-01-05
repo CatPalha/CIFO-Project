@@ -48,17 +48,17 @@ tsp = TravelSalesmanProblem(
     )
 
 params = {
-    "Population-Size"           : 5,
-    "Number-of-Generations"     : 10,
+    "Population-Size"           : 20,
+    "Number-of-Generations"     : 250,
     
     "Crossover-Probability"     : 0.8,
     "Mutation-Probability"      : 0.5,
     
-    "Initialization-Approach"   : initialize_using_ts,
+    "Initialization-Approach"   : initialize_using_sa,
     "Selection-Approach"        : RouletteWheelSelection(),
     "Tournament-Size"           : 5,
-    "Crossover-Approach"        : cycle_crossover,
-    "Mutation-Aproach"          : single_point_mutation,
+    "Crossover-Approach"        : pmx_crossover,
+    "Mutation-Aproach"          : swap_mutation,
     "Replacement-Approach"      : elitism_replacement
 }
 
@@ -70,12 +70,14 @@ hc_init_params = {
 }
 
 sa_init_params = {
-    "Maximum-Internal-Iterations" : 500,
-    "Maximum-Iterations" : 1000,
-    "Initial-C" : 200,
-    "Minimum-C" : 0.01,
-    "Update-Method" : "Geometric",
-    "Update-Rate" : 0.9,
+    "Maximum-Internal-Iterations" : 10,
+    "Maximum-Iterations" : 10,
+    #"Initial-C" : 200,
+    #"Minimum-C" : 0.01,
+    "Update-Method" : "Linear",
+    "Update-Rate" : 0.5,
+    "Initialize-Method-C" : "Classical",
+    "Initialize-Method-Minimum-C" : "Classical",
     "Neighborhood-Size" : 5,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
 }
@@ -97,7 +99,7 @@ solution = GeneticAlgorithm(
 solution = GeneticAlgorithm(
     problem_instance = tsp,
     params = params,
-    init_params = ts_init_params
+    init_params = sa_init_params
 )
 
 import matplotlib.pyplot as plt

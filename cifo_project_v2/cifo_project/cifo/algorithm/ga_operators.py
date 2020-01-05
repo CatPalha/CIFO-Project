@@ -127,14 +127,14 @@ def initialize_using_sa( problem, population_size, params={} ):
 
     neighborhood_function = params["Neighborhood-Function"]
 
-    sa = SimulatedAnnealing(
+    # generate a population of admissible solutions (individuals)
+    for _ in range(0, population_size):
+        sa = SimulatedAnnealing(
         problem_instance = problem,
         neighborhood_function = neighborhood_function,
         params = params
         )
-
-    # generate a population of admissible solutions (individuals)
-    for _ in range(0, population_size):
+        
         s = sa.search()
         
         # check if the solution is admissible
