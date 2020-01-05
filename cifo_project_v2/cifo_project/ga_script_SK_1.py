@@ -29,7 +29,7 @@ from random import randint
 
 import pandas as pd
 
-def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
+def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
     import plotly.graph_objects as go
     import plotly.express as px
     from plotly.subplots import make_subplots
@@ -75,18 +75,18 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
     x9 = df9["Generation"] 
     x_rev9 = x9[::-1]
     y1_9 = df9["Fitness_Mean"] 
-        
+    """        
     x10 = df10["Generation"] 
     x_rev10 = x10[::-1]
     y1_10 = df10["Fitness_Mean"] 
-    
+    """
     # line
     trace0 = go.Scatter(
         x = x0,
         y = y1_0,
         line=dict(color='rgb(255,0,0)'),
         mode='lines',
-        name='0.0',
+        name='10',
     )
     
     trace1 = go.Scatter(
@@ -94,7 +94,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
         y = y1_1,
         line=dict(color='rgb(255,128,0)'),
         mode='lines',
-        name='0.1',
+        name='20',
     )
     
     trace2 = go.Scatter(
@@ -102,7 +102,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
         y = y1_2,
         line=dict(color='rgb(255,255,0)'),
         mode='lines',
-        name='0.2',
+        name='30',
     )
     
     trace3 = go.Scatter(
@@ -110,7 +110,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
         y = y1_3,
         line=dict(color='rgb(128,255,0)'),
         mode='lines',
-        name='0.3',
+        name='40',
     )
     
     trace4 = go.Scatter(
@@ -118,7 +118,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
         y = y1_4,
         line=dict(color='rgb(0,255,0)'),
         mode='lines',
-        name='0.4',
+        name='50',
     )
 
     trace5 = go.Scatter(
@@ -126,7 +126,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
         y = y1_5,
         line=dict(color='rgb(0,255,128)'),
         mode='lines',
-        name='0.5',
+        name='60',
     )
 
     trace6 = go.Scatter(
@@ -134,7 +134,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
         y = y1_6,
         line=dict(color='rgb(0,255,255)'),
         mode='lines',
-        name='0.6',
+        name='70',
     )
 
     trace7 = go.Scatter(
@@ -142,7 +142,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
         y = y1_7,
         line=dict(color='rgb(0,128,255)'),
         mode='lines',
-        name='0.7',
+        name='80',
     )
 
     trace8 = go.Scatter(
@@ -150,7 +150,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
         y = y1_8,
         line=dict(color='rgb(0,0,255)'),
         mode='lines',
-        name='0.8',
+        name='90',
     )
     
     trace9 = go.Scatter(
@@ -158,9 +158,9 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
         y = y1_9,
         line=dict(color='rgb(128,0,255)'),
         mode='lines',
-        name='0.9',
+        name='100',
     )
-    
+    """
     trace10 = go.Scatter(
         x = x10,
         y = y1_10,
@@ -168,7 +168,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
         mode='lines',
         name='1.0',
     )
-    
+    """
     #trace2 = go.Scatter(
         #x = x,
         #y = y1_upper,
@@ -189,7 +189,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 ):
         #name='Fair',
     #)
     
-    data = [trace0, trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8, trace9, trace10]
+    data = [trace0, trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8, trace9]
     
     layout = go.Layout(
         paper_bgcolor='rgb(255,255,255)',
@@ -321,13 +321,13 @@ params0 = {
         # params
         "Population-Size"           : 20,
         "Number-of-Generations"     : 250,
-        "Crossover-Probability"     : 0.0,
+        "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
         "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : cycle_crossover,
+        "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
@@ -336,13 +336,13 @@ params1 = {
         # params
         "Population-Size"           : 20,
         "Number-of-Generations"     : 250,
-        "Crossover-Probability"     : 0.1,
+        "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
         "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : cycle_crossover,
+        "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
@@ -351,13 +351,13 @@ params2 = {
         # params
         "Population-Size"           : 20,
         "Number-of-Generations"     : 250,
-        "Crossover-Probability"     : 0.2,
+        "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
         "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : cycle_crossover,
+        "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
@@ -366,13 +366,13 @@ params3 = {
         # params
         "Population-Size"           : 20,
         "Number-of-Generations"     : 250,
-        "Crossover-Probability"     : 0.3,
+        "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
         "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : cycle_crossover,
+        "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
@@ -381,13 +381,13 @@ params4 = {
         # params
         "Population-Size"           : 20,
         "Number-of-Generations"     : 250,
-        "Crossover-Probability"     : 0.4,
+        "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
         "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : cycle_crossover,
+        "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
@@ -396,13 +396,13 @@ params5 = {
         # params
         "Population-Size"           : 20,
         "Number-of-Generations"     : 250,
-        "Crossover-Probability"     : 0.5,
+        "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
         "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : cycle_crossover,
+        "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
@@ -411,13 +411,13 @@ params6 = {
         # params
         "Population-Size"           : 20,
         "Number-of-Generations"     : 250,
-        "Crossover-Probability"     : 0.6,
+        "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
         "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : cycle_crossover,
+        "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
@@ -426,13 +426,13 @@ params7 = {
         # params
         "Population-Size"           : 20,
         "Number-of-Generations"     : 250,
-        "Crossover-Probability"     : 0.7,
+        "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
         "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : cycle_crossover,
+        "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
@@ -447,7 +447,7 @@ params8 = {
         "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : cycle_crossover,
+        "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
@@ -456,13 +456,13 @@ params9 = {
         # params
         "Population-Size"           : 20,
         "Number-of-Generations"     : 250,
-        "Crossover-Probability"     : 0.9,
+        "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
         "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : cycle_crossover,
+        "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
@@ -471,13 +471,13 @@ params10 = {
         # params
         "Population-Size"           : 20,
         "Number-of-Generations"     : 250,
-        "Crossover-Probability"     : 1.0,
+        "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
         "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : cycle_crossover,
+        "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
@@ -815,7 +815,7 @@ log_name6 = "mp0-8_6"
 log_name7 = "mp0-8_7"
 log_name8 = "mp0-8_8"
 log_name9 = "mp0-8_9"
-log_name10 = "mp0-8_10"
+#log_name10 = "mp0-8_10"
 
 number_of_runs = 30
 
@@ -832,80 +832,80 @@ for run in range(1,number_of_runs + 1):
     ga0 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params0,
-        # init_params = hc_init_params,
+        init_params = hc_init_params0,
         run = run,
         log_name = log_name0 )
     
     ga1 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params1,
-        # init_params = hc_init_params,
+        init_params = hc_init_params1,
         run = run,
         log_name = log_name1 )
     
     ga2 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params2,
-        # init_params = hc_init_params,
+        init_params = hc_init_params2,
         run = run,
         log_name = log_name2 )
     
     ga3 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params3,
-        # init_params = hc_init_params,
+        init_params = hc_init_params3,
         run = run,
         log_name = log_name3 )
     
     ga4 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params4,
-        # init_params = hc_init_params,
+        init_params = hc_init_params4,
         run = run,
         log_name = log_name4 )
 
     ga5 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params5,
-        # init_params = hc_init_params,
+        init_params = hc_init_params5,
         run = run,
         log_name = log_name5 )
 
     ga6 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params6,
-        # init_params = hc_init_params,
+        init_params = hc_init_params6,
         run = run,
         log_name = log_name6 )
 
     ga7 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params7,
-        # init_params = hc_init_params,
+        init_params = hc_init_params7,
         run = run,
         log_name = log_name7 )
 
     ga8 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params8,
-        # init_params = hc_init_params,
+        init_params = hc_init_params8,
         run = run,
         log_name = log_name8 )
     
     ga9 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params9,
-        # init_params = hc_init_params,
+        init_params = hc_init_params9,
         run = run,
         log_name = log_name9 )
-    
+    """
     ga10 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params10,
         # init_params = hc_init_params,
         run = run,
         log_name = log_name10 )
-            
+    """            
     ga_observer0 = GeneticAlgorithmObserver( ga0 )
     ga0.register_observer( ga_observer0 )
     ga0.search()    
@@ -955,12 +955,12 @@ for run in range(1,number_of_runs + 1):
     ga9.register_observer( ga_observer9 )
     ga9.search()    
     ga9.save_log()
-    
+    """
     ga_observer10 = GeneticAlgorithmObserver( ga10 )
     ga10.register_observer( ga_observer10 )
     ga10.search()    
     ga10.save_log()
-    
+    """
 # Consolidate the runs
 #--------------------------------------------------------------------------------------------------
 
@@ -982,7 +982,7 @@ log_dir6   = f"./log/{log_name6}"
 log_dir7   = f"./log/{log_name7}" 
 log_dir8   = f"./log/{log_name8}" 
 log_dir9   = f"./log/{log_name9}" 
-log_dir10   = f"./log/{log_name10}" 
+#log_dir10   = f"./log/{log_name10}" 
 
 log_files0 = [f for f in listdir(log_dir0) if isfile(join(log_dir0, f))]
 log_files1 = [f for f in listdir(log_dir1) if isfile(join(log_dir1, f))]
@@ -994,7 +994,7 @@ log_files6 = [f for f in listdir(log_dir6) if isfile(join(log_dir6, f))]
 log_files7 = [f for f in listdir(log_dir7) if isfile(join(log_dir7, f))]
 log_files8 = [f for f in listdir(log_dir8) if isfile(join(log_dir8, f))]
 log_files9 = [f for f in listdir(log_dir9) if isfile(join(log_dir9, f))]
-log_files10 = [f for f in listdir(log_dir10) if isfile(join(log_dir10, f))]
+#log_files10 = [f for f in listdir(log_dir10) if isfile(join(log_dir10, f))]
 
 #print(log_files)
 
@@ -1147,7 +1147,7 @@ for log_name in log_files9:
 
         if not generations9:
             generations9 = list( df9["Generation"] )
-
+"""
 fitness_runs10 = []
 columns_name10 = []
 counter10 = 0
@@ -1162,7 +1162,7 @@ for log_name in log_files10:
 
         if not generations10:
             generations10 = list( df10["Generation"] )
-
+"""
 #fitness_sum = [sum(x) for x in zip(*fitness_runs)]   
 
 df0 = pd.DataFrame(list(zip(*fitness_runs0)), columns = columns_name0)
@@ -1175,7 +1175,7 @@ df6 = pd.DataFrame(list(zip(*fitness_runs6)), columns = columns_name6)
 df7 = pd.DataFrame(list(zip(*fitness_runs7)), columns = columns_name7)
 df8 = pd.DataFrame(list(zip(*fitness_runs8)), columns = columns_name8)
 df9 = pd.DataFrame(list(zip(*fitness_runs9)), columns = columns_name9)
-df10 = pd.DataFrame(list(zip(*fitness_runs10)), columns = columns_name10)
+#df10 = pd.DataFrame(list(zip(*fitness_runs10)), columns = columns_name10)
 
 fitness_sd0   = list( df0.std( axis = 1 ) )
 fitness_mean0 = list( df0.mean( axis = 1 ) )
@@ -1206,10 +1206,10 @@ fitness_mean8 = list( df8.mean( axis = 1 ) )
 
 fitness_sd9   = list( df9.std( axis = 1 ) )
 fitness_mean9 = list( df9.mean( axis = 1 ) )
-
+"""
 fitness_sd10   = list( df10.std( axis = 1 ) )
 fitness_mean10 = list( df10.mean( axis = 1 ) )
-
+"""
 #df["Fitness_Sum"] = fitness_sum
 df0["Generation"]  = generations0
 df0["Fitness_SD"]  = fitness_sd0
@@ -1270,13 +1270,13 @@ df9["Fitness_SD"]  = fitness_sd9
 df9["Fitness_Mean"]  = fitness_mean9
 df9["Fitness_Lower"]  = df9["Fitness_Mean"] + df9["Fitness_SD"]
 df9["Fitness_Upper"]  = df9["Fitness_Mean"] - df9["Fitness_SD"]
-
+"""
 df10["Generation"]  = generations10
 df10["Fitness_SD"]  = fitness_sd10
 df10["Fitness_Mean"]  = fitness_mean10
 df10["Fitness_Lower"]  = df10["Fitness_Mean"] + df10["Fitness_SD"]
 df10["Fitness_Upper"]  = df10["Fitness_Mean"] - df10["Fitness_SD"]
-
+"""
 if not path.exists( log_dir0 ):
     mkdir( log_dir0 )
 
@@ -1326,26 +1326,26 @@ if not path.exists( log_dir9 ):
     mkdir( log_dir9 )
 
 df9.to_excel( log_dir9 + "/all.xlsx", index = False, encoding = 'utf-8' )
-
+"""
 if not path.exists( log_dir10 ):
     mkdir( log_dir10 )
 
 df10.to_excel( log_dir10 + "/all.xlsx", index = False, encoding = 'utf-8' )
+"""
 
+print("Hill climbing maximum iterations = 10:", df0["Fitness_Mean"].loc[df0["Generation"] == 250])
+print("Hill climbing maximum iterations = 20:", df1["Fitness_Mean"].loc[df1["Generation"] == 250])
+print("Hill climbing maximum iterations = 30:", df2["Fitness_Mean"].loc[df2["Generation"] == 250])
+print("Hill climbing maximum iterations = 40:", df3["Fitness_Mean"].loc[df3["Generation"] == 250])
+print("Hill climbing maximum iterations = 50:", df4["Fitness_Mean"].loc[df4["Generation"] == 250])
+print("Hill climbing maximum iterations = 60:", df5["Fitness_Mean"].loc[df5["Generation"] == 250])
+print("Hill climbing maximum iterations = 70:", df6["Fitness_Mean"].loc[df6["Generation"] == 250])
+print("Hill climbing maximum iterations = 80:", df7["Fitness_Mean"].loc[df7["Generation"] == 250])
+print("Hill climbing maximum iterations = 90:", df8["Fitness_Mean"].loc[df8["Generation"] == 250])
+print("Hill climbing maximum iterations = 100:", df9["Fitness_Mean"].loc[df9["Generation"] == 250])
+#print("Inversion Mutation with probability 1.0:", df10["Fitness_Mean"].loc[df10["Generation"] == 250])
 
-print("Cycle Crossover with probability 0.0:", df0["Fitness_Mean"].loc[df0["Generation"] == 250])
-print("Cycle Crossover with probability 0.1:", df1["Fitness_Mean"].loc[df1["Generation"] == 250])
-print("Cycle Crossover with probability 0.2:", df2["Fitness_Mean"].loc[df2["Generation"] == 250])
-print("Cycle Crossover with probability 0.3:", df3["Fitness_Mean"].loc[df3["Generation"] == 250])
-print("Cycle Crossover with probability 0.4:", df4["Fitness_Mean"].loc[df4["Generation"] == 250])
-print("Cycle Crossover with probability 0.5:", df5["Fitness_Mean"].loc[df5["Generation"] == 250])
-print("Cycle Crossover with probability 0.6:", df6["Fitness_Mean"].loc[df6["Generation"] == 250])
-print("Cycle Crossover with probability 0.7:", df7["Fitness_Mean"].loc[df7["Generation"] == 250])
-print("Cycle Crossover with probability 0.8:", df8["Fitness_Mean"].loc[df8["Generation"] == 250])
-print("Cycle Crossover with probability 0.9:", df9["Fitness_Mean"].loc[df9["Generation"] == 250])
-print("Cycle Crossover with probability 1.0:", df10["Fitness_Mean"].loc[df10["Generation"] == 250])
-
-plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9,df10 )
+plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 )
 
 #[sum(sublist) for sublist in itertools.izip(*myListOfLists)]
 
