@@ -1345,6 +1345,6 @@ print("Simulated annealing linear update rate = 0.9:", df8["Fitness_Mean"].loc[d
 print("Simulated annealing linear update rate = 1.0:", df9["Fitness_Mean"].loc[df9["Generation"] == 250])
 #print("Simulated annealing maximum internal iterations = 100:", df10["Fitness_Mean"].loc[df10["Generation"] == 250])
 
-plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df )
+plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 )
 
 #[sum(sublist) for sublist in itertools.izip(*myListOfLists)]
