@@ -29,7 +29,7 @@ from random import randint
 
 import pandas as pd
 
-def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
+def plot_performance_chart( df0,df1,df2 ):
     import plotly.graph_objects as go
     import plotly.express as px
     from plotly.subplots import make_subplots
@@ -47,7 +47,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
     x2 = df2["Generation"] 
     x_rev2 = x2[::-1]
     y1_2 = df2["Fitness_Mean"] 
-    
+    """
     x3 = df3["Generation"] 
     x_rev3 = x3[::-1]
     y1_3 = df3["Fitness_Mean"] 
@@ -63,7 +63,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
     x6 = df6["Generation"] 
     x_rev6 = x6[::-1]
     y1_6 = df6["Fitness_Mean"] 
-
+    
     x7 = df7["Generation"] 
     x_rev7 = x7[::-1]
     y1_7 = df7["Fitness_Mean"] 
@@ -75,7 +75,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
     x9 = df9["Generation"] 
     x_rev9 = x9[::-1]
     y1_9 = df9["Fitness_Mean"] 
-    """    
+    
     x10 = df10["Generation"] 
     x_rev10 = x10[::-1]
     y1_10 = df10["Fitness_Mean"] 
@@ -86,7 +86,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
         y = y1_0,
         line=dict(color='rgb(255,0,0)'),
         mode='lines',
-        name='0.1',
+        name='roulette wheel selection',
     )
     
     trace1 = go.Scatter(
@@ -94,7 +94,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
         y = y1_1,
         line=dict(color='rgb(255,128,0)'),
         mode='lines',
-        name='0.2',
+        name='rank selection',
     )
     
     trace2 = go.Scatter(
@@ -102,15 +102,15 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
         y = y1_2,
         line=dict(color='rgb(255,255,0)'),
         mode='lines',
-        name='0.3',
+        name='tournament selection',
     )
-    
+    """
     trace3 = go.Scatter(
         x = x3,
         y = y1_3,
         line=dict(color='rgb(128,255,0)'),
         mode='lines',
-        name='0.4',
+        name='250',
     )
     
     trace4 = go.Scatter(
@@ -118,7 +118,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
         y = y1_4,
         line=dict(color='rgb(0,255,0)'),
         mode='lines',
-        name='0.5',
+        name='300',
     )
 
     trace5 = go.Scatter(
@@ -126,7 +126,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
         y = y1_5,
         line=dict(color='rgb(0,255,128)'),
         mode='lines',
-        name='0.6',
+        name='350',
     )
 
     trace6 = go.Scatter(
@@ -134,15 +134,15 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
         y = y1_6,
         line=dict(color='rgb(0,255,255)'),
         mode='lines',
-        name='0.7',
+        name='400',
     )
-
+    
     trace7 = go.Scatter(
         x = x7,
         y = y1_7,
         line=dict(color='rgb(0,128,255)'),
         mode='lines',
-        name='0.8',
+        name='450',
     )
 
     trace8 = go.Scatter(
@@ -150,7 +150,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
         y = y1_8,
         line=dict(color='rgb(0,0,255)'),
         mode='lines',
-        name='0.9',
+        name='500',
     )
     
     trace9 = go.Scatter(
@@ -158,17 +158,17 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
         y = y1_9,
         line=dict(color='rgb(128,0,255)'),
         mode='lines',
-        name='1.0',
+        name='9',
     )
-    """
+    
     trace10 = go.Scatter(
         x = x10,
         y = y1_10,
         line=dict(color='rgb(255,0,255)'),
         mode='lines',
-        name='100',
+        name='10',
     )
-    """
+    """   
     #trace2 = go.Scatter(
         #x = x,
         #y = y1_upper,
@@ -189,7 +189,7 @@ def plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 ):
         #name='Fair',
     #)
     
-    data = [trace0, trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8, trace9]
+    data = [trace0, trace1, trace2]
     
     layout = go.Layout(
         paper_bgcolor='rgb(255,255,255)',
@@ -315,7 +315,7 @@ pip = PortfolioInvestmentProblem(
 #--------------------------------------------------------------------------------------------------
 # parent selection object
 #parent_selection = TournamentSelection()
-parent_selection = RouletteWheelSelection()
+#parent_selection = RouletteWheelSelection()
 
 params0 = {
         # params
@@ -324,8 +324,8 @@ params0 = {
         "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
-        "Initialization-Approach"   : initialize_using_sa,
-        "Selection-Approach"        : parent_selection,
+        "Initialization-Approach"   : initialize_randomly,
+        "Selection-Approach"        : RouletteWheelSelection(),
         "Tournament-Size"           : 5,
         "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
@@ -339,8 +339,8 @@ params1 = {
         "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
-        "Initialization-Approach"   : initialize_using_sa,
-        "Selection-Approach"        : parent_selection,
+        "Initialization-Approach"   : initialize_randomly,
+        "Selection-Approach"        : RankSelection(),
         "Tournament-Size"           : 5,
         "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
@@ -354,14 +354,14 @@ params2 = {
         "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
-        "Initialization-Approach"   : initialize_using_sa,
-        "Selection-Approach"        : parent_selection,
-        "Tournament-Size"           : 5,
+        "Initialization-Approach"   : initialize_randomly,
+        "Selection-Approach"        : TournamentSelection(),
+        "Tournament-Size"           : 1,
         "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
-
+"""
 params3 = {
         # params
         "Population-Size"           : 20,
@@ -369,7 +369,7 @@ params3 = {
         "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
-        "Initialization-Approach"   : initialize_using_sa,
+        "Initialization-Approach"   : initialize_using_ts,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
         "Crossover-Approach"        : pmx_crossover,
@@ -384,7 +384,7 @@ params4 = {
         "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
-        "Initialization-Approach"   : initialize_using_sa,
+        "Initialization-Approach"   : initialize_using_ts,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
         "Crossover-Approach"        : pmx_crossover,
@@ -399,7 +399,7 @@ params5 = {
         "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
-        "Initialization-Approach"   : initialize_using_sa,
+        "Initialization-Approach"   : initialize_using_ts,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
         "Crossover-Approach"        : pmx_crossover,
@@ -414,7 +414,7 @@ params6 = {
         "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
-        "Initialization-Approach"   : initialize_using_sa,
+        "Initialization-Approach"   : initialize_using_ts,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
         "Crossover-Approach"        : pmx_crossover,
@@ -429,7 +429,7 @@ params7 = {
         "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
-        "Initialization-Approach"   : initialize_using_sa,
+        "Initialization-Approach"   : initialize_using_ts,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
         "Crossover-Approach"        : pmx_crossover,
@@ -444,7 +444,7 @@ params8 = {
         "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
-        "Initialization-Approach"   : initialize_using_sa,
+        "Initialization-Approach"   : initialize_using_ts,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
         "Crossover-Approach"        : pmx_crossover,
@@ -459,7 +459,7 @@ params9 = {
         "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
-        "Initialization-Approach"   : initialize_using_sa,
+        "Initialization-Approach"   : initialize_using_ts,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
         "Crossover-Approach"        : pmx_crossover,
@@ -474,17 +474,17 @@ params10 = {
         "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
-        "Initialization-Approach"   : initialize_using_sa,
+        "Initialization-Approach"   : initialize_using_ts,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
         "Crossover-Approach"        : pmx_crossover,
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
-
+"""
 neighborhood_function = tsp_bitflip_get_neighbors
 #neighborhood_function = pip_bitflip_get_neighbors
-
+"""
 hc_init_params0 = {
     "Maximum-Iterations" : 10,
     "Stop-Conditions" : "Classical",
@@ -554,7 +554,7 @@ hc_init_params9 = {
     "Neighborhood-Size": 10,
     "Neighborhood-Function": neighborhood_function
 }
-"""
+
 hc_init_params10 = {
     "Maximum-Iterations" : 20,
     "Stop-Conditions" : "Classical",
@@ -562,14 +562,14 @@ hc_init_params10 = {
     "Neighborhood-Function": neighborhood_function
 }
 """
-
+"""
 sa_init_params0 = {
     "Maximum-Internal-Iterations" : 10,
     "Maximum-Iterations" : 10,
-    #"Initial-C" : 200,
+    #"Initial-C" : 1,
     #"Minimum-C" : 0.01,
-    "Update-Method" : "Linear",
-    "Update-Rate" : 0.1,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
     "Initialize-Method-C" : "Classical",
     "Initialize-Method-Minimum-C" : "Classical",
     "Neighborhood-Size" : 5,
@@ -579,11 +579,11 @@ sa_init_params0 = {
 sa_init_params1 = {
     "Maximum-Internal-Iterations" : 10,
     "Maximum-Iterations" : 10,
-    #"Initial-C" : 200,
+    #"Initial-C" : 5,
     #"Minimum-C" : 0.01,
-    "Update-Method" : "Linear",
-    "Update-Rate" : 0.2,
-    "Initialize-Method-C" : "Classical",
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    "Initialize-Method-C" : "Fitness Dependent",
     "Initialize-Method-Minimum-C" : "Classical",
     "Neighborhood-Size" : 5,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
@@ -592,11 +592,11 @@ sa_init_params1 = {
 sa_init_params2 = {
     "Maximum-Internal-Iterations" : 10,
     "Maximum-Iterations" : 10,
-    #"Initial-C" : 200,
+    "Initial-C" : 10,
     #"Minimum-C" : 0.01,
-    "Update-Method" : "Linear",
-    "Update-Rate" : 0.3,
-    "Initialize-Method-C" : "Classical",
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    #"Initialize-Method-C" : "Classical",
     "Initialize-Method-Minimum-C" : "Classical",
     "Neighborhood-Size" : 5,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
@@ -605,11 +605,11 @@ sa_init_params2 = {
 sa_init_params3 = {
     "Maximum-Internal-Iterations" : 10,
     "Maximum-Iterations" : 10,
-    #"Initial-C" : 200,
+    "Initial-C" : 20,
     #"Minimum-C" : 0.01,
-    "Update-Method" : "Linear",
-    "Update-Rate" : 0.4,
-    "Initialize-Method-C" : "Classical",
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    #"Initialize-Method-C" : "Classical",
     "Initialize-Method-Minimum-C" : "Classical",
     "Neighborhood-Size" : 5,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
@@ -618,11 +618,11 @@ sa_init_params3 = {
 sa_init_params4 = {
     "Maximum-Internal-Iterations" : 10,
     "Maximum-Iterations" : 10,
-    #"Initial-C" : 200,
+    "Initial-C" : 30,
     #"Minimum-C" : 0.01,
-    "Update-Method" : "Linear",
-    "Update-Rate" : 0.5,
-    "Initialize-Method-C" : "Classical",
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    #"Initialize-Method-C" : "Classical",
     "Initialize-Method-Minimum-C" : "Classical",
     "Neighborhood-Size" : 5,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
@@ -631,11 +631,11 @@ sa_init_params4 = {
 sa_init_params5 = {
     "Maximum-Internal-Iterations" : 10,
     "Maximum-Iterations" : 10,
-    #"Initial-C" : 200,
+    "Initial-C" : 40,
     #"Minimum-C" : 0.01,
-    "Update-Method" : "Linear",
-    "Update-Rate" : 0.6,
-    "Initialize-Method-C" : "Classical",
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    #"Initialize-Method-C" : "Classical",
     "Initialize-Method-Minimum-C" : "Classical",
     "Neighborhood-Size" : 5,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
@@ -644,11 +644,11 @@ sa_init_params5 = {
 sa_init_params6 = {
     "Maximum-Internal-Iterations" : 10,
     "Maximum-Iterations" : 10,
-    #"Initial-C" : 200,
+    "Initial-C" : 50,
     #"Minimum-C" : 0.01,
-    "Update-Method" : "Linear",
-    "Update-Rate" : 0.7,
-    "Initialize-Method-C" : "Classical",
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    #"Initialize-Method-C" : "Classical",
     "Initialize-Method-Minimum-C" : "Classical",
     "Neighborhood-Size" : 5,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
@@ -657,11 +657,11 @@ sa_init_params6 = {
 sa_init_params7 = {
     "Maximum-Internal-Iterations" : 10,
     "Maximum-Iterations" : 10,
-    #"Initial-C" : 200,
+    "Initial-C" : 75,
     #"Minimum-C" : 0.01,
-    "Update-Method" : "Linear",
-    "Update-Rate" : 0.8,
-    "Initialize-Method-C" : "Classical",
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    #"Initialize-Method-C" : "Classical",
     "Initialize-Method-Minimum-C" : "Classical",
     "Neighborhood-Size" : 5,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
@@ -670,11 +670,11 @@ sa_init_params7 = {
 sa_init_params8 = {
     "Maximum-Internal-Iterations" : 10,
     "Maximum-Iterations" : 10,
-    #"Initial-C" : 200,
+    "Initial-C" : 100,
     #"Minimum-C" : 0.01,
-    "Update-Method" : "Linear",
+    "Update-Method" : "Geometric",
     "Update-Rate" : 0.9,
-    "Initialize-Method-C" : "Classical",
+    #"Initialize-Method-C" : "Classical",
     "Initialize-Method-Minimum-C" : "Classical",
     "Neighborhood-Size" : 5,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
@@ -683,31 +683,32 @@ sa_init_params8 = {
 sa_init_params9 = {
     "Maximum-Internal-Iterations" : 10,
     "Maximum-Iterations" : 10,
-    #"Initial-C" : 200,
-    #"Minimum-C" : 0.01,
-    "Update-Method" : "Linear",
-    "Update-Rate" : 1.0,
-    "Initialize-Method-C" : "Classical",
-    "Initialize-Method-Minimum-C" : "Classical",
-    "Neighborhood-Size" : 5,
-    "Neighborhood-Function": tsp_bitflip_get_neighbors
-}
-"""
-sa_init_params10 = {
-    "Maximum-Internal-Iterations" : 10,
-    "Maximum-Iterations" : 10,
-    #"Initial-C" : 200,
+    "Initial-C" : 150,
     #"Minimum-C" : 0.01,
     "Update-Method" : "Geometric",
     "Update-Rate" : 0.9,
-    "Initialize-Method-C" : "Classical",
+    #"Initialize-Method-C" : "Classical",
+    "Initialize-Method-Minimum-C" : "Classical",
+    "Neighborhood-Size" : 5,
+    "Neighborhood-Function": tsp_bitflip_get_neighbors
+}
+
+sa_init_params10 = {
+    "Maximum-Internal-Iterations" : 10,
+    "Maximum-Iterations" : 10,
+    "Initial-C" : 200,
+    #"Minimum-C" : 0.01,
+    "Update-Method" : "Geometric",
+    "Update-Rate" : 0.9,
+    #"Initialize-Method-C" : "Classical",
     "Initialize-Method-Minimum-C" : "Classical",
     "Neighborhood-Size" : 5,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
 }
 """
+"""
 ts_init_params0 = {
-    "Maximum-Iterations" : 10,
+    "Maximum-Iterations" : 100,
     "Stop-Conditions" : "Classical",
     #"Target-Fitness"
     "Neighborhood-Size": 5,
@@ -716,7 +717,7 @@ ts_init_params0 = {
 }
 
 ts_init_params1 = {
-    "Maximum-Iterations" : 20,
+    "Maximum-Iterations" : 150,
     "Stop-Conditions" : "Classical",
     #"Target-Fitness"
     "Neighborhood-Size": 5,
@@ -725,7 +726,7 @@ ts_init_params1 = {
 }
 
 ts_init_params2 = {
-    "Maximum-Iterations" : 30,
+    "Maximum-Iterations" : 200,
     "Stop-Conditions" : "Classical",
     #"Target-Fitness"
     "Neighborhood-Size": 5,
@@ -734,7 +735,7 @@ ts_init_params2 = {
 }
 
 ts_init_params3 = {
-    "Maximum-Iterations" : 40,
+    "Maximum-Iterations" : 250,
     "Stop-Conditions" : "Classical",
     #"Target-Fitness"
     "Neighborhood-Size": 5,
@@ -743,7 +744,7 @@ ts_init_params3 = {
 }
 
 ts_init_params4 = {
-    "Maximum-Iterations" : 50,
+    "Maximum-Iterations" : 300,
     "Stop-Conditions" : "Classical",
     #"Target-Fitness"
     "Neighborhood-Size": 5,
@@ -752,7 +753,7 @@ ts_init_params4 = {
 }
 
 ts_init_params5 = {
-    "Maximum-Iterations" : 60,
+    "Maximum-Iterations" : 350,
     "Stop-Conditions" : "Classical",
     #"Target-Fitness"
     "Neighborhood-Size": 5,
@@ -761,7 +762,7 @@ ts_init_params5 = {
 }
 
 ts_init_params6 = {
-    "Maximum-Iterations" : 70,
+    "Maximum-Iterations" : 400,
     "Stop-Conditions" : "Classical",
     #"Target-Fitness"
     "Neighborhood-Size": 5,
@@ -770,7 +771,7 @@ ts_init_params6 = {
 }
 
 ts_init_params7 = {
-    "Maximum-Iterations" : 80,
+    "Maximum-Iterations" : 450,
     "Stop-Conditions" : "Classical",
     #"Target-Fitness"
     "Neighborhood-Size": 5,
@@ -779,7 +780,7 @@ ts_init_params7 = {
 }
 
 ts_init_params8 = {
-    "Maximum-Iterations" : 90,
+    "Maximum-Iterations" : 500,
     "Stop-Conditions" : "Classical",
     #"Target-Fitness"
     "Neighborhood-Size": 5,
@@ -788,14 +789,14 @@ ts_init_params8 = {
 }
 
 ts_init_params9 = {
-    "Maximum-Iterations" : 100,
+    "Maximum-Iterations" : 10,
     "Stop-Conditions" : "Classical",
     #"Target-Fitness"
     "Neighborhood-Size": 5,
     "Memory-Size": 5,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
 }
-"""
+
 ts_init_params10 = {
     "Maximum-Iterations" : 10,
     "Stop-Conditions" : "Classical",
@@ -808,6 +809,7 @@ ts_init_params10 = {
 log_name0 = "mp0-8_0"
 log_name1 = "mp0-8_1"
 log_name2 = "mp0-8_2"
+"""
 log_name3 = "mp0-8_3"
 log_name4 = "mp0-8_4"
 log_name5 = "mp0-8_5"
@@ -815,8 +817,8 @@ log_name6 = "mp0-8_6"
 log_name7 = "mp0-8_7"
 log_name8 = "mp0-8_8"
 log_name9 = "mp0-8_9"
-#log_name10 = "mp0-8_10"
-
+log_name10 = "mp0-8_10"
+"""
 number_of_runs = 30
 
 # Run the same configuration many times
@@ -832,77 +834,77 @@ for run in range(1,number_of_runs + 1):
     ga0 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params0,
-        init_params = sa_init_params0,
+        #init_params = ts_init_params0,
         run = run,
         log_name = log_name0 )
     
     ga1 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params1,
-        init_params = sa_init_params1,
+        #init_params = ts_init_params1,
         run = run,
         log_name = log_name1 )
     
     ga2 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params2,
-        init_params = sa_init_params2,
+        #init_params = ts_init_params2,
         run = run,
         log_name = log_name2 )
-    
+    """
     ga3 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params3,
-        init_params = sa_init_params3,
+        init_params = ts_init_params3,
         run = run,
         log_name = log_name3 )
     
     ga4 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params4,
-        init_params = sa_init_params4,
+        init_params = ts_init_params4,
         run = run,
         log_name = log_name4 )
 
     ga5 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params5,
-        init_params = sa_init_params5,
+        init_params = ts_init_params5,
         run = run,
         log_name = log_name5 )
 
     ga6 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params6,
-        init_params = sa_init_params6,
+        init_params = ts_init_params6,
         run = run,
         log_name = log_name6 )
 
     ga7 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params7,
-        init_params = sa_init_params7,
+        init_params = ts_init_params7,
         run = run,
         log_name = log_name7 )
 
     ga8 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params8,
-        init_params = sa_init_params8,
+        init_params = ts_init_params8,
         run = run,
         log_name = log_name8 )
     
     ga9 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params9,
-        init_params = sa_init_params9,
+        init_params = ts_init_params9,
         run = run,
         log_name = log_name9 )
-    """
+    
     ga10 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params10,
-        init_params = sa_init_params10,
+        init_params = ts_init_params10,
         run = run,
         log_name = log_name10 )
     """
@@ -915,12 +917,12 @@ for run in range(1,number_of_runs + 1):
     ga1.register_observer( ga_observer1 )
     ga1.search()    
     ga1.save_log()
-
+    
     ga_observer2 = GeneticAlgorithmObserver( ga2 )
     ga2.register_observer( ga_observer2 )
     ga2.search()    
     ga2.save_log()
-    
+    """
     ga_observer3 = GeneticAlgorithmObserver( ga3 )
     ga3.register_observer( ga_observer3 )
     ga3.search()    
@@ -955,7 +957,7 @@ for run in range(1,number_of_runs + 1):
     ga9.register_observer( ga_observer9 )
     ga9.search()    
     ga9.save_log()
-    """
+    
     ga_observer10 = GeneticAlgorithmObserver( ga10 )
     ga10.register_observer( ga_observer10 )
     ga10.search()    
@@ -975,6 +977,7 @@ import numpy as np
 log_dir0   = f"./log/{log_name0}" 
 log_dir1   = f"./log/{log_name1}" 
 log_dir2   = f"./log/{log_name2}" 
+"""
 log_dir3   = f"./log/{log_name3}" 
 log_dir4   = f"./log/{log_name4}" 
 log_dir5   = f"./log/{log_name5}" 
@@ -982,11 +985,12 @@ log_dir6   = f"./log/{log_name6}"
 log_dir7   = f"./log/{log_name7}" 
 log_dir8   = f"./log/{log_name8}" 
 log_dir9   = f"./log/{log_name9}" 
-#log_dir10   = f"./log/{log_name10}" 
-
+log_dir10   = f"./log/{log_name10}" 
+"""
 log_files0 = [f for f in listdir(log_dir0) if isfile(join(log_dir0, f))]
 log_files1 = [f for f in listdir(log_dir1) if isfile(join(log_dir1, f))]
 log_files2 = [f for f in listdir(log_dir2) if isfile(join(log_dir2, f))]
+"""
 log_files3 = [f for f in listdir(log_dir3) if isfile(join(log_dir3, f))]
 log_files4 = [f for f in listdir(log_dir4) if isfile(join(log_dir4, f))]
 log_files5 = [f for f in listdir(log_dir5) if isfile(join(log_dir5, f))]
@@ -994,8 +998,8 @@ log_files6 = [f for f in listdir(log_dir6) if isfile(join(log_dir6, f))]
 log_files7 = [f for f in listdir(log_dir7) if isfile(join(log_dir7, f))]
 log_files8 = [f for f in listdir(log_dir8) if isfile(join(log_dir8, f))]
 log_files9 = [f for f in listdir(log_dir9) if isfile(join(log_dir9, f))]
-#log_files10 = [f for f in listdir(log_dir10) if isfile(join(log_dir10, f))]
-
+log_files10 = [f for f in listdir(log_dir10) if isfile(join(log_dir10, f))]
+"""
 #print(log_files)
 
 fitness_runs0 = []
@@ -1042,7 +1046,7 @@ for log_name in log_files2:
 
         if not generations2:
             generations2 = list( df2["Generation"] )
-
+"""
 fitness_runs3 = []
 columns_name3 = []
 counter3 = 0
@@ -1147,7 +1151,7 @@ for log_name in log_files9:
 
         if not generations9:
             generations9 = list( df9["Generation"] )
-"""
+
 fitness_runs10 = []
 columns_name10 = []
 counter10 = 0
@@ -1168,6 +1172,7 @@ for log_name in log_files10:
 df0 = pd.DataFrame(list(zip(*fitness_runs0)), columns = columns_name0)
 df1 = pd.DataFrame(list(zip(*fitness_runs1)), columns = columns_name1)
 df2 = pd.DataFrame(list(zip(*fitness_runs2)), columns = columns_name2)
+"""
 df3 = pd.DataFrame(list(zip(*fitness_runs3)), columns = columns_name3)
 df4 = pd.DataFrame(list(zip(*fitness_runs4)), columns = columns_name4)
 df5 = pd.DataFrame(list(zip(*fitness_runs5)), columns = columns_name5)
@@ -1175,8 +1180,8 @@ df6 = pd.DataFrame(list(zip(*fitness_runs6)), columns = columns_name6)
 df7 = pd.DataFrame(list(zip(*fitness_runs7)), columns = columns_name7)
 df8 = pd.DataFrame(list(zip(*fitness_runs8)), columns = columns_name8)
 df9 = pd.DataFrame(list(zip(*fitness_runs9)), columns = columns_name9)
-#df10 = pd.DataFrame(list(zip(*fitness_runs10)), columns = columns_name10)
-
+df10 = pd.DataFrame(list(zip(*fitness_runs10)), columns = columns_name10)
+"""
 fitness_sd0   = list( df0.std( axis = 1 ) )
 fitness_mean0 = list( df0.mean( axis = 1 ) )
 
@@ -1185,7 +1190,7 @@ fitness_mean1 = list( df1.mean( axis = 1 ) )
 
 fitness_sd2   = list( df2.std( axis = 1 ) )
 fitness_mean2 = list( df2.mean( axis = 1 ) )
-
+"""
 fitness_sd3   = list( df3.std( axis = 1 ) )
 fitness_mean3 = list( df3.mean( axis = 1 ) )
 
@@ -1206,7 +1211,7 @@ fitness_mean8 = list( df8.mean( axis = 1 ) )
 
 fitness_sd9   = list( df9.std( axis = 1 ) )
 fitness_mean9 = list( df9.mean( axis = 1 ) )
-"""
+
 fitness_sd10   = list( df10.std( axis = 1 ) )
 fitness_mean10 = list( df10.mean( axis = 1 ) )
 """
@@ -1228,7 +1233,7 @@ df2["Fitness_SD"]  = fitness_sd2
 df2["Fitness_Mean"]  = fitness_mean2
 df2["Fitness_Lower"]  = df2["Fitness_Mean"] + df2["Fitness_SD"]
 df2["Fitness_Upper"]  = df2["Fitness_Mean"] - df2["Fitness_SD"]
-
+"""
 df3["Generation"]  = generations3
 df3["Fitness_SD"]  = fitness_sd3
 df3["Fitness_Mean"]  = fitness_mean3
@@ -1270,7 +1275,7 @@ df9["Fitness_SD"]  = fitness_sd9
 df9["Fitness_Mean"]  = fitness_mean9
 df9["Fitness_Lower"]  = df9["Fitness_Mean"] + df9["Fitness_SD"]
 df9["Fitness_Upper"]  = df9["Fitness_Mean"] - df9["Fitness_SD"]
-"""
+
 df10["Generation"]  = generations10
 df10["Fitness_SD"]  = fitness_sd10
 df10["Fitness_Mean"]  = fitness_mean10
@@ -1291,7 +1296,7 @@ if not path.exists( log_dir2 ):
     mkdir( log_dir2 )
 
 df2.to_excel( log_dir2 + "/all.xlsx", index = False, encoding = 'utf-8' )
-
+"""
 if not path.exists( log_dir3 ):
     mkdir( log_dir3 )
 
@@ -1326,25 +1331,26 @@ if not path.exists( log_dir9 ):
     mkdir( log_dir9 )
 
 df9.to_excel( log_dir9 + "/all.xlsx", index = False, encoding = 'utf-8' )
-"""
+
 if not path.exists( log_dir10 ):
     mkdir( log_dir10 )
 
 df10.to_excel( log_dir10 + "/all.xlsx", index = False, encoding = 'utf-8' )
 """
 
-print("Simulated annealing linear update rate = 0.1:", df0["Fitness_Mean"].loc[df0["Generation"] == 250])
-print("Simulated annealing linear update rate = 0.2:", df1["Fitness_Mean"].loc[df1["Generation"] == 250])
-print("Simulated annealing linear update rate = 0.3:", df2["Fitness_Mean"].loc[df2["Generation"] == 250])
-print("Simulated annealing linear update rate = 0.4:", df3["Fitness_Mean"].loc[df3["Generation"] == 250])
-print("Simulated annealing linear update rate = 0.5:", df4["Fitness_Mean"].loc[df4["Generation"] == 250])
-print("Simulated annealing linear update rate = 0.6:", df5["Fitness_Mean"].loc[df5["Generation"] == 250])
-print("Simulated annealing linear update rate = 0.7:", df6["Fitness_Mean"].loc[df6["Generation"] == 250])
-print("Simulated annealing linear update rate = 0.8:", df7["Fitness_Mean"].loc[df7["Generation"] == 250])
-print("Simulated annealing linear update rate = 0.9:", df8["Fitness_Mean"].loc[df8["Generation"] == 250])
-print("Simulated annealing linear update rate = 1.0:", df9["Fitness_Mean"].loc[df9["Generation"] == 250])
-#print("Simulated annealing maximum internal iterations = 100:", df10["Fitness_Mean"].loc[df10["Generation"] == 250])
-
-plot_performance_chart( df0,df1,df2,df3,df4,df5,df6,df7,df8,df9 )
+print("Selection approach = roulette wheel selection:", df0["Fitness_Mean"].loc[df0["Generation"] == 250])
+print("Selection approach = rank selection:", df1["Fitness_Mean"].loc[df1["Generation"] == 250])
+print("Selection approach = tournament selection:", df2["Fitness_Mean"].loc[df2["Generation"] == 250])
+"""
+print("Tabu search maximum iterations = 250:", df3["Fitness_Mean"].loc[df3["Generation"] == 0])
+print("Tabu search maximum iterations = 300:", df4["Fitness_Mean"].loc[df4["Generation"] == 0])
+print("Tabu search maximum iterations = 350:", df5["Fitness_Mean"].loc[df5["Generation"] == 0])
+print("Tabu search maximum iterations = 400:", df6["Fitness_Mean"].loc[df6["Generation"] == 0])
+print("Tabu search maximum iterations = 450:", df7["Fitness_Mean"].loc[df7["Generation"] == 0])
+print("Tabu search maximum iterations = 500:", df8["Fitness_Mean"].loc[df8["Generation"] == 0])
+print("Tabu search memory size = 9:", df9["Fitness_Mean"].loc[df9["Generation"] == 0])
+print("Tabu search memory size = 10:", df10["Fitness_Mean"].loc[df10["Generation"] == 0])
+"""
+plot_performance_chart( df0,df1,df2 )
 
 #[sum(sublist) for sublist in itertools.izip(*myListOfLists)]
