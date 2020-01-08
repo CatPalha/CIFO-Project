@@ -29,7 +29,7 @@ from random import randint
 
 import pandas as pd
 
-def plot_performance_chart( df0,df1,df2 ):
+def plot_performance_chart( df0 ):
     import plotly.graph_objects as go
     import plotly.express as px
     from plotly.subplots import make_subplots
@@ -37,9 +37,9 @@ def plot_performance_chart( df0,df1,df2 ):
     x0 = df0["Generation"] 
     x_rev0 = x0[::-1]
     y1_0 = df0["Fitness_Mean"] 
-    #y1_upper = df["Fitness_Lower"]
-    #y1_lower = df["Fitness_Upper"]
-    
+    y1_upper = df0["Fitness_Lower"]
+    y1_lower = df0["Fitness_Upper"]
+    """
     x1 = df1["Generation"] 
     x_rev1 = x1[::-1]
     y1_1 = df1["Fitness_Mean"] 
@@ -47,7 +47,7 @@ def plot_performance_chart( df0,df1,df2 ):
     x2 = df2["Generation"] 
     x_rev2 = x2[::-1]
     y1_2 = df2["Fitness_Mean"] 
-    """
+    
     x3 = df3["Generation"] 
     x_rev3 = x3[::-1]
     y1_3 = df3["Fitness_Mean"] 
@@ -84,11 +84,11 @@ def plot_performance_chart( df0,df1,df2 ):
     trace0 = go.Scatter(
         x = x0,
         y = y1_0,
-        line=dict(color='rgb(255,0,0)'),
+        line=dict(color='rgb(0,100,80)'),
         mode='lines',
-        name='roulette wheel selection',
+        name='baseline',
     )
-    
+    """
     trace1 = go.Scatter(
         x = x1,
         y = y1_1,
@@ -104,7 +104,7 @@ def plot_performance_chart( df0,df1,df2 ):
         mode='lines',
         name='tournament selection',
     )
-    """
+    
     trace3 = go.Scatter(
         x = x3,
         y = y1_3,
@@ -169,34 +169,34 @@ def plot_performance_chart( df0,df1,df2 ):
         name='10',
     )
     """   
-    #trace2 = go.Scatter(
-        #x = x,
-        #y = y1_upper,
-        #fill='tozerox',
-        #fillcolor='rgba(0,100,80,0.2)',
-        #line=dict(color='rgba(255,255,255,0)'),
-        #showlegend=False,
-        #name='Fair',
-    #)
+    trace2 = go.Scatter(
+        x = x0,
+        y = y1_upper,
+        fill='tozerox',
+        fillcolor='rgba(0,100,80,0.2)',
+        line=dict(color='rgba(255,255,255,0)'),
+        showlegend=False,
+        name='Fair',
+    )
 
-    #trace3 = go.Scatter(
-        #x = x,
-        #y = y1_lower,
-        #fill='tozerox',
-        #fillcolor='rgba(0,100,80,0.2)',
-        #line=dict(color='rgba(255,255,255,0)'),
-        #showlegend=False,
-        #name='Fair',
-    #)
+    trace3 = go.Scatter(
+        x = x0,
+        y = y1_lower,
+        fill='tozerox',
+        fillcolor='rgba(0,100,80,0.2)',
+        line=dict(color='rgba(255,255,255,0)'),
+        showlegend=False,
+        name='Fair',
+    )
     
-    data = [trace0, trace1, trace2]
+    data = [trace0, trace2, trace3]
     
     layout = go.Layout(
         paper_bgcolor='rgb(255,255,255)',
         plot_bgcolor='rgb(229,229,229)',
         xaxis=dict(
             gridcolor='rgb(255,255,255)',
-            range=[0,250],
+            range=[0,1000],
             showgrid=True,
             showline=False,
             showticklabels=True,
@@ -320,18 +320,18 @@ pip = PortfolioInvestmentProblem(
 params0 = {
         # params
         "Population-Size"           : 20,
-        "Number-of-Generations"     : 250,
+        "Number-of-Generations"     : 1000,
         "Crossover-Probability"     : 0.8,
         "Mutation-Probability"      : 0.5,
         # operators / approaches
         "Initialization-Approach"   : initialize_randomly,
         "Selection-Approach"        : RouletteWheelSelection(),
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : pmx_crossover,
-        "Mutation-Aproach"          : swap_mutation,
+        "Crossover-Approach"        : singlepoint_crossover,
+        "Mutation-Aproach"          : single_point_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
-
+"""
 params1 = {
         # params
         "Population-Size"           : 20,
@@ -361,7 +361,7 @@ params2 = {
         "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
-"""
+
 params3 = {
         # params
         "Population-Size"           : 20,
@@ -807,9 +807,9 @@ ts_init_params10 = {
 }
 """
 log_name0 = "mp0-8_0"
+"""
 log_name1 = "mp0-8_1"
 log_name2 = "mp0-8_2"
-"""
 log_name3 = "mp0-8_3"
 log_name4 = "mp0-8_4"
 log_name5 = "mp0-8_5"
@@ -832,12 +832,12 @@ for run in range(1,number_of_runs + 1):
         # log_name = log_name )
 
     ga0 = GeneticAlgorithm( 
-        problem_instance = tsp,
+        problem_instance = pip,
         params =  params0,
         #init_params = ts_init_params0,
         run = run,
         log_name = log_name0 )
-    
+    """
     ga1 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params1,
@@ -851,7 +851,7 @@ for run in range(1,number_of_runs + 1):
         #init_params = ts_init_params2,
         run = run,
         log_name = log_name2 )
-    """
+    
     ga3 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params3,
@@ -912,7 +912,7 @@ for run in range(1,number_of_runs + 1):
     ga0.register_observer( ga_observer0 )
     ga0.search()    
     ga0.save_log()
-    
+    """
     ga_observer1 = GeneticAlgorithmObserver( ga1 )
     ga1.register_observer( ga_observer1 )
     ga1.search()    
@@ -922,7 +922,7 @@ for run in range(1,number_of_runs + 1):
     ga2.register_observer( ga_observer2 )
     ga2.search()    
     ga2.save_log()
-    """
+    
     ga_observer3 = GeneticAlgorithmObserver( ga3 )
     ga3.register_observer( ga_observer3 )
     ga3.search()    
@@ -975,9 +975,9 @@ from pandas import pandas as pd
 import numpy as np
 
 log_dir0   = f"./log/{log_name0}" 
+"""
 log_dir1   = f"./log/{log_name1}" 
 log_dir2   = f"./log/{log_name2}" 
-"""
 log_dir3   = f"./log/{log_name3}" 
 log_dir4   = f"./log/{log_name4}" 
 log_dir5   = f"./log/{log_name5}" 
@@ -988,9 +988,9 @@ log_dir9   = f"./log/{log_name9}"
 log_dir10   = f"./log/{log_name10}" 
 """
 log_files0 = [f for f in listdir(log_dir0) if isfile(join(log_dir0, f))]
+"""
 log_files1 = [f for f in listdir(log_dir1) if isfile(join(log_dir1, f))]
 log_files2 = [f for f in listdir(log_dir2) if isfile(join(log_dir2, f))]
-"""
 log_files3 = [f for f in listdir(log_dir3) if isfile(join(log_dir3, f))]
 log_files4 = [f for f in listdir(log_dir4) if isfile(join(log_dir4, f))]
 log_files5 = [f for f in listdir(log_dir5) if isfile(join(log_dir5, f))]
@@ -1016,7 +1016,7 @@ for log_name in log_files0:
 
         if not generations0:
             generations0 = list( df0["Generation"] )
-
+"""
 fitness_runs1 = []
 columns_name1 = []
 counter1 = 0
@@ -1046,7 +1046,7 @@ for log_name in log_files2:
 
         if not generations2:
             generations2 = list( df2["Generation"] )
-"""
+
 fitness_runs3 = []
 columns_name3 = []
 counter3 = 0
@@ -1170,9 +1170,9 @@ for log_name in log_files10:
 #fitness_sum = [sum(x) for x in zip(*fitness_runs)]   
 
 df0 = pd.DataFrame(list(zip(*fitness_runs0)), columns = columns_name0)
+"""
 df1 = pd.DataFrame(list(zip(*fitness_runs1)), columns = columns_name1)
 df2 = pd.DataFrame(list(zip(*fitness_runs2)), columns = columns_name2)
-"""
 df3 = pd.DataFrame(list(zip(*fitness_runs3)), columns = columns_name3)
 df4 = pd.DataFrame(list(zip(*fitness_runs4)), columns = columns_name4)
 df5 = pd.DataFrame(list(zip(*fitness_runs5)), columns = columns_name5)
@@ -1184,13 +1184,13 @@ df10 = pd.DataFrame(list(zip(*fitness_runs10)), columns = columns_name10)
 """
 fitness_sd0   = list( df0.std( axis = 1 ) )
 fitness_mean0 = list( df0.mean( axis = 1 ) )
-
+"""
 fitness_sd1   = list( df1.std( axis = 1 ) )
 fitness_mean1 = list( df1.mean( axis = 1 ) )
 
 fitness_sd2   = list( df2.std( axis = 1 ) )
 fitness_mean2 = list( df2.mean( axis = 1 ) )
-"""
+
 fitness_sd3   = list( df3.std( axis = 1 ) )
 fitness_mean3 = list( df3.mean( axis = 1 ) )
 
@@ -1221,7 +1221,7 @@ df0["Fitness_SD"]  = fitness_sd0
 df0["Fitness_Mean"]  = fitness_mean0
 df0["Fitness_Lower"]  = df0["Fitness_Mean"] + df0["Fitness_SD"]
 df0["Fitness_Upper"]  = df0["Fitness_Mean"] - df0["Fitness_SD"]
-
+"""
 df1["Generation"]  = generations1
 df1["Fitness_SD"]  = fitness_sd1
 df1["Fitness_Mean"]  = fitness_mean1
@@ -1233,7 +1233,7 @@ df2["Fitness_SD"]  = fitness_sd2
 df2["Fitness_Mean"]  = fitness_mean2
 df2["Fitness_Lower"]  = df2["Fitness_Mean"] + df2["Fitness_SD"]
 df2["Fitness_Upper"]  = df2["Fitness_Mean"] - df2["Fitness_SD"]
-"""
+
 df3["Generation"]  = generations3
 df3["Fitness_SD"]  = fitness_sd3
 df3["Fitness_Mean"]  = fitness_mean3
@@ -1286,7 +1286,7 @@ if not path.exists( log_dir0 ):
     mkdir( log_dir0 )
 
 df0.to_excel( log_dir0 + "/all.xlsx", index = False, encoding = 'utf-8' )
-
+"""
 if not path.exists( log_dir1 ):
     mkdir( log_dir1 )
 
@@ -1296,7 +1296,7 @@ if not path.exists( log_dir2 ):
     mkdir( log_dir2 )
 
 df2.to_excel( log_dir2 + "/all.xlsx", index = False, encoding = 'utf-8' )
-"""
+
 if not path.exists( log_dir3 ):
     mkdir( log_dir3 )
 
@@ -1338,10 +1338,10 @@ if not path.exists( log_dir10 ):
 df10.to_excel( log_dir10 + "/all.xlsx", index = False, encoding = 'utf-8' )
 """
 
-print("Selection approach = roulette wheel selection:", df0["Fitness_Mean"].loc[df0["Generation"] == 250])
+print("pip baseline implementation:", df0["Fitness_Mean"].loc[df0["Generation"] == 1000])
+"""
 print("Selection approach = rank selection:", df1["Fitness_Mean"].loc[df1["Generation"] == 250])
 print("Selection approach = tournament selection:", df2["Fitness_Mean"].loc[df2["Generation"] == 250])
-"""
 print("Tabu search maximum iterations = 250:", df3["Fitness_Mean"].loc[df3["Generation"] == 0])
 print("Tabu search maximum iterations = 300:", df4["Fitness_Mean"].loc[df4["Generation"] == 0])
 print("Tabu search maximum iterations = 350:", df5["Fitness_Mean"].loc[df5["Generation"] == 0])
@@ -1351,6 +1351,6 @@ print("Tabu search maximum iterations = 500:", df8["Fitness_Mean"].loc[df8["Gene
 print("Tabu search memory size = 9:", df9["Fitness_Mean"].loc[df9["Generation"] == 0])
 print("Tabu search memory size = 10:", df10["Fitness_Mean"].loc[df10["Generation"] == 0])
 """
-plot_performance_chart( df0,df1,df2 )
+plot_performance_chart( df0 )
 
 #[sum(sublist) for sublist in itertools.izip(*myListOfLists)]

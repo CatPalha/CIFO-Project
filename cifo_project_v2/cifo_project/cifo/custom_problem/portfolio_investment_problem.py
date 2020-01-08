@@ -190,22 +190,40 @@ class PortfolioInvestmentProblem( ProblemTemplate ):
 def pip_bitflip_get_neighbors( solution, problem, neighborhood_size = 0 ):
     neighbors = []
 
-    while len(neighbors) < neighborhood_size:
-        # deep copy of solution.representation
-        neighbor = solution.representation[:]
-        i = randint(0, len(solution.representation)-1)
-        mx = max(solution.encoding_rule["Data"])
+    if neighborhood_size == -1:
+        for i in range(0, len(solution.representation)):
+            neighbor1 = solution.representation[:]
+            neighbor2 = solution.representation[:]
+            mx = max(solution.encoding_rule["Data"])
 
-        if solution.representation[i] == mx:
-            neighbor[i] = solution.representation[i] - 1
-        elif solution.representation[i] == 0:
-            neighbor[i] = solution.representation[i] + 1
-        else:
-            op = choice([-1,1])
-            neighbor[i] = solution.representation[i] + op
+            if solution.representation[i] == mx:
+                neighbor1[i] = solution.representation[i] - 1
+                neighbors.append(neighbor1)
+            elif solution.representation[i] == 0:
+                neighbor1[i] = solution.representation[i] + 1
+                neighbors.append(neighbor1)
+            else:
+                neighbor1[i] = solution.representation[i] + 1
+                neighbor2[i] = solution.representation[i] - 1
+                neighbors.append(neighbor1)
+                neighbors.append(neighbor2)
+    else:
+        while len(neighbors) < neighborhood_size:
+            # deep copy of solution.representation
+            neighbor = solution.representation[:]
+            i = randint(0, len(solution.representation)-1)
+            mx = max(solution.encoding_rule["Data"])
 
-        if neighbor not in neighbors:
-            neighbors.append(neighbor)
+            if solution.representation[i] == mx:
+                neighbor[i] = solution.representation[i] - 1
+            elif solution.representation[i] == 0:
+                neighbor[i] = solution.representation[i] + 1
+            else:
+                op = choice([-1,1])
+                neighbor[i] = solution.representation[i] + op
+
+            if neighbor not in neighbors:
+                neighbors.append(neighbor)
 
     neighborhood = []
     
