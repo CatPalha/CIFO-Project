@@ -57,10 +57,10 @@ class TabuSearch:
 
             A. "Maximum-Iterations" - the number of maximum iterations (used to stop the search, even there are neighbors better than the current solution)
             
-            B. "Stop-Condition" - The approach used to stop conditions
-            Possible "Search-Methods" : ["Classical", "Alternative-01"]
+            B. "Stop-Conditions" - The approach used to stop the algorithm
+            Possible "Stop-Conditions" : ["Classical", "Alternative-01"]
             1. Classical - Stops, when there is no better neighbor or the number of max iterations was achieved.
-            2. Alternative 1 - Stops when the number of max iterations was achieved. It can be good when the neighborhood can be different for the same solution   
+            2. Alternative-01 - Stops when the number of max iterations was achieved. It can be good when the neighborhood can be different for the same solution   
 
             C. "Neighborhood-Size" - the size of the neighborhood, the default is -1, which means the neighborhood will return all neighbors found
 
@@ -68,7 +68,7 @@ class TabuSearch:
         """
         # set
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        self._name              = "Hill Climbing"
+        self._name              = "Tabu Search"
         self._description       = ""
         self._problem_instance  = problem_instance
         self._get_neighbors     = neighborhood_function
