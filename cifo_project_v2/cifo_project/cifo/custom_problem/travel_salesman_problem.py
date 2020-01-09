@@ -65,10 +65,12 @@ class TravelSalesmanProblem( ProblemTemplate ):
             each number i corresponds to the city of index i in the distance matrix
         """
         solution_representation = []
-        encoding_data = self._encoding.encoding_data
+        encoding_data = self._encoding.encoding_data[:]
 
         for _ in range(0, self._encoding.size):
+            city = choice(encoding_data)
             solution_representation.append( choice(encoding_data) )
+            encoding_data.remove(city)
         
         solution = LinearSolution(
             representation = solution_representation, 
