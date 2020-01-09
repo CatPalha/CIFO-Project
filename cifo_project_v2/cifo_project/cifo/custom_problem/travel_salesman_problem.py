@@ -69,7 +69,7 @@ class TravelSalesmanProblem( ProblemTemplate ):
 
         for _ in range(0, self._encoding.size):
             city = choice(encoding_data)
-            solution_representation.append( choice(encoding_data) )
+            solution_representation.append( city )
             encoding_data.remove(city)
         
         solution = LinearSolution(
