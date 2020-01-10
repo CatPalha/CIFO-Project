@@ -90,6 +90,7 @@ def initialize_using_hc( problem, population_size, params={} ):
     # generate a population of admissible solutions (individuals)
     for _ in range(0, population_size):
         s = hc.search()
+        #print(s)
         
         # check if the solution is admissible
         while not problem.is_admissible( s ):
