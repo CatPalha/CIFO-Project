@@ -3,7 +3,7 @@ from cifo.algorithm.hill_climbing import HillClimbing
 from cifo.algorithm.initialize_using_hc import initialize_using_hc
 
 from cifo.custom_problem.travel_salesman_problem import TravelSalesmanProblem
-from cifo.custom_problem.travel_salesman_problem import pip_bitflip_get_neighbors
+from cifo.custom_problem.travel_salesman_problem import tsp_bitflip_get_neighbors
 
 data = [
     [0, 2451, 713, 1018, 1631, 1374, 2408, 213, 2571, 875, 1420, 2145, 1972],
