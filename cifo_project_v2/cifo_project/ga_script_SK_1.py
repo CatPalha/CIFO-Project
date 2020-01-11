@@ -1022,7 +1022,7 @@ for run in range(1,number_of_runs + 1):
     """
     ga_observer0 = GeneticAlgorithmObserver( ga0 )
     ga0.register_observer( ga_observer0 )
-    ga0.search()    
+    print(ga0.search())
     ga0.save_log()
     """
     ga_observer1 = GeneticAlgorithmObserver( ga1 )
