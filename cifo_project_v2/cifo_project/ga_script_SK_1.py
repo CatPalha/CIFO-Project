@@ -1450,10 +1450,10 @@ if not path.exists( log_dir10 ):
 df10.to_excel( log_dir10 + "/all.xlsx", index = False, encoding = 'utf-8' )
 """
 
-print("PIP initialization approach = randomly:", df0["Fitness_Mean"].loc[df0["Generation"] == 500])
-print("PIP initialization approach = hill climbing:", df1["Fitness_Mean"].loc[df1["Generation"] == 500])
-print("PIP initialization approach = simulated annealing:", df2["Fitness_Mean"].loc[df2["Generation"] == 500])
-print("PIP initialization approach = tabu search:", df3["Fitness_Mean"].loc[df3["Generation"] == 500])
+print("PIP initialization approach = randomly:", df0["Fitness_Mean"].loc[df0["Generation"] == 1000])
+print("PIP initialization approach = hill climbing:", df1["Fitness_Mean"].loc[df1["Generation"] == 1000])
+print("PIP initialization approach = simulated annealing:", df2["Fitness_Mean"].loc[df2["Generation"] == 1000])
+print("PIP initialization approach = tabu search:", df3["Fitness_Mean"].loc[df3["Generation"] == 1000])
 """
 print("Tabu search maximum iterations = 300:", df4["Fitness_Mean"].loc[df4["Generation"] == 0])
 print("Tabu search maximum iterations = 350:", df5["Fitness_Mean"].loc[df5["Generation"] == 0])

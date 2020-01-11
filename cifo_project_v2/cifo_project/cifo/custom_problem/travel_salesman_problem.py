@@ -21,12 +21,52 @@ tsp_encoding_rule = {
 # -------------------------------------------------------------------------------------------------
 class TravelSalesmanProblem( ProblemTemplate ):
     """
+    Given a list of cities and the distances between each pair of cities,
+    what is the shortest possible route that visits each city exactly once and returns to the origin city?
     """
 
     # Constructor
     #----------------------------------------------------------------------------------------------
     def __init__(self, decision_variables, constraints = {} , encoding_rule = {}):
         """
+
+            Travel Salesman Problem CONSTRUCTOR
+        
+            Parameters:
+
+            @decision_variables
+            
+            Expected Decision Variables, so the dictionary must have the following keys and values of them must be lists:
+            
+            e.g:
+
+            decision_variables_example = {
+
+                "Distances" : data, #<< Array, Mandatory - the array containing the distances between all cities
+
+                "Cities"    : [i for i in range(0, len(data))], #<< List, Mandatory - he list of all the cities we need to cross
+
+            }
+            
+            @constraints
+            
+            The TSP has no constraints
+
+            @encoding_rule
+
+            tsp_encoding_rule = {
+                
+                "Size"         : -1, # This number must be redefined using the size of DV (Number of products contained in the instance of the problem)
+                
+                "Is ordered"   : FaTruelse,
+                
+                "Can repeat"   : False,
+                
+                "Data"         : [i for i in range(0, len(data))],
+                
+                "Data Type"    : "Choices"
+            }
+
         """
         # optimize the access to the decision variables
         # ...
@@ -68,10 +108,13 @@ class TravelSalesmanProblem( ProblemTemplate ):
         encoding_data = self._encoding.encoding_data[:]
 
         for _ in range(0, self._encoding.size):
+            # choose a random city
             city = choice(encoding_data)
             solution_representation.append( city )
+            # remove it from the list of possibilities
             encoding_data.remove(city)
         
+        # create a LinearSolution object
         solution = LinearSolution(
             representation = solution_representation, 
             encoding_rule = self._encoding_rule
@@ -138,18 +181,22 @@ class TravelSalesmanProblem( ProblemTemplate ):
 def tsp_bitflip_get_neighbors( solution, problem, neighborhood_size = 0 ):
     neighborhood = []
     
+    # if the neighborhood size is -1 we get all neighbors
     if neighborhood_size == -1:
         for i in range(0, len(solution.representation)):
             for j in range(0, len(solution.representation)):
                 if i != j:
+                    # swap two different cities
                     neighbor = solution.representation[:]
                     neighbor[i] = solution.representation[j]
                     neighbor[j] = solution.representation[i]
                     
+                    # check if this neighbor is not repeated
                     if neighbor not in neighborhood:
                         neighborhood.append(neighbor)
     else:
         while len(neighborhood) < neighborhood_size:
+            # swap two different random cities
             i = randint(0, len(solution.representation)-1)
             j = randint(0, len(solution.representation)-1)
             
@@ -161,11 +208,13 @@ def tsp_bitflip_get_neighbors( solution, problem, neighborhood_size = 0 ):
             neighbor[i] = solution.representation[j]
             neighbor[j] = solution.representation[i]
             
+            # check if this neighbor is not repeated
             if neighbor not in neighborhood:
                 neighborhood.append(neighbor)
 
     neighbors = []
     
+    # create LinearSolution objects
     for neighbor in neighborhood:
         neigh = LinearSolution(neighbor, solution.encoding_rule)
         neighbors.append(neigh)

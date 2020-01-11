@@ -54,11 +54,11 @@ params = {
     "Crossover-Probability"     : 0.8,
     "Mutation-Probability"      : 0.5,
     
-    "Initialization-Approach"   : initialize_using_sa,
+    "Initialization-Approach"   : initialize_randomly,
     "Selection-Approach"        : RouletteWheelSelection(),
     "Tournament-Size"           : 5,
     "Crossover-Approach"        : pmx_crossover,
-    "Mutation-Aproach"          : swap_mutation,
+    "Mutation-Aproach"          : insert_mutation,
     "Replacement-Approach"      : elitism_replacement
 }
 

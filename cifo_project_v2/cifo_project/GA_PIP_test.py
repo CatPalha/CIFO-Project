@@ -47,7 +47,7 @@ pip = PortfolioInvestmentProblem(
     )
 
 params = {
-    "Population-Size"           : 5,
+    "Population-Size"           : 2,
     "Number-of-Generations"     : 10,
     
     "Crossover-Probability"     : 0.8,
@@ -62,8 +62,8 @@ params = {
 }
 
 sa_init_params = {
-    "Maximum-Internal-Iterations" : 5,
-    "Maximum-Iterations" : 10,
+    "Maximum-Internal-Iterations" : 2,
+    "Maximum-Iterations" : 2,
     "Initial-C" : 10,
     "Minimum-C" : 0.01,
     "Update-Method" : "Geometric",

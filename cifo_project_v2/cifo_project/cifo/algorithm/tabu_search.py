@@ -192,15 +192,20 @@ class TabuSearch:
         """
         Create a feasible initial solution
         """
+        # build a solution
         self._solution = self._problem_instance.build_solution()
 
+        # if the solution we got is not admissible, get a new one
         while not self._problem_instance.is_admissible( self._solution ):
             self._solution = self._problem_instance.build_solution()
         
+        # get the fitness of the solution
         self._problem_instance.evaluate_solution( self._solution, feedback = self._feedback)
 
+        # save the current solution as the best solution
         self._best_solution = self._solution
 
+        # add this solution to the tabu memory
         self._tabu_memory.append(self._solution)
 
     # _get_best_neighbor for maximization
@@ -221,20 +226,23 @@ class TabuSearch:
         # Find the best neighbor in neighborhood of the current solution
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         for neighbor in neighborhood:
-
+            # if the neighbor is not admissible it shouldn't even be considered
             if self._problem_instance.is_admissible( neighbor ):
+                # check the tabu memory
                 if neighbor not in self._tabu_memory:
                     self._problem_instance.evaluate_solution( 
                         solution =  neighbor, 
                         feedback = self._feedback
                         )
 
+                    # find if the current neighbor is better than the best one
                     if best_neighbor == None: 
                         best_neighbor = neighbor
                     else:
                         if neighbor.fitness >= best_neighbor.fitness:
                             best_neighbor = neighbor
         
+        # we get the best neighbor
         self._neighbor = best_neighbor
 
     # _get_best_neighbor for minimization
@@ -255,16 +263,20 @@ class TabuSearch:
         # Find the best neighbor in neighborhood of the current solution
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         for neighbor in neighborhood:
+            # if the neighbor is not admissible it shouldn't even be considered
             if self._problem_instance.is_admissible( neighbor ):
+                # check the tabu memory
                 if neighbor not in self._tabu_memory:
                     self._problem_instance.evaluate_solution( solution = neighbor, feedback = self._feedback)
 
+                    # find if the current neighbor is better than the best one
                     if best_neighbor == None: 
                         best_neighbor = neighbor
                     else:
                         if neighbor.fitness <= best_neighbor.fitness:
                             best_neighbor = neighbor
         
+        # we get the best neighbor
         self._neighbor = best_neighbor
 
     # _select for minimization
@@ -279,6 +291,8 @@ class TabuSearch:
         """
         self._solution = self._neighbor
 
+        # if the fitness of the neighbor is better than the solution
+        # we save the neighbor as the best solution
         if self._neighbor.fitness <= self._best_solution.fitness:
             self._best_solution = self._neighbor
             self._notify(message = LocalSearchMessage.ReplacementAccepted) 
@@ -299,6 +313,8 @@ class TabuSearch:
         """
         self._solution = self._neighbor
         
+        # if the fitness of the neighbor is better than the solution
+        # we save the neighbor as the best solution
         if self._neighbor.fitness >= self._best_solution.fitness:
             self._best_solution = self._neighbor
             self._notify(message = LocalSearchMessage.ReplacementAccepted) 
@@ -314,14 +330,18 @@ class TabuSearch:
         Classical - Stops, when there are no neighbors or the number of max iterations was achieved.
         """
         searching = (self._neighbor is not None) and (self._iteration < self._max_iterations) 
+        # see if we stop because there are no neighbors outside of the tabu memory
         if not (self._neighbor is not None) : 
             self._notify( message = LocalSearchMessage.StoppedPrematurely )
+        # see if we stop because of the number of iterations
         elif not searching: 
             self._notify( message = LocalSearchMessage.Stopped )
+        # see if we stop because we reached the target fitness
         elif self._target_fitness:
             if self._solution.fitness >= self._target_fitness:
                 self._notify( message = LocalSearchMessage.StoppedTargetAchieved )
                 return False
+        # return if we stop or not
         return searching
 
     # _select for maximization
@@ -331,12 +351,15 @@ class TabuSearch:
         Alternative 1 - Stops when the number of max iterations was achieved. It can be good when the neighborhood can be different for the same solution   
         """
         searching = self._iteration < self._max_iterations
+        # see if we stop because of the number of iterations
         if not searching : 
             self._notify( message = LocalSearchMessage.Stopped )
+        # see if we stop because we reached the target fitness
         elif self._target_fitness:
             if self._solution.fitness >= self._target_fitness:
                 self._notify( message = LocalSearchMessage.StoppedTargetAchieved )
                 return False
+        # return if we stop or not
         return searching
 
 

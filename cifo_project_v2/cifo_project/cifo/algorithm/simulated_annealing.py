@@ -233,12 +233,16 @@ class SimulatedAnnealing:
         """
         Create a feasible initial solution and initilize C and minimum C if they're not yet initialized
         """
+        # get a solution to the problem
         self._solution = self._problem_instance.build_solution()
 
+        # check if it's admissible
         while self._problem_instance.is_admissible(self._solution) == False:
             self._solution = self._problem_instance.build_solution()
 
+        # save the current solution as the best solution
         self._best_solution = self._solution
+        # get the fitness of the solution
         self._problem_instance.evaluate_solution(self._solution, feedback = self._feedback)
 
         # initialize C if it's not initialized
@@ -267,16 +271,17 @@ class SimulatedAnnealing:
             neighborhood_size = self._neighborhood_size
             )
 
-        
         # Select a random neighbor in neighborhood of the current solution
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         i = randint(0,len(neighborhood)-1)
         self._neighbor = neighborhood[i]
 
+        # if the neighbor is not admissible get a new one
         while self._problem_instance.is_admissible(self._neighbor) == False:
             i = np.random.randint(0,len(neighborhood)-1)
             self._neighbor = neighborhood[i]
 
+        # get the fitness of the neighbor
         self._problem_instance.evaluate_solution(self._neighbor, feedback = self._feedback)
 
     # _select:  select the better solution (or a worse one with a certain probability)
@@ -286,12 +291,18 @@ class SimulatedAnnealing:
         Select the better solution, or a worse one with a certain probability
         """
         if self._objective == "Maximization":
+            # if the fitness of the neighbor is better than the current one,
+            # the neighbor becomes the new solution
             if self._neighbor.fitness >= self._solution.fitness:
                 self._solution = self._neighbor
                 
+                # if the fitness of the new solution is better than the best fitness
+                # we save the new solution as the best solution as well
                 if self._solution.fitness >= self._best_solution.fitness:
                     self._best_solution = self._solution
 
+            # if the fitness of the neighbor is worse then we accept the neighbor
+            # with a certain probability
             else:
                 rand_number = uniform(0,1)
                 prob = np.exp(-abs(self._neighbor.fitness-self._solution.fitness)/self._c)
@@ -299,12 +310,18 @@ class SimulatedAnnealing:
                 if rand_number <= prob:
                     self._solution = self._neighbor
         else:
+            # if the fitness of the neighbor is better than the current one,
+            # the neighbor becomes the new solution
             if self._neighbor.fitness <= self._solution.fitness:
                 self._solution = self._neighbor
 
+                # if the fitness of the new solution is better than the best fitness
+                # we save the new solution as the best solution as well
                 if self._solution.fitness <= self._best_solution.fitness:
                     self._best_solution = self._solution
 
+            # if the fitness of the neighbor is worse then we accept the neighbor
+            # with a certain probability
             else:
                 rand_number = uniform(0,1)
                 prob = np.exp(-abs(self._neighbor.fitness-self._solution.fitness)/self._c)
