@@ -42,7 +42,7 @@ class TravelSalesmanProblem( ProblemTemplate ):
 
             decision_variables_example = {
 
-                "Distances" : data, #<< Array, Mandatory - the array containing the distances between all cities
+                "Distances" : data, #<< Matrix, Mandatory - the matrix containing the distances between all cities
 
                 "Cities"    : [i for i in range(0, len(data))], #<< List, Mandatory - he list of all the cities we need to cross
 
