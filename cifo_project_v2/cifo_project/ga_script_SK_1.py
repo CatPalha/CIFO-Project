@@ -29,7 +29,7 @@ from random import randint
 
 import pandas as pd
 
-def plot_performance_chart( df0,df1,df2,df3 ):
+def plot_performance_chart( df0 ):
     import plotly.graph_objects as go
     import plotly.express as px
     from plotly.subplots import make_subplots
@@ -37,9 +37,9 @@ def plot_performance_chart( df0,df1,df2,df3 ):
     x0 = df0["Generation"] 
     x_rev0 = x0[::-1]
     y1_0 = df0["Fitness_Mean"] 
-    #y1_upper = df0["Fitness_Lower"]
-    #y1_lower = df0["Fitness_Upper"]
-    
+    y1_upper = df0["Fitness_Lower"]
+    y1_lower = df0["Fitness_Upper"]
+    """
     x1 = df1["Generation"] 
     x_rev1 = x1[::-1]
     y1_1 = df1["Fitness_Mean"] 
@@ -51,7 +51,7 @@ def plot_performance_chart( df0,df1,df2,df3 ):
     x3 = df3["Generation"] 
     x_rev3 = x3[::-1]
     y1_3 = df3["Fitness_Mean"] 
-    """
+    
     x4 = df4["Generation"] 
     x_rev4 = x4[::-1]
     y1_4 = df4["Fitness_Mean"] 
@@ -86,9 +86,9 @@ def plot_performance_chart( df0,df1,df2,df3 ):
         y = y1_0,
         line=dict(color='rgb(255,0,0)'),
         mode='lines',
-        name='Randomly',
+        name='baseline',
     )
-    
+    """
     trace1 = go.Scatter(
         x = x1,
         y = y1_1,
@@ -112,7 +112,7 @@ def plot_performance_chart( df0,df1,df2,df3 ):
         mode='lines',
         name='Tabu Search',
     )
-    """
+    
     trace4 = go.Scatter(
         x = x4,
         y = y1_4,
@@ -168,7 +168,7 @@ def plot_performance_chart( df0,df1,df2,df3 ):
         mode='lines',
         name='10',
     )
-    
+    """
     trace2 = go.Scatter(
         x = x0,
         y = y1_upper,
@@ -188,8 +188,8 @@ def plot_performance_chart( df0,df1,df2,df3 ):
         showlegend=False,
         name='Fair',
     )
-    """
-    data = [trace0, trace1, trace2, trace3]
+    
+    data = [trace0, trace2, trace3]
     
     layout = go.Layout(
         paper_bgcolor='rgb(255,255,255)',
@@ -310,7 +310,7 @@ pip = PortfolioInvestmentProblem(
     constraints = pip_constraints,
     encoding_rule = pip_encoding_rule
     )
-
+"""
 data = [
     [0,36.96584005,51.47535512,81.37883643,67.09706382,96.25912034,33.37095504,49.05139087,82.42814829,17.53944615,28.60425589,51.23577205,81.61379496,51.51224221,49.22279957,42.77989519,52.41229411,8.559339301,29.73906448,81.02061035,47.6395033,57.71653277,58.75682446,62.03784071,31.25151882,50.1453012,24.63358841,18.94551955,30.25790504,85.21792873,36.85186187,56.53666255,62.03497797,37.68030795,16.01323158,63.58061167,63.59738826,62.15986186,23.10591688,37.37057763,8.517827435,58.29133094,69.49677904,87.08357383,34.45822295,25.69816455,34.67118709,66.44842139,85.07076451,23.63220219,17.29653852,32.6772139,71.67238993,31.40561027,74.5859657,13.37462792,74.65274849,68.78350664,28.32893632,16.45723427,40.79505789,32.14446993,22.8157847,61.17311404,67.85584464,50.50121842,17.32224642,69.64537022,8.58156977,67.23338249,38.25387274,72.79577656,45.89074932,62.00721071,21.98649411,45.34735754,23.43343436,64.20771523,40.49933354,33.55673111,49.24624472,80.86344475,47.42370856,61.25720927,57.6628477,77.27561713,51.02315985,74.39466341,48.992992,55.93722702],
     [36.96584005,0,61.91619178,85.79358509,56.34475438,68.71598221,4.09671684,36.54433609,93.72104677,44.14412909,26.24710648,19.03207804,64.5753318,27.03707842,25.97304705,6.288581842,24.73396593,45.43488009,16.97199729,53.72595597,62.78665591,62.66049676,29.58502223,68.28070695,61.67825794,38.42329848,60.23006801,37.50720546,54.44740046,55.15306618,73.80628982,47.35539658,66.44844157,73.28046004,52.53609876,42.98509658,56.44437672,45.2803504,59.30269394,31.97786358,45.30930669,27.20468134,63.6108007,55.78010425,70.4261779,15.74337821,47.21292078,74.88684535,92.9748268,16.96133125,31.60291136,5.074596635,85.38521764,54.70583033,61.30430838,47.80276173,69.84275638,76.85850099,65.22136526,46.8267315,22.40937611,57.95619821,14.16705865,38.74170375,47.70704542,62.00538466,43.02981561,36.79869334,36.12941277,45.68338293,28.53063986,47.58183111,67.32112581,65.51898315,56.29357404,67.25267976,59.14111513,28.71109276,28.38619482,36.2971628,12.36567547,89.48057197,69.15888966,32.97194384,70.14129461,88.05203116,67.93350969,78.96061085,46.92748861,30.70635332],
@@ -422,7 +422,7 @@ tsp = TravelSalesmanProblem(
     decision_variables = tsp_dv,
     encoding_rule = tsp_encoding_rule
     )
-
+"""
 # Configuration
 #--------------------------------------------------------------------------------------------------
 # parent selection object
@@ -431,19 +431,19 @@ parent_selection = RouletteWheelSelection()
 
 params0 = {
         # params
-        "Population-Size"           : 20,
+        "Population-Size"           : 17,
         "Number-of-Generations"     : 1000,
-        "Crossover-Probability"     : 0.8,
-        "Mutation-Probability"      : 0.5,
+        "Crossover-Probability"     : 0.4,
+        "Mutation-Probability"      : 0.6,
         # operators / approaches
-        "Initialization-Approach"   : initialize_randomly,
+        "Initialization-Approach"   : initialize_using_ts,
         "Selection-Approach"        : parent_selection,
         "Tournament-Size"           : 5,
-        "Crossover-Approach"        : singlepoint_crossover,
-        "Mutation-Aproach"          : single_point_mutation,
+        "Crossover-Approach"        : order_1_crossover,
+        "Mutation-Aproach"          : swap_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
-
+"""
 params1 = {
         # params
         "Population-Size"           : 20,
@@ -488,7 +488,7 @@ params3 = {
         "Mutation-Aproach"          : single_point_mutation,
         "Replacement-Approach"      : elitism_replacement
     }
-"""
+
 params4 = {
         # params
         "Population-Size"           : 20,
@@ -594,8 +594,8 @@ params10 = {
         "Replacement-Approach"      : elitism_replacement
     }
 """
-#neighborhood_function = tsp_bitflip_get_neighbors
-neighborhood_function = pip_bitflip_get_neighbors
+neighborhood_function = tsp_bitflip_get_neighbors
+#neighborhood_function = pip_bitflip_get_neighbors
 """
 hc_init_params0 = {
     "Maximum-Iterations" : 10,
@@ -603,14 +603,14 @@ hc_init_params0 = {
     "Neighborhood-Size": 10,
     "Neighborhood-Function": neighborhood_function
 }
-"""
+
 hc_init_params1 = {
     "Maximum-Iterations" : 10,
     "Stop-Conditions" : "Classical",
     "Neighborhood-Size": 5,
     "Neighborhood-Function": neighborhood_function
 }
-"""
+
 hc_init_params2 = {
     "Maximum-Iterations" : 30,
     "Stop-Conditions" : "Classical",
@@ -700,7 +700,7 @@ sa_init_params1 = {
     "Neighborhood-Size" : 15,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
 }
-"""
+
 sa_init_params2 = {
     "Maximum-Internal-Iterations" : 5,
     "Maximum-Iterations" : 10,
@@ -713,7 +713,7 @@ sa_init_params2 = {
     "Neighborhood-Size" : 5,
     "Neighborhood-Function": neighborhood_function
 }
-"""
+
 sa_init_params3 = {
     "Maximum-Internal-Iterations" : 10,
     "Maximum-Iterations" : 10,
@@ -818,16 +818,16 @@ sa_init_params10 = {
     "Neighborhood-Function": tsp_bitflip_get_neighbors
 }
 """
-"""
+
 ts_init_params0 = {
-    "Maximum-Iterations" : 100,
-    "Stop-Conditions" : "Classical",
+    "Maximum-Iterations" : 500,
+    "Stop-Conditions" : "Alternative-01",
     #"Target-Fitness"
-    "Neighborhood-Size": 5,
-    "Memory-Size": 5,
+    "Neighborhood-Size": 55,
+    "Memory-Size": 2,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
 }
-
+"""
 ts_init_params1 = {
     "Maximum-Iterations" : 150,
     "Stop-Conditions" : "Classical",
@@ -845,7 +845,7 @@ ts_init_params2 = {
     "Memory-Size": 5,
     "Neighborhood-Function": tsp_bitflip_get_neighbors
 }
-"""
+
 ts_init_params3 = {
     "Maximum-Iterations" : 10,
     "Stop-Conditions" : "Classical",
@@ -854,7 +854,7 @@ ts_init_params3 = {
     "Memory-Size": 5,
     "Neighborhood-Function": neighborhood_function
 }
-"""
+
 ts_init_params4 = {
     "Maximum-Iterations" : 300,
     "Stop-Conditions" : "Classical",
@@ -919,10 +919,10 @@ ts_init_params10 = {
 }
 """
 log_name0 = "mp0-8_0"
+"""
 log_name1 = "mp0-8_1"
 log_name2 = "mp0-8_2"
 log_name3 = "mp0-8_3"
-"""
 log_name4 = "mp0-8_4"
 log_name5 = "mp0-8_5"
 log_name6 = "mp0-8_6"
@@ -931,7 +931,7 @@ log_name8 = "mp0-8_8"
 log_name9 = "mp0-8_9"
 log_name10 = "mp0-8_10"
 """
-number_of_runs = 1
+number_of_runs = 30
 
 # Run the same configuration many times
 #--------------------------------------------------------------------------------------------------
@@ -944,12 +944,12 @@ for run in range(1,number_of_runs + 1):
         # log_name = log_name )
 
     ga0 = GeneticAlgorithm( 
-        problem_instance = pip,
+        problem_instance = tsp,
         params =  params0,
-        #init_params = sa_init_params0,
+        init_params = ts_init_params0,
         run = run,
         log_name = log_name0 )
-    
+    """
     ga1 = GeneticAlgorithm( 
         problem_instance = pip,
         params =  params1,
@@ -970,7 +970,7 @@ for run in range(1,number_of_runs + 1):
         init_params = ts_init_params3,
         run = run,
         log_name = log_name3 )
-    """
+    
     ga4 = GeneticAlgorithm( 
         problem_instance = tsp,
         params =  params4,
@@ -1024,7 +1024,7 @@ for run in range(1,number_of_runs + 1):
     ga0.register_observer( ga_observer0 )
     ga0.search()    
     ga0.save_log()
-    
+    """
     ga_observer1 = GeneticAlgorithmObserver( ga1 )
     ga1.register_observer( ga_observer1 )
     ga1.search()    
@@ -1039,7 +1039,7 @@ for run in range(1,number_of_runs + 1):
     ga3.register_observer( ga_observer3 )
     ga3.search()    
     ga3.save_log()
-    """
+    
     ga_observer4 = GeneticAlgorithmObserver( ga4 )
     ga4.register_observer( ga_observer4 )
     ga4.search()    
@@ -1087,10 +1087,10 @@ from pandas import pandas as pd
 import numpy as np
 
 log_dir0   = f"./log/{log_name0}" 
+"""
 log_dir1   = f"./log/{log_name1}" 
 log_dir2   = f"./log/{log_name2}" 
 log_dir3   = f"./log/{log_name3}" 
-"""
 log_dir4   = f"./log/{log_name4}" 
 log_dir5   = f"./log/{log_name5}" 
 log_dir6   = f"./log/{log_name6}" 
@@ -1100,10 +1100,10 @@ log_dir9   = f"./log/{log_name9}"
 log_dir10   = f"./log/{log_name10}" 
 """
 log_files0 = [f for f in listdir(log_dir0) if isfile(join(log_dir0, f))]
+"""
 log_files1 = [f for f in listdir(log_dir1) if isfile(join(log_dir1, f))]
 log_files2 = [f for f in listdir(log_dir2) if isfile(join(log_dir2, f))]
 log_files3 = [f for f in listdir(log_dir3) if isfile(join(log_dir3, f))]
-"""
 log_files4 = [f for f in listdir(log_dir4) if isfile(join(log_dir4, f))]
 log_files5 = [f for f in listdir(log_dir5) if isfile(join(log_dir5, f))]
 log_files6 = [f for f in listdir(log_dir6) if isfile(join(log_dir6, f))]
@@ -1128,7 +1128,7 @@ for log_name in log_files0:
 
         if not generations0:
             generations0 = list( df0["Generation"] )
-
+"""
 fitness_runs1 = []
 columns_name1 = []
 counter1 = 0
@@ -1173,7 +1173,7 @@ for log_name in log_files3:
 
         if not generations3:
             generations3 = list( df3["Generation"] )
-"""
+
 fitness_runs4 = []
 columns_name4 = []
 counter4 = 0
@@ -1282,10 +1282,10 @@ for log_name in log_files10:
 #fitness_sum = [sum(x) for x in zip(*fitness_runs)]   
 
 df0 = pd.DataFrame(list(zip(*fitness_runs0)), columns = columns_name0)
+"""
 df1 = pd.DataFrame(list(zip(*fitness_runs1)), columns = columns_name1)
 df2 = pd.DataFrame(list(zip(*fitness_runs2)), columns = columns_name2)
 df3 = pd.DataFrame(list(zip(*fitness_runs3)), columns = columns_name3)
-"""
 df4 = pd.DataFrame(list(zip(*fitness_runs4)), columns = columns_name4)
 df5 = pd.DataFrame(list(zip(*fitness_runs5)), columns = columns_name5)
 df6 = pd.DataFrame(list(zip(*fitness_runs6)), columns = columns_name6)
@@ -1296,7 +1296,7 @@ df10 = pd.DataFrame(list(zip(*fitness_runs10)), columns = columns_name10)
 """
 fitness_sd0   = list( df0.std( axis = 1 ) )
 fitness_mean0 = list( df0.mean( axis = 1 ) )
-
+"""
 fitness_sd1   = list( df1.std( axis = 1 ) )
 fitness_mean1 = list( df1.mean( axis = 1 ) )
 
@@ -1305,7 +1305,7 @@ fitness_mean2 = list( df2.mean( axis = 1 ) )
 
 fitness_sd3   = list( df3.std( axis = 1 ) )
 fitness_mean3 = list( df3.mean( axis = 1 ) )
-"""
+
 fitness_sd4   = list( df4.std( axis = 1 ) )
 fitness_mean4 = list( df4.mean( axis = 1 ) )
 
@@ -1333,7 +1333,7 @@ df0["Fitness_SD"]  = fitness_sd0
 df0["Fitness_Mean"]  = fitness_mean0
 df0["Fitness_Lower"]  = df0["Fitness_Mean"] + df0["Fitness_SD"]
 df0["Fitness_Upper"]  = df0["Fitness_Mean"] - df0["Fitness_SD"]
-
+"""
 df1["Generation"]  = generations1
 df1["Fitness_SD"]  = fitness_sd1
 df1["Fitness_Mean"]  = fitness_mean1
@@ -1351,7 +1351,7 @@ df3["Fitness_SD"]  = fitness_sd3
 df3["Fitness_Mean"]  = fitness_mean3
 df3["Fitness_Lower"]  = df3["Fitness_Mean"] + df3["Fitness_SD"]
 df3["Fitness_Upper"]  = df3["Fitness_Mean"] - df3["Fitness_SD"]
-"""
+
 df4["Generation"]  = generations4
 df4["Fitness_SD"]  = fitness_sd4
 df4["Fitness_Mean"]  = fitness_mean4
@@ -1398,7 +1398,7 @@ if not path.exists( log_dir0 ):
     mkdir( log_dir0 )
 
 df0.to_excel( log_dir0 + "/all.xlsx", index = False, encoding = 'utf-8' )
-
+"""
 if not path.exists( log_dir1 ):
     mkdir( log_dir1 )
 
@@ -1413,7 +1413,7 @@ if not path.exists( log_dir3 ):
     mkdir( log_dir3 )
 
 df3.to_excel( log_dir3 + "/all.xlsx", index = False, encoding = 'utf-8' )
-"""
+
 if not path.exists( log_dir4 ):
     mkdir( log_dir4 )
 
@@ -1450,11 +1450,11 @@ if not path.exists( log_dir10 ):
 df10.to_excel( log_dir10 + "/all.xlsx", index = False, encoding = 'utf-8' )
 """
 
-print("PIP initialization approach = randomly:", df0["Fitness_Mean"].loc[df0["Generation"] == 1000])
+print("TSP:", df0["Fitness_Mean"].loc[df0["Generation"] == 1000])
+"""
 print("PIP initialization approach = hill climbing:", df1["Fitness_Mean"].loc[df1["Generation"] == 1000])
 print("PIP initialization approach = simulated annealing:", df2["Fitness_Mean"].loc[df2["Generation"] == 1000])
 print("PIP initialization approach = tabu search:", df3["Fitness_Mean"].loc[df3["Generation"] == 1000])
-"""
 print("Tabu search maximum iterations = 300:", df4["Fitness_Mean"].loc[df4["Generation"] == 0])
 print("Tabu search maximum iterations = 350:", df5["Fitness_Mean"].loc[df5["Generation"] == 0])
 print("Tabu search maximum iterations = 400:", df6["Fitness_Mean"].loc[df6["Generation"] == 0])
@@ -1463,6 +1463,6 @@ print("Tabu search maximum iterations = 500:", df8["Fitness_Mean"].loc[df8["Gene
 print("Tabu search memory size = 9:", df9["Fitness_Mean"].loc[df9["Generation"] == 0])
 print("Tabu search memory size = 10:", df10["Fitness_Mean"].loc[df10["Generation"] == 0])
 """
-plot_performance_chart( df0,df1,df2,df3 )
+plot_performance_chart( df0 )
 
 #[sum(sublist) for sublist in itertools.izip(*myListOfLists)]
